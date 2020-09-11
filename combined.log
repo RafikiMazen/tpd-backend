@@ -1,0 +1,6 @@
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-11T01:03:42.419Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-11T01:05:27.881Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-11T01:05:40.313Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-11T01:05:40.313Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-11T01:07:34.404Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-11T01:07:34.404Z"}

@@ -13,9 +13,6 @@ class ExpressLoader {
   constructor() {
     const app = express()
 
-    // Setup error handling, this must be after all other middleware
-    app.use(ExpressLoader.errorHandler)
-
     // Serve static content
     app.use(express.static(path.join(__dirname, 'uploads')))
 
@@ -29,6 +26,9 @@ class ExpressLoader {
       })
     )
     app.use(bodyParser.json({ limit: '20mb' }))
+
+    // Setup error handling, this must be after all other middleware
+    app.use(ExpressLoader.errorHandler)
 
     // Pass app to routes
     routes(app)

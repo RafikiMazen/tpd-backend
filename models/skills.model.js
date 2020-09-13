@@ -1,49 +1,29 @@
 const Sequelize = require('sequelize')
-const Manager = require('./managers.model')
+const employeeSkill = require('./employee_skills.model')
+const employeeSkillHistory = require('./employee_skills_history.model')
+const resourceRequestSkills = require('./resource_request_skills.model')
 
-var Employee_profile = this.sequelize.define('employee_profiles', {
-  id: {
-    type: Sequelize.STRING(36),
+var skill = this.sequelize.define('skills', {
+  skill_id: {
+    type: Sequelize.INTEGER,
     primaryKey: true,
   },
-  name: {
-    type: Sequelize.STRING(256),
-  },
-  title: {
-    type: Sequelize.STRING(128),
-  },
-  hiring_date: {
-    type: Sequelize.DATE,
-  },
-  function: {
-    type: Sequelize.STRING(128),
-  },
-  workgroup: {
-    type: Sequelize.STRING(128),
-  },
-  employment_type: {
-    type: Sequelize.STRING(64),
-  },
-  allocation_percentage: {
-    type: Sequelize.INTEGER(11),
-  },
-  skills_last_update_date: {
-    type: Sequelize.DATE,
-  },
-  employee_email: {
-    type: Sequelize.STRING(320),
-  },
-  employee_profile_picture: {
+  skill_name: {
     type: Sequelize.STRING(45),
-  },
-  mobile_number: {
-    type: Sequelize.STRING(20),
-  },
-  cost_center: {
-    type: Sequelize.STRING(128),
   },
 })
 
-Employee_profile.belongsTo(Manager, { foreignKey: 'direct_manager' })
-Employee_profile.hasMany(City, { foreignKey: 'employee_id', sourceKey: 'id' })
-module.exports = Employee_profile
+skill.hasMany(employeeSkill, {
+  foreignKey: 'skill_id',
+  sourceKey: 'skill_id',
+})
+skill.hasMany(employeeSkillHistory, {
+  foreignKey: 'skill_id',
+  sourceKey: 'skill_id',
+})
+skill.hasMany(resourceRequestSkills, {
+  foreignKey: 'skill_id',
+  sourceKey: 'skill_id',
+})
+
+module.exports = skill

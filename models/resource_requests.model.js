@@ -1,49 +1,69 @@
 const Sequelize = require('sequelize')
-const Manager = require('./managers.model')
+const resourceRequestSkills = require('./resource_request_skills.model')
+const resourceRequestAction = require('./resource_requests_actions.model')
 
-var Employee_profile = this.sequelize.define('employee_profiles', {
-  id: {
-    type: Sequelize.STRING(36),
+var resourceRequest = this.sequelize.define('resource_requests', {
+  reference_number: {
+    type: Sequelize.INTEGER,
     primaryKey: true,
   },
-  name: {
+  manager_name: {
     type: Sequelize.STRING(256),
-  },
-  title: {
-    type: Sequelize.STRING(128),
-  },
-  hiring_date: {
-    type: Sequelize.DATE,
   },
   function: {
     type: Sequelize.STRING(128),
   },
-  workgroup: {
+  title: {
     type: Sequelize.STRING(128),
   },
-  employment_type: {
-    type: Sequelize.STRING(64),
-  },
-  allocation_percentage: {
-    type: Sequelize.INTEGER(11),
-  },
-  skills_last_update_date: {
+  start_date: {
     type: Sequelize.DATE,
   },
-  employee_email: {
-    type: Sequelize.STRING(320),
+  end_date: {
+    type: Sequelize.DATE,
   },
-  employee_profile_picture: {
-    type: Sequelize.STRING(45),
+  propability: {
+    type: Sequelize.INTEGER,
   },
-  mobile_number: {
-    type: Sequelize.STRING(20),
+  percentage: {
+    type: Sequelize.INTEGER,
   },
-  cost_center: {
+  status: {
+    type: Sequelize.STRING(32),
+  },
+  core_team_member: {
+    type: Sequelize.STRING(1),
+  },
+  replacenement: {
+    type: Sequelize.STRING(1),
+  },
+  replacenement_for: {
+    type: Sequelize.STRING(256),
+  },
+  requests_count: {
+    type: Sequelize.INTEGER,
+  },
+  related_opportunity: {
     type: Sequelize.STRING(128),
+  },
+  comments: {
+    type: Sequelize.STRING(256),
+  },
+  assigned_resource: {
+    type: Sequelize.STRING(256),
+  },
+  actual_percentage: {
+    type: Sequelize.INTEGER,
   },
 })
 
-Employee_profile.belongsTo(Manager, { foreignKey: 'direct_manager' })
-Employee_profile.hasMany(City, { foreignKey: 'employee_id', sourceKey: 'id' })
-module.exports = Employee_profile
+resourceRequest.hasMany(resourceRequestSkills, {
+  foreignKey: 'request_reference_number',
+  sourceKey: 'reference_number',
+})
+resourceRequest.hasMany(resourceRequestAction, {
+  foreignKey: 'resource_request_reference_number',
+  sourceKey: 'reference_number',
+})
+
+module.exports = resourceRequest

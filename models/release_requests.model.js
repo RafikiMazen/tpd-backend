@@ -1,49 +1,44 @@
 const Sequelize = require('sequelize')
-const Manager = require('./managers.model')
+const employeeProfile = require('./employee_profiles.model')
 
-var Employee_profile = this.sequelize.define('employee_profiles', {
-  id: {
-    type: Sequelize.STRING(36),
+var releaseRequest = this.sequelize.define('release_requests', {
+  reference_number: {
+    type: Sequelize.INTEGER,
     primaryKey: true,
   },
-  name: {
+  manager_name: {
     type: Sequelize.STRING(256),
   },
-  title: {
-    type: Sequelize.STRING(128),
+  employee_name: {
+    type: Sequelize.STRING(256),
   },
-  hiring_date: {
-    type: Sequelize.DATE,
+  employee_title: {
+    type: Sequelize.STRING(128),
   },
   function: {
     type: Sequelize.STRING(128),
   },
-  workgroup: {
+  title: {
     type: Sequelize.STRING(128),
   },
-  employment_type: {
-    type: Sequelize.STRING(64),
-  },
-  allocation_percentage: {
-    type: Sequelize.INTEGER(11),
-  },
-  skills_last_update_date: {
+  release_date: {
     type: Sequelize.DATE,
   },
-  employee_email: {
-    type: Sequelize.STRING(320),
+  propability: {
+    type: Sequelize.INTEGER,
   },
-  employee_profile_picture: {
-    type: Sequelize.STRING(45),
+  release_percentage: {
+    type: Sequelize.INTEGER,
   },
-  mobile_number: {
-    type: Sequelize.STRING(20),
+  release_reason: {
+    type: Sequelize.STRING(256),
   },
-  cost_center: {
-    type: Sequelize.STRING(128),
+  leaving: {
+    type: Sequelize.STRING(1),
+  },
+  request_status: {
+    type: Sequelize.STRING(32),
   },
 })
-
-Employee_profile.belongsTo(Manager, { foreignKey: 'direct_manager' })
-Employee_profile.hasMany(City, { foreignKey: 'employee_id', sourceKey: 'id' })
-module.exports = Employee_profile
+releaseRequest.belongsTo(employeeProfile, { foreignKey: 'employee_id' })
+module.exports = releaseRequest

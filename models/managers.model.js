@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const employeeProfile = require('./employee_profiles.model')
 
 var manager = this.sequelize.define('managers', {
   id: {
@@ -8,6 +9,11 @@ var manager = this.sequelize.define('managers', {
   name: {
     type: Sequelize.STRING(256),
   },
+})
+
+employeeProfile.hasMany(employeeProfile, {
+  foreignKey: 'direct_manager',
+  sourceKey: 'id',
 })
 
 module.exports = manager

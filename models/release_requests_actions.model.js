@@ -1,49 +1,24 @@
 const Sequelize = require('sequelize')
-const Manager = require('./managers.model')
+const releaseRequest = require('./release_requests.model')
 
-var Employee_profile = this.sequelize.define('employee_profiles', {
-  id: {
-    type: Sequelize.STRING(36),
+var releaseRequestAction = this.sequelize.define('release_requests_actions', {
+  action_id: {
+    type: Sequelize.INTEGER,
     primaryKey: true,
   },
-  name: {
+  action: {
+    type: Sequelize.STRING(32),
+  },
+  action_note: {
     type: Sequelize.STRING(256),
-  },
-  title: {
-    type: Sequelize.STRING(128),
-  },
-  hiring_date: {
-    type: Sequelize.DATE,
-  },
-  function: {
-    type: Sequelize.STRING(128),
-  },
-  workgroup: {
-    type: Sequelize.STRING(128),
-  },
-  employment_type: {
-    type: Sequelize.STRING(64),
-  },
-  allocation_percentage: {
-    type: Sequelize.INTEGER(11),
-  },
-  skills_last_update_date: {
-    type: Sequelize.DATE,
-  },
-  employee_email: {
-    type: Sequelize.STRING(320),
-  },
-  employee_profile_picture: {
-    type: Sequelize.STRING(45),
-  },
-  mobile_number: {
-    type: Sequelize.STRING(20),
-  },
-  cost_center: {
-    type: Sequelize.STRING(128),
   },
 })
 
-Employee_profile.belongsTo(Manager, { foreignKey: 'direct_manager' })
-Employee_profile.hasMany(City, { foreignKey: 'employee_id', sourceKey: 'id' })
-module.exports = Employee_profile
+releaseRequestAction.belongsTo(releaseRequest, {
+  foreignKey: 'release_request_reference_numbe',
+})
+releaseRequest.hasMany(releaseRequestAction, {
+  foreignKey: 'releasew_request_reference_number',
+  sourceKey: 'reference_number',
+})
+module.exports = releaseRequestAction

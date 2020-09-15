@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
-const userRole = require('./user_role.model')
+const { sequelize } = require('../config/dbConfig')
 
-var user = this.sequelize.define('users', {
+var User = sequelize.define('users', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -16,5 +16,5 @@ var user = this.sequelize.define('users', {
     type: Sequelize.STRING(320),
   },
 })
-user.hasMany(userRole, { foreignKey: 'user_id', sourceKey: 'id' })
-module.exports = user
+
+module.exports = User

@@ -1,19 +1,21 @@
+const { sequelize } = require('../config/dbConfig')
 const Sequelize = require('sequelize')
-const employeeProfile = require('./employee_profiles.model')
+const { Model } = Sequelize
 
-var manager = this.sequelize.define('managers', {
-  id: {
-    type: Sequelize.STRING(36),
-    primaryKey: true,
+class Manager extends Model {}
+
+Manager.init(
+  {
+    id: {
+      type: Sequelize.STRING(36),
+      primaryKey: true,
+    },
+    name: {
+      type: Sequelize.STRING(256),
+    },
   },
-  name: {
-    type: Sequelize.STRING(256),
-  },
-})
-
-employeeProfile.hasMany(employeeProfile, {
-  foreignKey: 'direct_manager',
-  sourceKey: 'id',
-})
-
-module.exports = manager
+  {
+    sequelize,
+  }
+)
+module.exports = Manager

@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize')
-const resourceRequestSkills = require('./resource_request_skills.model')
-const resourceRequestAction = require('./resource_requests_actions.model')
+const { sequelize } = require('../config/dbConfig')
 
-var resourceRequest = this.sequelize.define('resource_requests', {
+var ResourceRequest = sequelize.define('resource_requests', {
   reference_number: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -57,13 +56,4 @@ var resourceRequest = this.sequelize.define('resource_requests', {
   },
 })
 
-resourceRequest.hasMany(resourceRequestSkills, {
-  foreignKey: 'request_reference_number',
-  sourceKey: 'reference_number',
-})
-resourceRequest.hasMany(resourceRequestAction, {
-  foreignKey: 'resource_request_reference_number',
-  sourceKey: 'reference_number',
-})
-
-module.exports = resourceRequest
+module.exports = ResourceRequest

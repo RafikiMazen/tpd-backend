@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
-const employeeProfile = require('./employee_profiles.model')
+const EmployeeProfile = require('./employee_profiles.model')
+const { sequelize } = require('../config/dbConfig')
 
-var releaseRequest = this.sequelize.define('release_requests', {
+var ReleaseRequest = sequelize.define('release_requests', {
   reference_number: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -40,5 +41,5 @@ var releaseRequest = this.sequelize.define('release_requests', {
     type: Sequelize.STRING(32),
   },
 })
-releaseRequest.belongsTo(employeeProfile, { foreignKey: 'employee_id' })
-module.exports = releaseRequest
+ReleaseRequest.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
+module.exports = ReleaseRequest

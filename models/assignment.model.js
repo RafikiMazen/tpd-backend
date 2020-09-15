@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
-const employeeProfile = require('./employee_profiles.model')
+const EmployeeProfile = require('./employee_profiles.model')
+const { sequelize } = require('../config/dbConfig')
 
-var assignment = this.sequelize.define('assignment', {
+var Assignment = sequelize.define('assignment', {
   assignment_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -25,5 +26,5 @@ var assignment = this.sequelize.define('assignment', {
     type: Sequelize.DATE,
   },
 })
-assignment.belongsTo(employeeProfile, { foreignKey: 'employee_id' })
-module.exports = assignment
+Assignment.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
+module.exports = Assignment

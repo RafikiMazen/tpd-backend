@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
 const resourceRequest = require('./resource_requests.model')
+const { sequelize } = require('../config/dbConfig')
 
-var resourceRequestAction = this.sequelize.define('resource_requests_actions', {
+var ResourceRequestAction = sequelize.define('resource_requests_actions', {
   action_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -14,7 +15,7 @@ var resourceRequestAction = this.sequelize.define('resource_requests_actions', {
   },
 })
 
-resourceRequestAction.belongsTo(resourceRequest, {
+ResourceRequestAction.belongsTo(resourceRequest, {
   foreignKey: 'resource_request_reference_numbe',
 })
-module.exports = resourceRequestAction
+module.exports = ResourceRequestAction

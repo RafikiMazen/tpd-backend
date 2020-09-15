@@ -1,9 +1,10 @@
 const config = require('./config')
 const logger = require('./services/Logger')
-const { db_connector } = require('./config/dbConfig')
 
-const db = require('./models')
-db.sequelize
+const { sequelize } = require('./config/dbConfig')
+const modelsList = require('./models')
+sequelize.models = modelsList
+sequelize
   .authenticate()
   .then(function (err) {
     console.log('Connection has been established successfully.')
@@ -14,6 +15,18 @@ db.sequelize
   })
   .catch(function (err) {
     console.log('Unable to connect to the database:', err)
+  })
+const eraseDatabaseOnSync = true
+sequelize
+  .sync({ force: true, alter: true })
+  .then(() => console.log('Synced models with database 💃 .'))
+  .then(async () => {
+    if (eraseDatabaseOnSync) {
+      // populate()
+    }
+  })
+  .catch((error) => {
+    console.log('Could not sync models with database 🤦 .', error)
   })
 
 // db_connector.connect(function (err) {

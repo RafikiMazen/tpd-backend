@@ -1,13 +1,8 @@
 const Sequelize = require('sequelize')
 const manager = require('./managers.model')
-const employeeCertification = require('./employee_certifications.model')
-const employeeTraining = require('./employee_training.model')
-const assignment = require('./assignment.model')
-const releaseRequest = require('./release_requests.model')
-const employeeSkillHistory = require('./employee_skills_history.model')
-const employeeSkill = require('./employee_skills.model')
+const { sequelize } = require('../config/dbConfig')
 
-var employeeProfile = this.sequelize.define('employee_profiles', {
+var EmployeeProfile = sequelize.define('employee_profiles', {
   id: {
     type: Sequelize.STRING(36),
     primaryKey: true,
@@ -50,31 +45,6 @@ var employeeProfile = this.sequelize.define('employee_profiles', {
   },
 })
 
-employeeProfile.belongsTo(manager, { foreignKey: 'direct_manager' })
+EmployeeProfile.belongsTo(manager, { foreignKey: 'direct_manager' })
 
-employeeProfile.hasMany(employeeCertification, {
-  foreignKey: 'employee_id',
-  sourceKey: 'id',
-})
-employeeProfile.hasMany(employeeSkill, {
-  foreignKey: 'employee_id',
-  sourceKey: 'id',
-})
-employeeProfile.hasMany(employeeSkillHistory, {
-  foreignKey: 'employee_id',
-  sourceKey: 'id',
-})
-employeeProfile.hasMany(employeeTraining, {
-  foreignKey: 'employee_id',
-  sourceKey: 'id',
-})
-employeeProfile.hasMany(assignment, {
-  foreignKey: 'employee_id',
-  sourceKey: 'id',
-})
-employeeProfile.hasMany(releaseRequest, {
-  foreignKey: 'employee_id',
-  sourceKey: 'id',
-})
-
-module.exports = employeeProfile
+module.exports = EmployeeProfile

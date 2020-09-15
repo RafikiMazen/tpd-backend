@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize')
-const employeeProfile = require('./employee_profiles.model')
-const skill = require('./skills.model')
+const EmployeeProfile = require('./employee_profiles.model')
+const Skill = require('./skills.model')
+const { sequelize } = require('../config/dbConfig')
 
-var employeeSkillHistory = this.sequelize.define('employee_skills_history', {
+var employeeSkillHistory = sequelize.define('employee_skills_history', {
   experience_level: {
     type: Sequelize.STRING(36),
     primaryKey: true,
@@ -23,6 +24,6 @@ var employeeSkillHistory = this.sequelize.define('employee_skills_history', {
     type: Sequelize.STRING(128),
   },
 })
-employeeSkillHistory.belongsTo(skill, { foreignKey: 'skill_id' })
-employeeSkillHistory.belongsTo(employeeProfile, { foreignKey: 'employee_id' })
+employeeSkillHistory.belongsTo(Skill, { foreignKey: 'skill_id' })
+employeeSkillHistory.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
 module.exports = employeeSkillHistory

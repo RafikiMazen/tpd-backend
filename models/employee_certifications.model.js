@@ -1,13 +1,14 @@
 const Sequelize = require('sequelize')
-const employee_profile = require('./employee_profiles.model')
+const EmployeeProfile = require('./employee_profiles.model')
 const certification = require('./certifications.model')
+const { sequelize } = require('../config/dbConfig')
 
-var employeeCertification = this.sequelize.define('employee_certifications', {
+var EmployeeCertification = sequelize.define('employee_certifications', {
   expiration_date: {
     type: Sequelize.DATE,
   },
 })
 
-employee_profile.belongsTo(employee_profile, { foreignKey: 'employee_id' })
-employee_profile.belongsTo(certification, { foreignKey: 'certification_id' })
-module.exports = employeeCertification
+EmployeeProfile.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
+EmployeeProfile.belongsTo(certification, { foreignKey: 'certification_id' })
+module.exports = EmployeeCertification

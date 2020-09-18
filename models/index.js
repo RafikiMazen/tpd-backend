@@ -53,7 +53,7 @@ const modelsList = [
   require('./role.model'),
   require('./skills.model'),
   require('./user_role.model'),
-  require('./users'),
+  require('./users.model'),
   // Add more models here...
   // require('./models/item'),
 ]

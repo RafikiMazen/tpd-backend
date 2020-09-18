@@ -38,3 +38,100 @@
 {"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-15T21:35:43.667Z"}
 {"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T21:37:07.659Z"}
 {"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-15T21:37:07.659Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T21:42:55.916Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-15T21:42:55.916Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T21:45:26.103Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-15T21:45:26.103Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:42:39.851Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:43:01.127Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:43:27.739Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:48:11.648Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:48:42.656Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:49:09.856Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:49:23.014Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:49:51.268Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:50:18.975Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:50:40.545Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-15T23:50:40.545Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:29:55.894Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:29:55.894Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:33:03.905Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:33:03.905Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:34:41.543Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:34:41.543Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:36:14.779Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:36:14.779Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:36:46.307Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:36:46.307Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:37:46.225Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:37:46.225Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:38:08.956Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:38:08.956Z"}
+{"message":"{\"expose\":true,\"statusCode\":400,\"status\":400,\"body\":\"{\\r\\n    \\\"username\\\":\\\"rafiq\\\",\\r\\n    \\\"password\\\":\\\"1234\\\",\\r\\n}\",\"type\":\"entity.parse.failed\"}","level":"error","service":"smoke-signal-service","time":"2020-09-17T14:38:08.956Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:39:57.541Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:39:57.541Z"}
+{"message":"{\"expose\":true,\"statusCode\":400,\"status\":400,\"body\":\"{\\r\\n    \\\"username\\\":\\\"rafiq\\\",\\r\\n    \\\"password\\\":\\\"1234\\\",\\r\\n}\",\"type\":\"entity.parse.failed\"}","level":"error","service":"smoke-signal-service","time":"2020-09-17T14:39:57.541Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:55:20.209Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:55:20.209Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:58:02.865Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:58:02.865Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:59:05.160Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:59:05.160Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:59:27.544Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T14:59:27.544Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:00:40.188Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:00:40.188Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:02:03.774Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:02:03.774Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:02:44.623Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:02:44.623Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:06:38.597Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:06:38.597Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:07:40.882Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:07:40.882Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:15:17.441Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:15:17.441Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:17:47.180Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:17:47.180Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:18:11.165Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:18:11.165Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:20:29.046Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:20:29.046Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:20:55.769Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:20:55.769Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:21:14.344Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:21:14.344Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:22:13.583Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:22:13.583Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:25:36.635Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:25:36.635Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:26:43.953Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T15:26:43.953Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T23:50:53.498Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-17T23:50:53.498Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T23:52:57.746Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T23:53:36.844Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T23:54:52.372Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T23:55:40.000Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T23:56:06.606Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-17T23:56:27.493Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T00:00:17.003Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T00:00:17.003Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T00:01:21.393Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T00:01:21.393Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T00:02:32.036Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T00:02:32.036Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T00:03:05.733Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T00:03:05.733Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:25:39.608Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:25:39.608Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:29:42.786Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:29:42.786Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:34:24.695Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:34:24.695Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:36:01.440Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:36:01.440Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:36:49.348Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:36:49.348Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:39:21.337Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-18T13:39:21.337Z"}

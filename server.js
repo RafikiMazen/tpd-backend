@@ -1,5 +1,6 @@
 const config = require('./config')
 const logger = require('./services/Logger')
+require('dotenv').config()
 
 const { sequelize } = require('./config/dbConfig')
 const modelsList = require('./models')
@@ -16,9 +17,9 @@ sequelize
   .catch(function (err) {
     console.log('Unable to connect to the database:', err)
   })
-const eraseDatabaseOnSync = true
+const eraseDatabaseOnSync = false
 sequelize
-  .sync({ force: true, alter: true })
+  .sync({ force: eraseDatabaseOnSync, alter: false })
   .then(() => console.log('Synced models with database 💃 .'))
   .then(async () => {
     if (eraseDatabaseOnSync) {

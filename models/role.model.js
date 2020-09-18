@@ -7,7 +7,8 @@ var Role = sequelize.define('role', {
     primaryKey: true,
   },
   role_name: {
-    type: Sequelize.STRING(32),
+    type: Sequelize.STRING,
+    unique: true,
   },
 })
 module.exports = Role

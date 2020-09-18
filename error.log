@@ -1,0 +1,2 @@
+{"message":"{\"expose\":true,\"statusCode\":400,\"status\":400,\"body\":\"{\\r\\n    \\\"username\\\":\\\"rafiq\\\",\\r\\n    \\\"password\\\":\\\"1234\\\",\\r\\n}\",\"type\":\"entity.parse.failed\"}","level":"error","service":"smoke-signal-service","time":"2020-09-17T14:38:08.956Z"}
+{"message":"{\"expose\":true,\"statusCode\":400,\"status\":400,\"body\":\"{\\r\\n    \\\"username\\\":\\\"rafiq\\\",\\r\\n    \\\"password\\\":\\\"1234\\\",\\r\\n}\",\"type\":\"entity.parse.failed\"}","level":"error","service":"smoke-signal-service","time":"2020-09-17T14:39:57.541Z"}

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const { sequelize } = require('../config/dbConfig')
 
 var CertificationProvider = sequelize.define('certification_providers', {
-  certificatoin_provider_id: {
+  certification_provider_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
   },

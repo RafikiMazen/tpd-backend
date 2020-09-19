@@ -11,7 +11,7 @@ var ResourceRequestSkill = sequelize.define('resource_request_skills', {
     type: Sequelize.STRING(64),
   },
 })
-ResourceRequestSkill.belongsTo(Skill, { foreignKey: 'skill_id' })
+// ResourceRequestSkill.belongsTo(Skill, { foreignKey: 'skill_id' })
 ResourceRequestSkill.belongsTo(ResourceRequest, {
   foreignKey: 'request_reference_number',
 })

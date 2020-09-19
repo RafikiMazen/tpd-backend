@@ -1,11 +1,9 @@
 const { filter } = require('compression')
-const ResourceRequestSkill = require('../models/resource_request_skills.model')
-const ResourceRequest = require('../models/resource_requests.model')
 const ReleaseRequest = require('../models/release_requests.model')
 const ReleaseRequestAction = require('../models/release_requests_actions.model')
 
-//view resource requests list with fiters
-const viewReleaseRequestList = async (req, res) => {
+//view release requests list with fiters
+const getAllReleaseRequests = async (req, res) => {
   try {
     const page = req.body.Page
     const limit = req.body.Limit
@@ -41,7 +39,7 @@ const viewReleaseRequestList = async (req, res) => {
     const count = result.length
 
     return res.json({
-      ResourceRequests: result,
+      ReleaseRequests: result,
       count,
     })
   } catch (exception) {
@@ -191,7 +189,7 @@ const updateReleaseRequestAction = async (req, res) => {
   try {
     const releaseRequestAction = req.body.ReleaseRequestAction
     const checkAction = await ReleaseRequestAction.findOne({
-      request_reference_number: releaseRequestAction.reference_number,
+      action_id: releaseRequestAction.action_id,
     })
     if (!checkAction) {
       return res.json({
@@ -204,7 +202,7 @@ const updateReleaseRequestAction = async (req, res) => {
       releaseRequestAction,
       {
         where: {
-          reference_number: releaseRequestAction.reference_number,
+          action_id: releaseRequestAction.action_id,
         },
       }
     )
@@ -224,7 +222,10 @@ const updateReleaseRequestAction = async (req, res) => {
 const getReleaseRequestActions = async (req, res) => {
   try {
     const releaseRequest = await ReleaseRequest.findOne({
-      where: { reference_number: req.body.ReleaseRequest.reference_number },
+      where: {
+        request_reference_number:
+          req.body.ReleaseRequestAction.request_reference_number,
+      },
     })
     if (!releaseRequest) {
       return res.json({
@@ -233,7 +234,10 @@ const getReleaseRequestActions = async (req, res) => {
       })
     }
     const releaseRequestActions = await ReleaseRequestAction.findAll({
-      where: { reference_number: req.body.ReleaseRequest.reference_number },
+      where: {
+        request_reference_number:
+          req.body.ReleaseRequest.request_reference_number,
+      },
     })
     return res.json({
       ReleaseRequestActions: releaseRequestActions,
@@ -249,7 +253,7 @@ const getReleaseRequestActions = async (req, res) => {
 }
 
 module.exports = {
-  viewReleaseRequestList,
+  getAllReleaseRequests,
   addReleaseRequest,
   deleteReleaseRequest,
   getReleaseRequest,

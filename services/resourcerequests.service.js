@@ -1,9 +1,10 @@
 const { filter } = require('compression')
 const ResourceRequestSkill = require('../models/resource_request_skills.model')
 const ResourceRequest = require('../models/resource_requests.model')
+const ResourceRequestAction = require('../models/resource_requests_actions.model')
 
 //view resource requests list with fiters
-const viewResourceRequestList = async (req, res) => {
+const getAllResourceRequests = async (req, res) => {
   try {
     const page = req.body.Page
     const limit = req.body.Limit
@@ -13,7 +14,7 @@ const viewResourceRequestList = async (req, res) => {
     if (filters) {
       const values = Object.values(filters)
       Object.keys(filters).forEach((key, index) => {
-        if (key === 'Category' || key === 'Subcategory') {
+        if (key === 'category' || key === 'subcategory') {
           filtersSecondaryApplied.push({
             [key]: filters[key],
           })
@@ -24,14 +25,6 @@ const viewResourceRequestList = async (req, res) => {
         }
       })
     }
-    // let orderClause = []
-    // const sorting = req.body.Sorting
-
-    // if (sorting.type === 'DESC') {
-    //   orderClause = [sorting.by, 'DESC']
-    // } else {
-    //   orderClause = [sorting.by, 'ASC']
-    // }
     let result
     ResourceRequest.hasMany(ResourceRequestSkill, {
       foreignKey: 'request_reference_number',
@@ -78,36 +71,215 @@ const viewResourceRequestList = async (req, res) => {
     })
   }
 }
-// reference_number INT(11)manager_name VARCHAR(256)function VARCHAR(128)title VARCHAR(128)start_date DATEend_date DATEpropability INT(11)percentage INT(11)status VARCHAR(32)core_team_member VARCHAR(1)replacenement VARCHAR(1)replacement_for VARCHAR(256)requests_count INT(11)related_opportunity VARCHAR(128)comments VARCHAR(256)assigned_resource VARCHAR(256)actual_percentage INT(11
 
-// const addResourceRequest = async (req, res) => {
-//   try {
-//     try {
-//         const resourceRequest = req.body.ResourceRequest
-//         const checkCustomer = await ResourceRequest.findOne({
-//         reference_number:resourceRequest.reference_number,
-//         })
-//         if (!checkCustomer) {
-//           return res.json({
-//             error: 'A request with the same refernce number already exists',
-//             // statusCode: statusCodes.entityNotFound,
-//           })
-//         }
+const addResourceRequest = async (req, res) => {
+  try {
+    const resourceRequest = req.body.ResourceeRequest
 
-//         const orderCreated = await ResourceRequest.create(resourceRequest)
-//         checkCustomer.ordersList.push(orderCreated._id)
+    const orderCreated = await ResourceRequest.create(resourceRequest)
 
-//         return res.json({
-//           msg: 'Order successfully added',
-//           statusCode: statusCodes.success,
-//         })
-//       } catch (exception) {
-//         console.log(exception)
-//         return res.json({
-//           error: 'Something went wrong',
-//           statusCode: statusCodes.unknown,
-//         })
-//       }
-// }
+    return res.json({
+      msg: 'Request successfully added',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
 
-module.exports = { viewResourceRequestList }
+const updateResourceRequest = async (req, res) => {
+  try {
+    const resourceRequest = req.body.ResourceRequest
+    const checkCustomer = await ResourceRequest.findOne({
+      reference_number: resourceRequest.reference_number,
+    })
+    if (!checkCustomer) {
+      return res.json({
+        error: 'Request Does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const requestEdited = await ResourceRequest.update(resourceRequest, {
+      where: {
+        reference_number: resourceRequest.reference_number,
+      },
+    })
+
+    return res.json({
+      msg: 'Request successfully updated',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const deleteResourceRequest = async (req, res) => {
+  try {
+    const resourceRequest = req.body.ResourceRequest
+    const checkCustomer = await ResourceRequest.findOne({
+      reference_number: resourceRequest.reference_number,
+    })
+    if (!checkCustomer) {
+      return res.json({
+        error: 'Request Does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const requestDeleted = await ResourceRequest.destroy(resourceRequest, {
+      where: {
+        reference_number: resourceRequest.reference_number,
+      },
+    })
+
+    return res.json({
+      msg: 'Request successfully deleted',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const getResourceRequest = async (req, res) => {
+  try {
+    const resourceRequest = await ResourceRequest.findOne({
+      where: {
+        request_reference_number:
+          req.body.ResourceRequest.request_reference_number,
+      },
+    })
+    if (!resourceRequest) {
+      return res.json({
+        msg: 'Request Not Found',
+        // statusCode: statusCodes.success,
+      })
+    }
+    return res.json({
+      ResourceRequest: resourceRequest,
+      //  statusCode: success
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const addResourceRequestِAction = async (req, res) => {
+  try {
+    const resourceRequestAction = req.body.ResourceRequestAction
+
+    // const resourceRequest = req.body.ResourceRequest
+    const checkRequest = await ResourceRequest.findOne({
+      request_reference_number: req.body.request_reference_number,
+    })
+    if (!checkRequest) {
+      return res.json({
+        error: 'Request Does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+    const orderCreated = await ResourceRequestAction.create(
+      resourceRequestAction
+    )
+
+    return res.json({
+      msg: 'Action successfully added',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+const updateResourceRequestAction = async (req, res) => {
+  try {
+    const resourceRequestAction = req.body.ResourceRequestAction
+    const checkAction = await ResourceRequestAction.findOne({
+      action_id: resourceRequestAction.action_id,
+    })
+    if (!checkAction) {
+      return res.json({
+        error: 'Action Does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const actionEdited = await ResourceRequestAction.update(
+      resourceRequestAction,
+      {
+        where: {
+          action_id: resourceRequestAction.action_id,
+        },
+      }
+    )
+
+    return res.json({
+      msg: 'Action successfully updated',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+const getResourceRequestActions = async (req, res) => {
+  try {
+    const resourceRequest = await ResourceRequest.findOne({
+      where: { reference_number: req.body.ResourceRequest.reference_number },
+    })
+    if (!resourceRequest) {
+      return res.json({
+        msg: 'Request Not Found',
+        // statusCode: statusCodes.success,
+      })
+    }
+    const resourceRequestActions = await ResourceRequestAction.findAll({
+      where: { reference_number: req.body.ResourceRequest.reference_number },
+    })
+    return res.json({
+      ResourceRequestActions: resourceRequestActions,
+      //  statusCode: success
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+module.exports = {
+  getAllResourceRequests,
+  addResourceRequest,
+  deleteResourceRequest,
+  getResourceRequest,
+  addResourceRequestِAction,
+  updateResourceRequest,
+  updateResourceRequestAction,
+  getResourceRequestActions,
+}

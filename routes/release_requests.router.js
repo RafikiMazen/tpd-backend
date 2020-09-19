@@ -1,9 +1,28 @@
 const express = require('express')
 const router = express.Router()
 
-// const {} = require('../services/certifications.services')
+const {
+  getAllReleaseRequests,
+  addReleaseRequest,
+  deleteReleaseRequest,
+  getReleaseRequest,
+  addReleaseRequestِAction,
+  updateReleaseRequest,
+  updateReleaseRequestAction,
+  getReleaseRequestActions,
+} = require('../services/releaserequests.service')
 
-// const {} = require('../middleware/validations/certifications.validations')
+const {
+  validateGetAllReleaseRequests,
+  validateAddReleaseRequest,
+  validateUpdateReleaseRequest,
+  validateDeleteReleaseRequest,
+  validateGetReleaseRequest,
+  validateGetReleaseRequestActions,
+  validateDeleteReleaseRequestActions,
+  validateUpdateReleaseRequestActions,
+  validateAddReleaseRequestActions,
+} = require('../middlewares/validations/releaserequest.validations')
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -13,6 +32,30 @@ const router = express.Router()
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-// router.post('/createOrder', validateCreateOrder, createOrder)
+router.get('/all', validateGetAllReleaseRequests, getAllReleaseRequests)
+router.post('/', validateAddReleaseRequest, addReleaseRequest)
+router.delete('/', validateDeleteReleaseRequest, deleteReleaseRequest)
+router.put('/', validateUpdateReleaseRequest, updateReleaseRequest)
+router.get('/', validateGetReleaseRequest, getReleaseRequest)
+router.get(
+  '/action/',
+  validateGetReleaseRequestActions,
+  getReleaseRequestActions
+)
+// router.delete(
+//   '/action',
+//   validateDeleteReleaseRequestActions,
+//   deleteReleaseRequestAction
+// )
+router.post(
+  '/action',
+  validateAddReleaseRequestActions,
+  addReleaseRequestِAction
+)
+router.put(
+  '/action',
+  validateUpdateReleaseRequestActions,
+  updateReleaseRequestAction
+)
 
 module.exports = router

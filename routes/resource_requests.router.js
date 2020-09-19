@@ -1,12 +1,28 @@
 const express = require('express')
-const {
-  viewResourceRequestList,
-} = require('../services/resourcerequests.service')
 const router = express.Router()
 
-// const {} = require('../services/certifications.services')
+const {
+  getAllResourceRequests,
+  addResourceRequest,
+  deleteResourceRequest,
+  getResourceRequest,
+  addResourceRequestِAction,
+  updateResourceRequest,
+  updateResourceRequestAction,
+  getResourceRequestActions,
+} = require('../services/resourcerequests.service')
 
-// const {} = require('../middleware/validations/certifications.validations')
+// const {
+//   validateGetAllResourceRequests,
+//   validateAddResourceRequest,
+//   validateUpdateResourceRequest,
+//   validateDeleteResourceRequest,
+//   validateGetResourceRequest,
+//   validateGetResourceRequestActions,
+//   validateDeleteResourceRequestActions,
+//   validateUpdateResourceRequestActions,
+//   validateAddResourceRequestActions,
+// } = require('../middlewares/validations/resourcerequest.validations')
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -16,10 +32,50 @@ const router = express.Router()
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
+router.get(
+  '/all',
+  //  validateGetAllResourceRequests,
+  getAllResourceRequests
+)
 router.post(
-  '/viewList',
-  // validateCreateOrder,
-  viewResourceRequestList
+  '/',
+  // validateAddResourceRequest,
+  addResourceRequest
+)
+router.delete(
+  '/',
+  //  validateDeleteResourceRequest,
+  deleteResourceRequest
+)
+router.put(
+  '/',
+  //  validateUpdateResourceRequest,
+  updateResourceRequest
+)
+router.get(
+  '/',
+  // validateGetResourceRequest,
+  getResourceRequest
+)
+router.get(
+  '/action/',
+  // validateGetResourceRequestActions,
+  getResourceRequestActions
+)
+// router.delete(
+//   '/action',
+//   validateDeleteResourceRequestActions,
+//   deleteResourceRequestAction
+// )
+router.post(
+  '/action',
+  // validateAddResourceRequestActions,
+  addResourceRequestِAction
+)
+router.put(
+  '/action',
+  // validateUpdateResourceRequestActions,
+  updateResourceRequestAction
 )
 
 module.exports = router

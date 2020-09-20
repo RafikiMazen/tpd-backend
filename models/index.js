@@ -14,26 +14,26 @@ const models = require('./')
 //   console.log('Connected!')
 // })
 
-// const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-//   host: dbConfig.HOST,
-//   dialect: dbConfig.dialect,
-//   operatorsAliases: 0,
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+  host: dbConfig.HOST,
+  dialect: dbConfig.dialect,
+  operatorsAliases: 0,
 
-//   pool: {
-//     max: dbConfig.pool.max,
-//     min: dbConfig.pool.min,
-//     acquire: dbConfig.pool.acquire,
-//     idle: dbConfig.pool.idle,
-//   },
-// })
+  pool: {
+    max: dbConfig.pool.max,
+    min: dbConfig.pool.min,
+    acquire: dbConfig.pool.acquire,
+    idle: dbConfig.pool.idle,
+  },
+})
 
 var db = {}
 
-var sequelize = new Sequelize('local_db', 'root', 'password', {
-  host: 'localhost',
-  port: 3306,
-  dialect: 'mysql',
-})
+// var sequelize = new Sequelize('local_db', 'root', 'password', {
+//   host: 'localhost',
+//   port: 3306,
+//   dialect: 'mysql',
+// })
 
 const modelsList = [
   require('./assignment.model'),

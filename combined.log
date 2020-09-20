@@ -181,3 +181,10 @@
 {"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:32:35.205Z"}
 {"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:38:25.947Z"}
 {"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:38:25.947Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:45:13.726Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:45:13.726Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:46:57.196Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:46:57.196Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:47:20.656Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:47:20.656Z"}
+{"message":"{\"expose\":true,\"statusCode\":400,\"status\":400,\"body\":\"{\\\"ReleaseRequest\\\":{\\r\\n    \\\"manager_name\\\":\\\"otta\\\",\\r\\n    \\\"employee_name\\\":\\\"batates\\\",\\r\\n    \\\"function\\\":\\\"by3ml shay\\\",\\r\\n    \\\"title\\\":\\\"fasfa\\\",\\r\\n    \\r\\n}}\",\"type\":\"entity.parse.failed\"}","level":"error","service":"smoke-signal-service","time":"2020-09-20T14:47:20.656Z"}

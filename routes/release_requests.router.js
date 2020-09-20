@@ -10,7 +10,7 @@ const {
   updateReleaseRequest,
   updateReleaseRequestAction,
   getReleaseRequestActions,
-} = require('../services/releaserequests.service')
+} = require('../services/release_requests.service')
 
 const {
   validateGetAllReleaseRequests,
@@ -22,7 +22,7 @@ const {
   validateDeleteReleaseRequestActions,
   validateUpdateReleaseRequestActions,
   validateAddReleaseRequestActions,
-} = require('../middlewares/validations/releaserequest.validations')
+} = require('../middlewares/validations/release_request.validations')
 // const {
 //   verifyToken,
 //   verifyAdmin,

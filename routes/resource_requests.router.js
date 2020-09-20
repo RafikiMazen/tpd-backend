@@ -10,7 +10,7 @@ const {
   updateResourceRequest,
   updateResourceRequestAction,
   getResourceRequestActions,
-} = require('../services/resourcerequests.service')
+} = require('../services/resource_requests.service')
 
 // const {
 //   validateGetAllResourceRequests,

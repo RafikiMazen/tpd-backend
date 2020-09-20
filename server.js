@@ -18,7 +18,7 @@ sequelize
   .catch(function (err) {
     console.log('Unable to connect to the database:', err)
   })
-const eraseDatabaseOnSync = true
+const eraseDatabaseOnSync = false
 sequelize
   .sync({ force: eraseDatabaseOnSync, alter: false })
   .then(() => console.log('Synced models with database 💃 .'))

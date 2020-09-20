@@ -32,7 +32,7 @@ const validateAddReleaseRequest = (req, res, next) => {
       release_reason: Joi.string().required(),
       leaving: Joi.string(),
       request_status: Joi.string().required(),
-    }),
+    }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -55,7 +55,7 @@ const validateUpdateReleaseRequest = (req, res, next) => {
       release_reason: Joi.string().required(),
       leaving: Joi.string(),
       request_status: Joi.string().required(),
-    }),
+    }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -69,7 +69,7 @@ const validateDeleteReleaseRequest = (req, res, next) => {
   const schema = Joi.object({
     ReleaseRequest: Joi.object({
       reference_number: Joi.number().required(),
-    }),
+    }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -83,7 +83,7 @@ const validateGetReleaseRequest = (req, res, next) => {
   const schema = Joi.object({
     ReleaseRequest: Joi.object({
       reference_number: Joi.number().required(),
-    }),
+    }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -97,7 +97,7 @@ const validateGetReleaseRequestActions = (req, res, next) => {
   const schema = Joi.object({
     ReleaseRequestAction: Joi.object({
       request_reference_number: Joi.number().required(),
-    }),
+    }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -113,7 +113,7 @@ const validateAddReleaseRequestActions = (req, res, next) => {
       request_reference_number: Joi.number().required(),
       action: Joi.string().required,
       action_note: Joi.string(),
-    }),
+    }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -129,7 +129,7 @@ const validateUpdateReleaseRequestActions = (req, res, next) => {
       request_reference_number: Joi.number().required(),
       action: Joi.string(),
       action_note: Joi.string(),
-    }),
+    }).required,
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -143,7 +143,7 @@ const validateDeleteReleaseRequestActions = (req, res, next) => {
   const schema = Joi.object({
     ReleaseRequestAction: Joi.object({
       request_reference_number: Joi.number().required(),
-    }),
+    }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {

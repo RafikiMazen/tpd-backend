@@ -2,7 +2,7 @@ var mysql = require('mysql')
 const Sequelize = require('sequelize')
 
 const dbConfig = {
-  HOST: '%',
+  HOST: '138.68.108.57',
   USER: 'team3',
   PASSWORD: 'my-strong-pass',
   DB: 'team3_db',

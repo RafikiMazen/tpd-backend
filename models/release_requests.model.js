@@ -6,6 +6,7 @@ var ReleaseRequest = sequelize.define('release_requests', {
   reference_number: {
     type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   manager_name: {
     type: Sequelize.STRING(256),

@@ -171,3 +171,5 @@
 {"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:10:21.850Z"}
 {"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:10:48.032Z"}
 {"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:10:48.032Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:14:14.589Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-20T14:14:14.589Z"}

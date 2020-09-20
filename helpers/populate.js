@@ -31,7 +31,7 @@ const populateEmployees = async () => {
       { name: 'Jack employee', direct_manager: '1' },
       { name: 'Ayoub employee', direct_manager: '1' },
       { name: 'Mazen employee', direct_manager: '1' },
-      { name: 'Cody employee', direct_manager: '1' },
+      { name: 'Justin employee', direct_manager: '1' },
     ]
     const accountsPromises = []
     employees.forEach((account) => {

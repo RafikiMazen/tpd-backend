@@ -6,6 +6,7 @@ var ReleaseRequestAction = sequelize.define('release_requests_actions', {
   action_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   action: {
     type: Sequelize.STRING(32),

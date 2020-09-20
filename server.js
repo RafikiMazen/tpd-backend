@@ -4,6 +4,7 @@ require('dotenv').config()
 
 const { sequelize } = require('./config/dbConfig')
 const modelsList = require('./models')
+const { populate } = require('./helpers/populate')
 sequelize.models = modelsList
 sequelize
   .authenticate()
@@ -17,13 +18,13 @@ sequelize
   .catch(function (err) {
     console.log('Unable to connect to the database:', err)
   })
-const eraseDatabaseOnSync = false
+const eraseDatabaseOnSync = true
 sequelize
   .sync({ force: eraseDatabaseOnSync, alter: false })
   .then(() => console.log('Synced models with database 💃 .'))
   .then(async () => {
     if (eraseDatabaseOnSync) {
-      // populate()
+      populate()
     }
   })
   .catch((error) => {

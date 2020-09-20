@@ -7,8 +7,9 @@ class Manager extends Model {}
 Manager.init(
   {
     id: {
-      type: Sequelize.STRING(36),
+      type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     name: {
       type: Sequelize.STRING(256),

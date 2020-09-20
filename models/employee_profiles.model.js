@@ -4,8 +4,9 @@ const { sequelize } = require('../config/dbConfig')
 
 var EmployeeProfile = sequelize.define('employee_profiles', {
   id: {
-    type: Sequelize.STRING(36),
+    type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   name: {
     type: Sequelize.STRING(256),

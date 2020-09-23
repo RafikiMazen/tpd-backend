@@ -1,5 +1,5 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 const {
   getAllResourceRequests,
@@ -10,7 +10,7 @@ const {
   updateResourceRequest,
   updateResourceRequestAction,
   getResourceRequestActions,
-} = require('../services/resource_requests.service')
+} = require("../services/resource_requests.service");
 
 // const {
 //   validateGetAllResourceRequests,
@@ -32,50 +32,50 @@ const {
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-router.get(
-  '/all',
+router.post(
+  "/all",
   //  validateGetAllResourceRequests,
   getAllResourceRequests
-)
+);
 router.post(
-  '/',
+  "/",
   // validateAddResourceRequest,
   addResourceRequest
-)
+);
 router.delete(
-  '/',
+  "/",
   //  validateDeleteResourceRequest,
   deleteResourceRequest
-)
+);
 router.put(
-  '/',
+  "/",
   //  validateUpdateResourceRequest,
   updateResourceRequest
-)
-router.get(
-  '/',
+);
+router.post(
+  "/one",
   // validateGetResourceRequest,
   getResourceRequest
-)
+);
 router.get(
-  '/action/',
+  "/action/",
   // validateGetResourceRequestActions,
   getResourceRequestActions
-)
+);
 // router.delete(
 //   '/action',
 //   validateDeleteResourceRequestActions,
 //   deleteResourceRequestAction
 // )
 router.post(
-  '/action',
+  "/action",
   // validateAddResourceRequestActions,
   addResourceRequestِAction
-)
+);
 router.put(
-  '/action',
+  "/action",
   // validateUpdateResourceRequestActions,
   updateResourceRequestAction
-)
+);
 
-module.exports = router
+module.exports = router;

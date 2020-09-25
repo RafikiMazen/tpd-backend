@@ -32,18 +32,11 @@ const getAllManagers = async (req, res) => {
 
 const getMyEmployees = async (req, res) => {
   try {
-    const page = req.body.Page
-    const limit = req.body.Limit
     const usertoken = req.headers.authorization
     const token = usertoken.split(' ')
-    // console.log(token)
-    const decoded = jwt.verify(token[0], 'secret')
-    console.log(decoded.id)
-    const user = User.findOne({
-      where: [{ id: decoded.id }],
-    })
-    const manager = Manager.findOne({
-      where: { user_id: user.id },
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    const manager = await Manager.findOne({
+      where: { user_id: decoded.id },
     })
     if (!manager) {
       return res.json({
@@ -53,8 +46,8 @@ const getMyEmployees = async (req, res) => {
     // const thisManagerId = req.body.managerId
     let result
     result = await EmployeeProfile.findAll({
-      offset: page * limit,
-      limit,
+      // offset: page * limit,
+      // limit,
       where: { direct_manager: manager.id },
       order: [
         ['updatedAt', 'DESC'],

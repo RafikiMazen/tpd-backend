@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const manager = require('./managers.model')
 const { sequelize } = require('../config/dbConfig')
+const User = require('./users.model')
 
 var EmployeeProfile = sequelize.define('employee_profiles', {
   id: {
@@ -47,5 +48,5 @@ var EmployeeProfile = sequelize.define('employee_profiles', {
 })
 
 EmployeeProfile.belongsTo(manager, { foreignKey: 'direct_manager' })
-
+EmployeeProfile.belongsTo(User, {foreignKey:''})
 module.exports = EmployeeProfile

@@ -115,7 +115,7 @@ const deleteReleaseRequest = async (req, res) => {
       })
     }
 
-    const requestDeleted = await ReleaseRequest.destroy(releaseRequest, {
+    const requestDeleted = await ReleaseRequest.destroy({
       where: {
         reference_number: releaseRequest.reference_number,
       },

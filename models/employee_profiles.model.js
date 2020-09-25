@@ -48,5 +48,5 @@ var EmployeeProfile = sequelize.define('employee_profiles', {
 })
 
 EmployeeProfile.belongsTo(manager, { foreignKey: 'direct_manager' })
-EmployeeProfile.belongsTo(User, {foreignKey:''})
+EmployeeProfile.belongsTo(User, {foreignKey:'user_id'})
 module.exports = EmployeeProfile

@@ -38,14 +38,33 @@ const createAccount = async (req, res) => {
     }
 
     const saltKey = bcrypt.genSaltSync(salt)
-
     const hashed_pass = bcrypt.hashSync(account.password, saltKey)
     account.password = hashed_pass
-    User.create({
+    const user = User.create({
       user_name: account.user_name,
       password: account.password,
       email: account.emails,
     })
+
+    var roles = req.body.roles
+    if (!roles) {
+      roles = ['employee']
+    }
+    for (const role of roles) {
+      const roleRecord = await Role.findOne({
+        where: [{ role_name: role }],
+      })
+      if (!roleRecord) {
+        return res.json({
+          error: 'role does not exist',
+        })
+      }
+      const userRole = await Role.create({
+        user_id: user.id,
+        role_id: roleRecord.id,
+      })
+    }
+
     return res.json({
       msg: 'Account added',
       // , statusCode: statusCodes.success

@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const { createAccount } = require('../services/employee_profiles.service')
+const { getEmployee } = require('../services/employee_profiles.service')
 
-// const {} = require('../middleware/validations/employee_profiles.validations')
+const {
+  validateGetEmployee,
+} = require('../middlewares/validations/employee_profile.validations')
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -13,10 +15,6 @@ const { createAccount } = require('../services/employee_profiles.service')
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-// router.post(
-//   '/createAccount',
-//   // validateCreateOrder,
-//   createAccount
-// )
+router.post('/one', validateGetEmployee, getEmployee)
 
 module.exports = router

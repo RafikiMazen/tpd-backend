@@ -13,10 +13,10 @@ const { createAccount } = require('../services/employee_profiles.service')
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-router.post(
-  '/createAccount',
-  // validateCreateOrder,
-  createAccount
-)
+// router.post(
+//   '/createAccount',
+//   // validateCreateOrder,
+//   createAccount
+// )
 
 module.exports = router

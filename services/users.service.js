@@ -3,6 +3,8 @@ const moment = require('moment-timezone')
 const bcrypt = require('bcryptjs')
 const { signingKey, salt } = require('../config/keys')
 const User = require('../models/users.model')
+const UserRole = require('../models/user_role.model')
+const Role = require('../models/role.model')
 
 const createAccount = async (req, res) => {
   try {
@@ -81,12 +83,21 @@ const signIn = async (req, res) => {
         // statusCode: statusCodes.wrongCredentials,
       })
     }
-
+    const userRoles = await UserRole.findAll({
+      where: [{ user_id: account.id }],
+      include: [{ model: Role }],
+    })
+    var roles = []
+    // console.log(userRoles)
+    for (const userRole of userRoles) {
+      roles.push(userRole.role.role_name)
+    }
+    // console.log(userRoles,roles)
     const payLoad = {
       id: account.id,
       //   name: account.firstName,
       email: account.email,
-      //   type: account.type,
+      roles: roles,
     }
     const token = jwt.sign(payLoad, process.env.JWT_KEY, {
       expiresIn: '8h',
@@ -94,7 +105,7 @@ const signIn = async (req, res) => {
     return res.json({
       token,
       id: account.id,
-      type: account.type,
+      roles: roles,
       //   statusCode: success,
     })
   } catch (exception) {

@@ -30,7 +30,7 @@ const validateAddReleaseRequest = (req, res, next) => {
       release_date: Joi.date().required(),
       propability: Joi.number().required(),
       release_reason: Joi.string().required(),
-      leaving: Joi.string(),
+      leaving: Joi.string().max(1),
       request_status: Joi.string().required(),
     }).required(),
   })

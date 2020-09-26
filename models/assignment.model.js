@@ -27,4 +27,5 @@ var Assignment = sequelize.define('assignment', {
   },
 })
 Assignment.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
+EmployeeProfile.hasMany(Assignment, { foreignKey: 'employee_id' })
 module.exports = Assignment

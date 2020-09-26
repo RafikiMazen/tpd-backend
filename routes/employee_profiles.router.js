@@ -8,12 +8,17 @@ const {
   getEmployeeTitles,
   getEmployeeNames,
   getEmployeeFunctions,
+  getAllEmployees,
+  getEmployeeWorkgroups,
+  getEmployeeAssignment,
 } = require('../services/employee_profiles.service')
 
 const {
   validateGetEmployee,
   validateGetEmployeeSkills,
   validateGetEmployeeCertificates,
+  validateGetAllEmployees,
+  validateGetEmployeeAssignment,
 } = require('../middlewares/validations/employee_profile.validations')
 // const {
 //   verifyToken,
@@ -31,7 +36,14 @@ router.post(
   validateGetEmployeeCertificates,
   getEmployeeCertificates
 )
+router.post(
+  '/assignments',
+  validateGetEmployeeAssignment,
+  getEmployeeAssignment
+)
+router.post('/all', validateGetAllEmployees, getAllEmployees)
 router.get('/titles', getEmployeeTitles)
 router.get('/names', getEmployeeNames)
 router.get('/functions', getEmployeeFunctions)
+router.get('/workgroups', getEmployeeWorkgroups)
 module.exports = router

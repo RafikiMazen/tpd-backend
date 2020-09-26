@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-// const {} = require('../services/assignments.services')
+const {getMyCertificates} = require('../services/assignments.service')
 
 // const {} = require('../middleware/validations/assignments.validations')
 // const {
@@ -13,6 +13,6 @@ const router = express.Router()
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-// router.post('/createOrder', validateCreateOrder, createOrder)
+router.get('/my', getMyCertificates)
 
 module.exports = router

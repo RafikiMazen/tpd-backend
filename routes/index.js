@@ -15,6 +15,7 @@ const resourceRequest = require('./resource_requests.router')
 const auth = require('./auth.router')
 const role = require('./role.router')
 const manager = require('./managers.router')
+const training = require('./training.router')
 
 const explore = (req, res) => {
   const routes = allRoutes(app)
@@ -77,6 +78,7 @@ const routes = (app) => {
   app.use('/api/auth', auth)
   app.use('/api/role', role)
   app.use('/api/manager', manager)
+  app.use('/api/training', training)
 }
 
 module.exports = routes

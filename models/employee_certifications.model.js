@@ -9,6 +9,9 @@ var EmployeeCertification = sequelize.define('employee_certifications', {
   },
 })
 
-EmployeeProfile.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
-EmployeeProfile.belongsTo(certification, { foreignKey: 'certification_id' })
+EmployeeCertification.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
+EmployeeCertification.belongsTo(certification, {
+  foreignKey: 'certification_id',
+})
+certification.hasMany(EmployeeCertification, { foreignKey: 'certification_id' })
 module.exports = EmployeeCertification

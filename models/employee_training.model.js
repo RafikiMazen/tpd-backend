@@ -21,5 +21,6 @@ var EmployeeTraining = sequelize.define('employee_training', {
 })
 
 EmployeeTraining.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
+EmployeeProfile.hasMany(EmployeeTraining, { foreignKey: 'employee_id' })
 
 module.exports = EmployeeTraining

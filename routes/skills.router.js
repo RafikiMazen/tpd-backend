@@ -13,6 +13,6 @@ const {validateGetMySkills} = require('../middlewares/validations/skill.validati
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-router.post('/my', validateGetMySkills, getMySkills)
+router.get('/my', validateGetMySkills, getMySkills)
 
 module.exports = router

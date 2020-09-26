@@ -87,7 +87,7 @@ const getEmployeeTitles = async (req, res) => {
       plain: false,
     })
     var array = []
-    for(const row of result){
+    for (const row of result) {
       array.push(row.DISTINCT)
     }
     return res.json({
@@ -108,7 +108,7 @@ const getEmployeeNames = async (req, res) => {
       plain: false,
     })
     var array = []
-    for(const row of result){
+    for (const row of result) {
       array.push(row.DISTINCT)
     }
     return res.json({
@@ -129,7 +129,7 @@ const getEmployeeFunctions = async (req, res) => {
       plain: false,
     })
     var array = []
-    for(const row of result){
+    for (const row of result) {
       array.push(row.DISTINCT)
     }
     return res.json({
@@ -149,5 +149,5 @@ module.exports = {
   getEmployeeCertificates,
   getEmployeeTitles,
   getEmployeeNames,
-  getEmployeeFunctions
+  getEmployeeFunctions,
 }

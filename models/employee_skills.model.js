@@ -14,4 +14,5 @@ var EmployeeSkills = sequelize.define('employee_skills', {
 
 EmployeeSkills.belongsTo(Skill, { foreignKey: 'skill_id' })
 EmployeeSkills.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
+EmployeeProfile.hasMany(EmployeeSkills, { foreignKey: 'employee_id' })
 module.exports = EmployeeSkills

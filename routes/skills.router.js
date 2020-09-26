@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-// const {} = require('../services/certifications.services')
+const {getMySkills} = require('../services/skills.service')
 
-// const {} = require('../middleware/validations/certifications.validations')
+const {validateGetMySkills} = require('../middlewares/validations/skill.validations')
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -13,6 +13,6 @@ const router = express.Router()
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-// router.post('/createOrder', validateCreateOrder, createOrder)
+router.post('/my', validateGetMySkills, getMySkills)
 
 module.exports = router

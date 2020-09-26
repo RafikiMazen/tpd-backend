@@ -31,7 +31,7 @@ router.post(
   validateGetEmployeeCertificates,
   getEmployeeCertificates
 )
-router.post('/titles', getEmployeeTitles)
-router.post('/names', getEmployeeNames)
-router.post('/functions', getEmployeeFunctions)
+router.get('/titles', getEmployeeTitles)
+router.get('/names', getEmployeeNames)
+router.get('/functions', getEmployeeFunctions)
 module.exports = router

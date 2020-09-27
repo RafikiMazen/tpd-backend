@@ -477,4 +477,6 @@ module.exports = {
   getCertificateProviders,
   getCertificatesByProvider,
   getCertificates,
+  deleteCertification,
+  editCertification,
 }

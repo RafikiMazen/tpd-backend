@@ -13,6 +13,8 @@ const {
   getCertificateProviders,
   getCertificatesByProvider,
   getCertificates,
+  deleteCertification,
+  editCertification,
 } = require('../services/certificates.service')
 
 const {
@@ -25,6 +27,8 @@ const {
   validateDeleteCertificationProvider,
   validateGetCertificationsByProvider,
   validateGetAllCertificates,
+  validateDeleteCertification,
+  validateEditCertification,
 } = require('../middlewares/validations/certificate.validations')
 // const {
 //   verifyToken,
@@ -71,5 +75,7 @@ router.post(
   getCertificatesByProvider
 )
 router.post('/all', validateGetAllCertificates, getCertificates)
+router.put('/', validateEditCertification, editCertification)
+router.delete('/', validateDeleteCertification, deleteCertification)
 
 module.exports = router

@@ -1,6 +1,9 @@
 const { salt } = require('../config/keys')
 const EmployeeProfile = require('../models/employee_profiles.model')
+const SkillCatalog = require('../models/skillcatalog.model')
 const Manager = require('../models/managers.model')
+var fs = require('fs')
+var csv = require('csv')
 
 // const ProjectAssignment = require('../models/projectassignment.model')
 // const ProjectInvitation = require('../models/projectinvitation.model')
@@ -44,9 +47,37 @@ const populateEmployees = async () => {
   }
 }
 
+const populateResourceRequestSkills = async () => {
+  try {
+    var input = fs.createReadStream('./helpers/csv/test.csv')
+    var parser = csv.parse({
+      delimiter: ',',
+      columns: true,
+    })
+    var transform = csv.transform(function (row) {
+      var resultObj = {
+        // category: row['Category'],
+        category: row['Category'],
+        subcategory: row['SubCategory'],
+      }
+      SkillCatalog.create(resultObj)
+        .then(function () {
+          console.log(resultObj, 'Record created')
+        })
+        .catch(function (err) {
+          console.log('Error encountered: ' + err)
+        })
+    })
+    input.pipe(parser).pipe(transform)
+  } catch (exception) {
+    return exception
+  }
+}
+
 const populate = async () => {
   await populateManagers()
   await populateEmployees()
+  await populateResourceRequestSkills()
 }
 
 module.exports = { populate }

@@ -32,6 +32,7 @@ const validateAddReleaseRequest = (req, res, next) => {
       release_reason: Joi.string().required(),
       leaving: Joi.string().max(1),
       request_status: Joi.string().required(),
+      release_percentage: Joi.number().required(),
     }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
@@ -55,6 +56,7 @@ const validateUpdateReleaseRequest = (req, res, next) => {
       release_reason: Joi.string().required(),
       leaving: Joi.string(),
       request_status: Joi.string().required(),
+      release_percentage: Joi.number().required(),
     }).required(),
   })
   const isValid = Joi.validate(req.body, schema)

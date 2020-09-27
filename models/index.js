@@ -54,6 +54,7 @@ const modelsList = [
   require('./skills.model'),
   require('./user_role.model'),
   require('./users.model'),
+  require('./skillcatalog.model')
   // Add more models here...
   // require('./models/item'),
 ]

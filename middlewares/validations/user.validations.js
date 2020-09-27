@@ -5,6 +5,7 @@ const validateCreateAccount = (req, res, next) => {
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     user_name: Joi.string().required(),
+    roles: Joi.array().items(Joi.string()),
   })
 
   const isValid = Joi.validate(req.body, schema)

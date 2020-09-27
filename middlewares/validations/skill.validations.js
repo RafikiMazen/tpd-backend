@@ -22,8 +22,8 @@ const validateGetSubcategories = (req, res, next) => {
 const validateAddEmployeeSkill = (req, res, next) => {
   const schema = Joi.object({
     skill_name: Joi.string().required(),
-    experience_level: Joi.string(),
-    last_used_date: Joi.date(),
+    experience_level: Joi.string().required(),
+    last_used_date: Joi.date().required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {

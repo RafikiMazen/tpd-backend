@@ -27,6 +27,7 @@ const getAllReleaseRequests = async (req, res) => {
         ['updatedAt', 'DESC'],
         ['reference_number', 'DESC'],
       ],
+      include: [{ model: ReleaseRequestAction }],
     })
     const count = result.length
 
@@ -129,6 +130,7 @@ const getReleaseRequest = async (req, res) => {
   try {
     const releaseRequest = await ReleaseRequest.findOne({
       where: { reference_number: req.body.ReleaseRequest.reference_number },
+      include: [{ model: ReleaseRequestAction }],
     })
     if (!releaseRequest) {
       return res.json({

@@ -80,6 +80,7 @@ const addEmployeeSkill = async (req, res) => {
   try {
     const usertoken = req.headers.authorization
     const token = usertoken.split(' ')
+    console.log(token)
     const decoded = jwt.verify(token[0], process.env.JWT_KEY)
     const employee = await EmployeeProfile.findOne({
       where: { user_id: decoded.id },
@@ -112,11 +113,10 @@ const addEmployeeSkill = async (req, res) => {
       where: { id: employee.direct_manager },
     })
     body.title = employee.title
-    body.title = employee
+    body.function = employee.function
+    body.manager_name = manager.name
     await employeeSkillHistory.create({
-      employee_id: employee_id,
-      skill_id: checkSkill.id,
-      title,
+      body,
     })
     return res.json({
       msg: 'Skill successfully added to employee',
@@ -173,6 +173,15 @@ const editEmployeeSkill = async (req, res) => {
       where: {
         id: req.body.skill_id,
       },
+    })
+    const manager = await Manager.findOne({
+      where: { id: employee.direct_manager },
+    })
+    body.title = employee.title
+    body.function = employee.function
+    body.manager_name = manager.name
+    await employeeSkillHistory.create({
+      body,
     })
 
     return res.json({

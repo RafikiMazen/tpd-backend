@@ -226,17 +226,18 @@ const deleteEmployeeSkill = async (req, res) => {
 
 const addSkill = async (req, res) => {
   try {
-    const Skill = req.body.Skill
-    const skill = await Skill.findOne({where:{skill_name=Skill.skill_name}})
-    if(skill)
-    {
+    const SkillBody = req.body.Skill
+    const skill = await Skill.findOne({
+      where: { skill_name: SkillBody.skill_name },
+    })
+    if (skill) {
       return res.json({
         error: 'This skill name already exits',
         // statusCode: statusCodes.entityNotFound,
-      }) 
+      })
     }
 
-    const orderCreated = await Skill.create(Skill)
+    const orderCreated = await Skill.create(SkillBody)
 
     return res.json({
       msg: 'Skill added',
@@ -257,5 +258,5 @@ module.exports = {
   addEmployeeSkill,
   editEmployeeSkill,
   deleteEmployeeSkill,
-  addSkill
+  addSkill,
 }

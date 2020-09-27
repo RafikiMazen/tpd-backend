@@ -7,7 +7,8 @@ const {
   getSubCategories,
   addEmployeeSkill,
   editEmployeeSkill,
-  deleteEmployeeSkill
+  deleteEmployeeSkill,
+  addSkill,
 } = require('../services/skills.service')
 
 const {
@@ -15,7 +16,8 @@ const {
   validateGetSubcategories,
   validateAddEmployeeSkill,
   validateEditEmployeeSkill,
-  validateDeleteEmployeeSkill
+  validateDeleteEmployeeSkill,
+  validateAddSkill,
 } = require('../middlewares/validations/skill.validations')
 // const {
 //   verifyToken,
@@ -32,4 +34,5 @@ router.post('/subcategories', validateGetSubcategories, getSubCategories)
 router.post('/employee', validateAddEmployeeSkill, addEmployeeSkill)
 router.put('/employee', validateEditEmployeeSkill, editEmployeeSkill)
 router.delete('/employee', validateDeleteEmployeeSkill, deleteEmployeeSkill)
+router.post('/', validateAddSkill, addSkill)
 module.exports = router

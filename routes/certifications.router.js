@@ -5,13 +5,26 @@ const {
   getMyCertificates,
   addEmployeeCertificate,
   editEmployeeCertificate,
-  deleteEmployeeCertificate
+  deleteEmployeeCertificate,
+  addCertification,
+  addCertificationProvider,
+  editCertificationProvider,
+  deleteCertificationProvider,
+  getCertificateProviders,
+  getCertificatesByProvider,
+  getCertificates,
 } = require('../services/certificates.service')
 
 const {
   validateAddEmployeeCertificate,
   validateEditEmployeeCertificate,
-  validateDeleteEmployeeCertificate
+  validateDeleteEmployeeCertificate,
+  validateAddCertification,
+  validateAddCertificationProvider,
+  validateEditCertificationProvider,
+  validateDeleteCertificationProvider,
+  validateGetCertificationsByProvider,
+  validateGetAllCertificates,
 } = require('../middlewares/validations/certificate.validations')
 // const {
 //   verifyToken,
@@ -29,6 +42,34 @@ router.put(
   validateEditEmployeeCertificate,
   editEmployeeCertificate
 )
-router.delete('/employee',validateDeleteEmployeeCertificate,deleteEmployeeCertificate)
+router.delete(
+  '/employee',
+  validateDeleteEmployeeCertificate,
+  deleteEmployeeCertificate
+)
+router.post('/', validateAddCertification, addCertification)
+router.post(
+  '/provider',
+  validateAddCertificationProvider,
+  addCertificationProvider
+)
+router.put(
+  '/provider',
+  validateEditCertificationProvider,
+  editCertificationProvider
+)
+router.delete(
+  '/provider',
+  validateDeleteCertificationProvider,
+  deleteCertificationProvider
+)
+router.get('/provider', getCertificateProviders)
+
+router.post(
+  '/allByProvider',
+  validateGetCertificationsByProvider,
+  getCertificatesByProvider
+)
+router.post('/all', validateGetAllCertificates, getCertificates)
 
 module.exports = router

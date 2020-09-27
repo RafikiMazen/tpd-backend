@@ -7,6 +7,7 @@ const EmployeeSkills = require('../models/employee_skills.model')
 const Skill = require('../models/skills.model')
 const jwt = require('jsonwebtoken')
 const EmployeeCertification = require('../models/employee_certifications.model')
+const CertificationProvider = require('../models/certification_providers.model')
 
 const getMyCertificates = async (req, res) => {
   try {
@@ -193,17 +194,27 @@ const deleteEmployeeCertificate = async (req, res) => {
 
 const addCertification = async (req, res) => {
   try {
-    const Certification = req.body.Certification
-    const certification = await Certification.findOne({where:{certification_name=Certification.certification_name}})
-    if(certification)
-    {
+    const CertificationBody = req.body.Certification
+    const certification = await Certification.findOne({
+      where: { certification_name: CertificationBody.certification_name },
+    })
+    if (certification) {
       return res.json({
         error: 'This certification name already exits',
         // statusCode: statusCodes.entityNotFound,
-      }) 
+      })
+    }
+    const provider = await CertificationProvider.findOne({
+      where: { id: CertificationBody.certification_provider_id },
+    })
+    if (!provider) {
+      return res.json({
+        error: 'This certification provider does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
     }
 
-    const orderCreated = await Certification.create(Certification)
+    const orderCreated = await Certification.create(CertificationBody)
 
     return res.json({
       msg: 'Certification added',
@@ -217,10 +228,253 @@ const addCertification = async (req, res) => {
     })
   }
 }
+
+const addCertificationProvider = async (req, res) => {
+  try {
+    const CertificationBody = req.body.CertificationProvider
+    const certification = await CertificationProvider.findOne({
+      where: {
+        certification_provider_name:
+          CertificationBody.certification_provider_name,
+      },
+    })
+    if (certification) {
+      return res.json({
+        error: 'This certification provider name already exits',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const orderCreated = await CertificationProvider.create(CertificationBody)
+
+    return res.json({
+      msg: 'Certification Provider added',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const editCertificationProvider = async (req, res) => {
+  try {
+    const CertificationBody = req.body.CertificationProvider
+    const certification = await CertificationProvider.findOne({
+      where: {
+        id: CertificationBody.id,
+      },
+    })
+    if (!certification) {
+      return res.json({
+        error: 'This certification provider does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const orderCreated = await CertificationProvider.update(CertificationBody, {
+      where: { id: CertificationBody.id },
+    })
+
+    return res.json({
+      msg: 'Certification Provider updated',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const deleteCertificationProvider = async (req, res) => {
+  try {
+    const CertificationBody = req.body.CertificationProvider
+    const certification = await CertificationProvider.findOne({
+      where: {
+        id: CertificationBody.id,
+      },
+    })
+    if (!certification) {
+      return res.json({
+        error: 'This certification provider does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const orderCreated = await CertificationProvider.destroy({
+      where: { id: CertificationBody.id },
+    })
+
+    return res.json({
+      msg: 'Certification Provider deleted',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const getCertificateProviders = async (req, res) => {
+  try {
+    let result
+    result = await CertificationProvider.findAll({})
+    return res.json({
+      CertificateProviders: result,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+    })
+  }
+}
+
+const getCertificatesByProvider = async (req, res) => {
+  try {
+    let result
+    result = await Certification.findAll({
+      where: [
+        { certification_provider_id: req.body.certification_provider_id },
+      ],
+    })
+    return res.json({
+      Certifications: result,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+    })
+  }
+}
+
+const getCertificates = async (req, res) => {
+  try {
+    const page = req.body.Page
+    const limit = req.body.Limit
+    const filters = req.body.Filters
+    var filtersMainApplied = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        filtersMainApplied.push({
+          [key]: filters[key],
+        })
+      })
+    }
+    let result
+
+    result = await Certification.findAll({
+      offset: page * limit,
+      limit,
+      include: [
+        { model: CertificationProvider },
+        { where: filtersMainApplied },
+      ],
+      order: [
+        ['updatedAt', 'DESC'],
+        ['id', 'DESC'],
+      ],
+    })
+    const count = result.length
+
+    return res.json({
+      Certifications: result,
+      count,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
+const deleteCertification = async (req, res) => {
+  try {
+    const CertificationBody = req.body.Certification
+    const certification = await Certification.findOne({
+      where: {
+        id: CertificationBody.id,
+      },
+    })
+    if (!certification) {
+      return res.json({
+        error: 'This certification does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const orderCreated = await Certification.destroy({
+      where: { id: CertificationBody.id },
+    })
+
+    return res.json({
+      msg: 'Certification deleted',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const editCertification = async (req, res) => {
+  try {
+    const CertificationBody = req.body.Certification
+    const certification = await Certification.findOne({
+      where: {
+        id: CertificationBody.id,
+      },
+    })
+    if (!certification) {
+      return res.json({
+        error: 'This certification does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const orderCreated = await Certification.update(CertificationBody, {
+      where: { id: CertificationBody.id },
+    })
+
+    return res.json({
+      msg: 'Certification updated',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
 module.exports = {
   getMyCertificates,
   addEmployeeCertificate,
   editEmployeeCertificate,
   deleteEmployeeCertificate,
-  addCertification
+  addCertification,
+  addCertificationProvider,
+  editCertificationProvider,
+  deleteCertificationProvider,
+  getCertificateProviders,
+  getCertificatesByProvider,
+  getCertificates,
 }

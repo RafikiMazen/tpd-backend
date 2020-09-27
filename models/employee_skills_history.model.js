@@ -4,10 +4,6 @@ const Skill = require('./skills.model')
 const { sequelize } = require('../config/dbConfig')
 
 var employeeSkillHistory = sequelize.define('employee_skills_history', {
-  experience_level: {
-    type: Sequelize.STRING(36),
-    primaryKey: true,
-  },
   last_used_date: {
     type: Sequelize.DATE,
   },

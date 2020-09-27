@@ -6,6 +6,7 @@ var Certification = sequelize.define('certifications', {
   certification_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   certification_name: {
     type: Sequelize.STRING(128),

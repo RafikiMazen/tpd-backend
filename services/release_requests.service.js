@@ -17,14 +17,6 @@ const getAllReleaseRequests = async (req, res) => {
         })
       })
     }
-    // let orderClause = []
-    // const sorting = req.body.Sorting
-
-    // if (sorting.type === 'DESC') {
-    //   orderClause = [sorting.by, 'DESC']
-    // } else {
-    //   orderClause = [sorting.by, 'ASC']
-    // }
     let result
 
     result = await ReleaseRequest.findAll({

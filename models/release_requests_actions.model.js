@@ -17,6 +17,6 @@ var ReleaseRequestAction = sequelize.define('release_requests_actions', {
 })
 
 ReleaseRequestAction.belongsTo(ReleaseRequest, {
-  foreignKey: 'release_request_reference_numbe',
+  foreignKey: 'request_reference_number',
 })
 module.exports = ReleaseRequestAction

@@ -56,21 +56,20 @@ const addEmployeeCertificate = async (req, res) => {
       })
     }
     const employee_id = employee.id
-    const certificate_id = req.body.certificate_id
+    const certification_name = req.body.certification_name
 
     // const resourceRequest = req.body.ResourceRequest
-    const checkRequest = await Certification.findOne({
-      id: certificate_id,
+    var checkCertification = await Certification.findOne({
+      certification_name: certification_name,
     })
-    if (!checkRequest) {
-      return res.json({
-        error: 'Certification Does not exist',
-        // statusCode: statusCodes.entityNotFound,
+    if (!checkCertification) {
+      checkCertification = await Certification.create({
+        certification_name: certification_name,
       })
     }
     const orderCreated = await EmployeeCertification.create({
       employee_id: employee_id,
-      certification_id: certificate_id,
+      certification_id: checkCertification.id,
       expiry_date: req.body.expiry_date,
     })
 

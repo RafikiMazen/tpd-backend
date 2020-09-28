@@ -310,7 +310,7 @@ const deleteResourceRequest = async (req, res) => {
       });
     }
 
-    const requestDeleted = await ResourceRequest.destroy(resourceRequest, {
+    const requestDeleted = await ResourceRequest.destroy({
       where: {
         reference_number: resourceRequest.reference_number,
       },

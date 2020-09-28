@@ -457,4 +457,5 @@ module.exports = {
   updateResourceRequestAction,
   getResourceRequestActions,
   deleteResourceRequestSkill,
+  exportAllResourceRequests,
 };

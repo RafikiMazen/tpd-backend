@@ -49,8 +49,6 @@ const getAllReleaseRequests = async (req, res) => {
 
 const exportAllReleaseRequests = async (req, res) => {
   try {
-    const page = req.body.Page
-    const limit = req.body.Limit
     const filters = req.body.Filters
     var filtersMainApplied = []
     if (filters) {
@@ -64,8 +62,6 @@ const exportAllReleaseRequests = async (req, res) => {
     let requests
 
     requests = await ReleaseRequest.findAll({
-      offset: page * limit,
-      limit,
       where: filtersMainApplied,
       order: [
         ['updatedAt', 'DESC'],

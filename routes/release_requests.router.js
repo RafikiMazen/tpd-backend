@@ -10,7 +10,7 @@ const {
   updateReleaseRequest,
   updateReleaseRequestAction,
   getReleaseRequestActions,
-  exportAllReleaseRequests
+  exportAllReleaseRequests,
 } = require('../services/release_requests.service')
 
 const {
@@ -23,6 +23,7 @@ const {
   validateDeleteReleaseRequestActions,
   validateUpdateReleaseRequestActions,
   validateAddReleaseRequestActions,
+  validateExportAllReleaseRequests,
 } = require('../middlewares/validations/release_request.validations')
 // const {
 //   verifyToken,
@@ -34,7 +35,11 @@ const {
 // } = require('../auth/verifyToken')
 
 router.post('/all', validateGetAllReleaseRequests, getAllReleaseRequests)
-router.post('/exportAll', validateGetAllReleaseRequests, exportAllReleaseRequests)
+router.post(
+  '/exportAll',
+  validateExportAllReleaseRequests,
+  exportAllReleaseRequests
+)
 router.post('/one', validateGetReleaseRequest, getReleaseRequest)
 router.post('/', validateAddReleaseRequest, addReleaseRequest)
 router.delete('/', validateDeleteReleaseRequest, deleteReleaseRequest)

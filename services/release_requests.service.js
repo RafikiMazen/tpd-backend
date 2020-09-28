@@ -107,6 +107,29 @@ const addReleaseRequest = async (req, res) => {
 
     const orderCreated = await ReleaseRequest.create(releaseRequest);
 
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.sender_email,
+        pass: process.env.sender_password,
+        authentication: "plain",
+      },
+    });
+    console.log(process.env.sender_email, process.env.sender_password);
+    var mailOptions = {
+      from: process.env.sender_email,
+      to: "antonywaseem@gmail.com",
+      subject: "New Release Request",
+      text: "A Release Request is Added",
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
     return res.json({
       msg: "Request successfully added",
       // statusCode: statusCodes.success,
@@ -132,35 +155,37 @@ const updateReleaseRequest = async (req, res) => {
         // statusCode: statusCodes.entityNotFound,
       });
     }
-    if (req.body.ReleaseRequest.request_status) {
-      // var transporter = nodemailer.createTransport({
-      //   service: 'gmail',
-      //   auth: {
-      //     user: process.env.sender_email,
-      //     pass: process.env.sender_password,
-      //     authentication: 'plain',
-      //   },
-      // })
-      // console.log(process.env.sender_email, process.env.sender_password)
-      // var mailOptions = {
-      //   from: process.env.sender_email,
-      //   to: 'rafeekmazen@gmail.com',
-      //   subject: 'Sending Email using Node.js',
-      //   text: 'That was easy!',
-      // }
-      // transporter.sendMail(mailOptions, function (error, info) {
-      //   if (error) {
-      //     console.log(error)
-      //   } else {
-      //     console.log('Email sent: ' + info.response)
-      //   }
-      // })
-    }
+
     const requestEdited = await ReleaseRequest.update(releaseRequest, {
       where: {
         reference_number: releaseRequest.reference_number,
       },
     });
+
+    if (req.body.ReleaseRequest.request_status) {
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.sender_email,
+          pass: process.env.sender_password,
+          authentication: "plain",
+        },
+      });
+      console.log(process.env.sender_email, process.env.sender_password);
+      var mailOptions = {
+        from: process.env.sender_email,
+        to: "antonywaseem@gmail.com",
+        subject: "Release Request is updated",
+        text: "A Release Request status is updated",
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+    }
 
     return res.json({
       msg: "Request successfully updated",

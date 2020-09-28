@@ -169,6 +169,29 @@ const addResourceRequest = async (req, res) => {
       }
     }
 
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.sender_email,
+        pass: process.env.sender_password,
+        authentication: "plain",
+      },
+    });
+    console.log(process.env.sender_email, process.env.sender_password);
+    var mailOptions = {
+      from: process.env.sender_email,
+      to: "antonywaseem@gmail.com",
+      subject: "New Resource Request",
+      text: "A Resource Request is Added",
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
     return res.json({
       msg: "Request successfully added",
       // statusCode: statusCodes.success,
@@ -214,6 +237,30 @@ const updateResourceRequest = async (req, res) => {
       },
     });
 
+    if (req.body.ReleaseRequest.request_status) {
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.sender_email,
+          pass: process.env.sender_password,
+          authentication: "plain",
+        },
+      });
+      console.log(process.env.sender_email, process.env.sender_password);
+      var mailOptions = {
+        from: process.env.sender_email,
+        to: "antonywaseem@gmail.com",
+        subject: "Resource Request is updated",
+        text: "A Resource Request status is updated",
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+    }
     return res.json({
       msg: "Request successfully updated",
       // statusCode: statusCodes.success,

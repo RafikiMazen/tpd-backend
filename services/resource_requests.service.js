@@ -156,7 +156,17 @@ const addResourceRequest = async (req, res) => {
   try {
     const resourceRequest = req.body.ResourceRequest
 
-    const orderCreated = await ResourceRequest.create(resourceRequest)
+    const requestCreated = await ResourceRequest.create(resourceRequest)
+    const skills = req.body.Skills
+    if (skills) {
+      for (const skill of skills) {
+        ResourceRequestSkill.create({
+          request_reference_number: requestCreated.id,
+          category: skill.category,
+          subcategory: skill.subcategory,
+        })
+      }
+    }
 
     return res.json({
       msg: 'Request successfully added',
@@ -205,6 +215,73 @@ const updateResourceRequest = async (req, res) => {
 
     return res.json({
       msg: 'Request successfully updated',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const deleteResourceRequestSkill = async (req, res) => {
+  try {
+    const resourceRequestSkill = req.body.ResourceRequestSkill
+    const checkRequest = await ResourceRequest.findOne({
+      reference_number: resourceRequestSkill.request_reference_number,
+    })
+    if (!checkRequest) {
+      return res.json({
+        error: 'Request Does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const requestDeleted = await ResourceRequestSkill.destroy(resourceRequestSkill, {
+      where: {
+        id: resourceRequestSkill.id,
+      },
+    })
+
+    return res.json({
+      msg: 'Request successfully deleted',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
+
+const addResourceRequestSkill = async (req, res) => {
+  try {
+    const resourceRequestSkill = req.body.ResourceRequestSkill
+    const checkRequest = await ResourceRequest.findOne({
+      reference_number: resourceRequestSkill.request_reference_number,
+    })
+    if (!checkRequest) {
+      return res.json({
+        error: 'Request Does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const requestDeleted = await ResourceRequestSkill.destroy(
+      resourceRequestSkill,
+      {
+        where: {
+          id: resourceRequestSkill.id,
+        },
+      }
+    )
+
+    return res.json({
+      msg: 'Request successfully deleted',
       // statusCode: statusCodes.success,
     })
   } catch (exception) {
@@ -375,4 +452,5 @@ module.exports = {
   updateResourceRequest,
   updateResourceRequestAction,
   getResourceRequestActions,
+  deleteResourceRequestSkill,
 }

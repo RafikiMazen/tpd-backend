@@ -56,6 +56,10 @@ const validateAddResourceRequest = (req, res, next) => {
       related_Opportunity: Joi.string().required(),
       comments: Joi.string(),
     }).required(),
+    Skills: Joi.object({
+      category: Joi.string().required(),
+      subcategory: Joi.string().required(),
+    }),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -66,28 +70,30 @@ const validateAddResourceRequest = (req, res, next) => {
   return next()
 }
 const validateUpdateReleaseRequest = (req, res, next) => {
-  const schema = Joi.object({
-    ReleaseRequest: Joi.object({
-      reference_number: Joi.number().required(),
-      manager_name: Joi.string(),
-      employee_name: Joi.string(),
-      function: Joi.string(),
-      title: Joi.string(),
-      release_date: Joi.date(),
-      propability: Joi.number(),
-      release_reason: Joi.string(),
-      leaving: Joi.string(),
-      request_status: Joi.string(),
-      release_percentage: Joi.number(),
-    }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
-  if (isValid.error) {
-    return res.json({
-      error: isValid.error.details[0].message,
-    })
-  }
-  return next()
+    const schema = Joi.object({
+        ReleaseRequest: Joi.object({
+          manager_name: Joi.string(),
+          function: Joi.string(),
+          title: Joi.string(),
+          replacement_for: Joi.string(),
+          replacement: Joi.string().max(1),
+          core_team_member: Joi.string().max(1),
+          requests_count: Joi.number().integer(),
+          propability: Joi.number().integer(),
+          percentage: Joi.number().integer(),
+          start_date: Joi.date(),
+          end_date: Joi.date(),
+          related_Opportunity: Joi.string(),
+          comments: Joi.string(),
+        }).required(),
+      })
+      const isValid = Joi.validate(req.body, schema)
+      if (isValid.error) {
+        return res.json({
+          error: isValid.error.details[0].message,
+        })
+      }
+      return next()
 }
 const validateDeleteReleaseRequest = (req, res, next) => {
   const schema = Joi.object({

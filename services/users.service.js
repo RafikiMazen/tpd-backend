@@ -43,7 +43,7 @@ const createAccount = async (req, res) => {
 
     var roles = req.body.roles
     if (!roles) {
-      roles = ['employee']
+      roles = ['Employee']
     }
     for (const role of roles) {
       const roleRecord = await Role.findOne({

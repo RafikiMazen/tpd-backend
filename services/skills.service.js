@@ -80,7 +80,6 @@ const addEmployeeSkill = async (req, res) => {
   try {
     const usertoken = req.headers.authorization
     const token = usertoken.split(' ')
-    console.log(token)
     const decoded = jwt.verify(token[0], process.env.JWT_KEY)
     const employee = await EmployeeProfile.findOne({
       where: { user_id: decoded.id },

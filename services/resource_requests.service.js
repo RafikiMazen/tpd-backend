@@ -2,6 +2,9 @@ const { filter } = require('compression')
 const ResourceRequestSkill = require('../models/resource_request_skills.model')
 const ResourceRequest = require('../models/resource_requests.model')
 const ResourceRequestAction = require('../models/resource_requests_actions.model')
+const flatten = require('flat').flatten
+const { Parser } = require('json2csv')
+const { releaseRequestStatus } = require('../constants/enums')
 
 //view resource requests list with fiters
 const getAllResourceRequests = async (req, res) => {
@@ -72,9 +75,86 @@ const getAllResourceRequests = async (req, res) => {
   }
 }
 
+const exportAllResourceRequests = async (req, res) => {
+  try {
+    const filters = req.body.Filters
+    var filtersMainApplied = []
+    var filtersSecondaryApplied = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        if (key === 'category' || key === 'subcategory') {
+          filtersSecondaryApplied.push({
+            [key]: filters[key],
+          })
+        } else {
+          filtersMainApplied.push({
+            [key]: filters[key],
+          })
+        }
+      })
+    }
+    let requests
+    ResourceRequest.hasMany(ResourceRequestSkill, {
+      foreignKey: 'request_reference_number',
+    })
+    if (filtersSecondaryApplied.length != 0) {
+      requests = await ResourceRequest.findAll({
+        where: filtersMainApplied,
+        order: [
+          ['updatedAt', 'DESC'],
+          ['reference_number', 'DESC'],
+        ],
+        include: [
+          {
+            model: ResourceRequestSkill,
+            where: filtersSecondaryApplied,
+            required: true,
+          },
+        ],
+      })
+    } else {
+      requests = await ResourceRequest.findAll({
+        where: filtersMainApplied,
+        order: [
+          ['updatedAt', 'DESC'],
+          ['reference_number', 'DESC'],
+        ],
+      })
+    }
+    const count = requests.length
+
+    const result = JSON.parse(JSON.stringify(requests))
+    var max_length = 0
+    var fields = []
+    var fieldNames = []
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length
+        fields = Object.keys(flatten(result[i]))
+        fieldNames = Object.keys(flatten(result[i]))
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    })
+    const data = parser.parse(result)
+    res.attachment('allReleaseRequests.csv')
+    res.status(200).send(data)
+    return
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
 const addResourceRequest = async (req, res) => {
   try {
-    const resourceRequest = req.body.ResourceeRequest
+    const resourceRequest = req.body.ResourceRequest
 
     const orderCreated = await ResourceRequest.create(resourceRequest)
 
@@ -94,12 +174,25 @@ const addResourceRequest = async (req, res) => {
 const updateResourceRequest = async (req, res) => {
   try {
     const resourceRequest = req.body.ResourceRequest
-    const checkCustomer = await ResourceRequest.findOne({
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    const checkRequest = await ResourceRequest.findOne({
       reference_number: resourceRequest.reference_number,
     })
-    if (!checkCustomer) {
+    if (!checkRequest) {
       return res.json({
         error: 'Request Does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    if (
+      checkRequest.status != releaseRequestStatus.OPEN &&
+      !decoded.roles.includes('TPD Team')
+    ) {
+      return res.json({
+        error: 'Request status is not open',
         // statusCode: statusCodes.entityNotFound,
       })
     }

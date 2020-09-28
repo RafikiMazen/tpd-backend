@@ -25,14 +25,13 @@ const {
   validateAddReleaseRequestActions,
   validateExportAllReleaseRequests,
 } = require('../middlewares/validations/release_request.validations')
-// const {
-//   verifyToken,
-//   verifyAdmin,
-//   verifySales,
-//   verifyTech,
-//   authorizeUser,
-//   authorizeEdit,
-// } = require('../auth/verifyToken')
+const {
+  verifyToken,
+  verifyEmployee,
+  verifyManager,
+  verifyTPD,
+  verifyTPDorManager,
+} = require('../auth/verifyToken')
 
 router.post('/all', validateGetAllReleaseRequests, getAllReleaseRequests)
 router.post(

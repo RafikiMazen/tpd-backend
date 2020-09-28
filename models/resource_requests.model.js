@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { sequelize } = require('../config/dbConfig')
-
+const { releaseRequestStatus } = require('../constants/enums')
 var ResourceRequest = sequelize.define('resource_requests', {
   reference_number: {
     type: Sequelize.INTEGER,
@@ -30,6 +30,7 @@ var ResourceRequest = sequelize.define('resource_requests', {
   },
   status: {
     type: Sequelize.STRING(32),
+    default: releaseRequestStatus.OPEN,
   },
   core_team_member: {
     type: Sequelize.STRING(1),
@@ -42,6 +43,7 @@ var ResourceRequest = sequelize.define('resource_requests', {
   },
   requests_count: {
     type: Sequelize.INTEGER,
+    default: 1,
   },
   related_opportunity: {
     type: Sequelize.STRING(128),

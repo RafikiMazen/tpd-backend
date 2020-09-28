@@ -19,19 +19,24 @@ const {
   validateDeleteEmployeeSkill,
   validateAddSkill,
 } = require('../middlewares/validations/skill.validations')
-// const {
-//   verifyToken,
-//   verifyAdmin,
-//   verifySales,
-//   verifyTech,
-//   authorizeUser,
-//   authorizeEdit,
-// } = require('../auth/verifyToken')
+const {
+  verifyToken,
+  verifyEmployee,
+  verifyManager,
+  verifyTPD,
+  verifyTPDorManager,
+} = require('../auth/verifyToken')
 
 router.get('/my', validateGetMySkills, getMySkills)
 router.get('/categories', getCategories)
 router.post('/subcategories', validateGetSubcategories, getSubCategories)
-router.post('/employee', validateAddEmployeeSkill, addEmployeeSkill)
+router.post(
+  '/employee',
+  verifyToken,
+  verifyEmployee,
+  validateAddEmployeeSkill,
+  addEmployeeSkill
+)
 router.put('/employee', validateEditEmployeeSkill, editEmployeeSkill)
 router.delete('/employee', validateDeleteEmployeeSkill, deleteEmployeeSkill)
 router.post('/', validateAddSkill, addSkill)

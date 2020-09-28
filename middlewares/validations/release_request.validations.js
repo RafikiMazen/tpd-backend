@@ -48,16 +48,16 @@ const validateUpdateReleaseRequest = (req, res, next) => {
   const schema = Joi.object({
     ReleaseRequest: Joi.object({
       reference_number: Joi.number().required(),
-      manager_name: Joi.string().required(),
-      employee_name: Joi.string().required(),
-      function: Joi.string().required(),
-      title: Joi.string().required(),
-      release_date: Joi.date().required(),
-      propability: Joi.number().required(),
-      release_reason: Joi.string().required(),
+      manager_name: Joi.string(),
+      employee_name: Joi.string(),
+      function: Joi.string(),
+      title: Joi.string(),
+      release_date: Joi.date(),
+      propability: Joi.number(),
+      release_reason: Joi.string(),
       leaving: Joi.string(),
-      request_status: Joi.string().required(),
-      release_percentage: Joi.number().required(),
+      request_status: Joi.string(),
+      release_percentage: Joi.number(),
     }).required(),
   });
   const isValid = Joi.validate(req.body, schema);

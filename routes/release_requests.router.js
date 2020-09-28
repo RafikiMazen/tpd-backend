@@ -10,6 +10,7 @@ const {
   updateReleaseRequest,
   updateReleaseRequestAction,
   getReleaseRequestActions,
+  exportAllReleaseRequests
 } = require('../services/release_requests.service')
 
 const {
@@ -33,6 +34,7 @@ const {
 // } = require('../auth/verifyToken')
 
 router.post('/all', validateGetAllReleaseRequests, getAllReleaseRequests)
+router.post('/exportAll', validateGetAllReleaseRequests, exportAllReleaseRequests)
 router.post('/one', validateGetReleaseRequest, getReleaseRequest)
 router.post('/', validateAddReleaseRequest, addReleaseRequest)
 router.delete('/', validateDeleteReleaseRequest, deleteReleaseRequest)

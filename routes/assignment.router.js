@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {getMyCertificates} = require('../services/assignments.service')
+const { getMyAssignmentsHistory } = require('../services/assignments.service')
 
 // const {} = require('../middleware/validations/assignments.validations')
 // const {
@@ -13,6 +13,6 @@ const {getMyCertificates} = require('../services/assignments.service')
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-router.get('/my', getMyCertificates)
+router.get('/history', getMyAssignmentsHistory)
 
 module.exports = router

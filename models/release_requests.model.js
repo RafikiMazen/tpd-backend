@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const EmployeeProfile = require('./employee_profiles.model')
 const { sequelize } = require('../config/dbConfig')
+const { releaseRequestStatus } = require('../constants/enums')
 
 var ReleaseRequest = sequelize.define('release_requests', {
   reference_number: {
@@ -40,6 +41,7 @@ var ReleaseRequest = sequelize.define('release_requests', {
   },
   request_status: {
     type: Sequelize.STRING(32),
+    default: releaseRequestStatus.OPEN,
   },
 })
 ReleaseRequest.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })

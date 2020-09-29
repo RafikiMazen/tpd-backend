@@ -56,10 +56,12 @@ const validateAddResourceRequest = (req, res, next) => {
       related_Opportunity: Joi.string().required(),
       comments: Joi.string(),
     }).required(),
-    Skills: Joi.object({
-      category: Joi.string().required(),
-      subcategory: Joi.string().required(),
-    }),
+    Skills: Joi.array().items(
+      Joi.object({
+        category: Joi.string().required(),
+        subcategory: Joi.string().required(),
+      })
+    ),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {

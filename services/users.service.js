@@ -57,7 +57,7 @@ const createAccount = async (req, res) => {
       const user = await User.create({
         user_name: account.user_name,
         password: account.password,
-        email: account.emails,
+        email: account.email,
       })
 
       const userRole = await UserRole.create({

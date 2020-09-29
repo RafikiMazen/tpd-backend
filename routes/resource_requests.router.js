@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const {
   getAllResourceRequests,
@@ -11,19 +11,23 @@ const {
   updateResourceRequestAction,
   getResourceRequestActions,
   exportAllResourceRequests,
-} = require("../services/resource_requests.service");
+  addResourceRequestSkill,
+  deleteResourceRequestSkill,
+} = require('../services/resource_requests.service')
 
-// const {
-//   validateGetAllResourceRequests,
-//   validateAddResourceRequest,
-//   validateUpdateResourceRequest,
-//   validateDeleteResourceRequest,
-//   validateGetResourceRequest,
-//   validateGetResourceRequestActions,
-//   validateDeleteResourceRequestActions,
-//   validateUpdateResourceRequestActions,
-//   validateAddResourceRequestActions,
-// } = require('../middlewares/validations/resourcerequest.validations')
+const {
+  validateGetAllResourceRequests,
+  validateAddResourceRequest,
+  validateUpdateResourceRequest,
+  validateDeleteResourceRequest,
+  validateGetResourceRequest,
+  validateGetResourceRequestActions,
+  validateUpdateResourceRequestActions,
+  validateAddResourceRequestActions,
+  validateExportAllResourceRequests,
+  validateAddResourceRequestSkill,
+  validateDeleteResourceRequestSkill,
+} = require('../middlewares/validations/resource_request.validations')
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -33,52 +37,37 @@ const {
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
+router.post('/all', validateGetAllResourceRequests, getAllResourceRequests)
+router.post('/', validateAddResourceRequest, addResourceRequest)
 router.post(
-  "/all",
-  //  validateGetAllResourceRequests,
-  getAllResourceRequests
-);
-router.post(
-  "/",
-  // validateAddResourceRequest,
-  addResourceRequest
-);
-router.post("/exportAll", exportAllResourceRequests);
-
+  '/exportAll',
+  validateExportAllResourceRequests,
+  exportAllResourceRequests
+)
+router.post('/skill', validateAddResourceRequestSkill, addResourceRequestSkill)
 router.delete(
-  "/",
-  //  validateDeleteResourceRequest,
-  deleteResourceRequest
-);
-router.put(
-  "/",
-  //  validateUpdateResourceRequest,
-  updateResourceRequest
-);
-router.post(
-  "/one",
-  // validateGetResourceRequest,
-  getResourceRequest
-);
-router.get(
-  "/action/",
-  // validateGetResourceRequestActions,
-  getResourceRequestActions
-);
-// router.delete(
-//   '/action',
-//   validateDeleteResourceRequestActions,
-//   deleteResourceRequestAction
-// )
-router.post(
-  "/action",
-  // validateAddResourceRequestActions,
-  addResourceRequestِAction
-);
-router.put(
-  "/action",
-  // validateUpdateResourceRequestActions,
-  updateResourceRequestAction
-);
+  '/skill',
+  validateDeleteResourceRequestSkill,
+  deleteResourceRequestSkill
+)
 
-module.exports = router;
+router.delete('/', validateDeleteResourceRequest, deleteResourceRequest)
+router.put('/', validateUpdateResourceRequest, updateResourceRequest)
+router.post('/one', validateGetResourceRequest, getResourceRequest)
+router.post(
+  '/action/all',
+  validateGetResourceRequestActions,
+  getResourceRequestActions
+)
+router.post(
+  '/action',
+  validateAddResourceRequestActions,
+  addResourceRequestِAction
+)
+router.put(
+  '/action',
+  validateUpdateResourceRequestActions,
+  updateResourceRequestAction
+)
+
+module.exports = router

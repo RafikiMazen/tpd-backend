@@ -161,7 +161,7 @@ const validateGetResourceRequestActions = (req, res, next) => {
   }
   return next()
 }
-const validateAddResourceeRequestActions = (req, res, next) => {
+const validateAddResourceRequestActions = (req, res, next) => {
   const schema = Joi.object({
     ResourceRequestAction: Joi.object({
       request_reference_number: Joi.number().required(),
@@ -195,16 +195,16 @@ const validateUpdateResourceRequestActions = (req, res, next) => {
   return next()
 }
 
-
 module.exports = {
   validateGetAllResourceRequests,
-  validateAddReleaseRequest: validateAddResourceRequest,
-  validateUpdateReleaseRequest,
-  validateDeleteReleaseRequest,
-  validateGetReleaseRequest,
-  validateGetReleaseRequestActions,
-  validateDeleteReleaseRequestActions,
-  validateUpdateReleaseRequestActions,
-  validateAddReleaseRequestActions,
-  validateExportAllReleaseRequests: validateExportAllResourceRequests,
+  validateAddResourceRequest,
+  validateUpdateResourceRequest,
+  validateDeleteResourceRequest,
+  validateGetResourceRequest,
+  validateGetResourceRequestActions,
+  validateUpdateResourceRequestActions,
+  validateAddResourceRequestActions,
+  validateExportAllResourceRequests,
+  validateDeleteResourceRequestSkill,
+  validateAddResourceRequestSkill,
 }

@@ -6,4 +6,5 @@ const { sequelize } = require('../config/dbConfig')
 var UserRole = sequelize.define('users_role', {})
 UserRole.belongsTo(User, { foreignKey: 'user_id' })
 UserRole.belongsTo(Role, { foreignKey: 'role_id' })
+Role.hasMany(UserRole,{foreignKey:'role_id'})
 module.exports = UserRole

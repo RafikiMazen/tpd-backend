@@ -7,6 +7,9 @@ const { Parser } = require('json2csv')
 const { releaseRequestStatus } = require('../constants/enums')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
+const Role = require('../models/role.model')
+const UserRole = require('../models/user_role.model')
+const User = require('../models/users.model')
 
 //view resource requests list with fiters
 const getAllResourceRequests = async (req, res) => {
@@ -171,6 +174,17 @@ const addResourceRequest = async (req, res) => {
         })
       }
     }
+    var emails = []
+    const sendList = await Role.findAll({
+      where: { role_name: 'TPD Team' },
+      include: [{ model: UserRole, include: [{ model: User }] }],
+    })
+    // console.log(sendList)
+    for (const contact of sendList) {
+      for (const userrole of contact.users_roles) {
+        emails.push(userrole.user.email)
+      }
+    }
 
     var transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -180,10 +194,9 @@ const addResourceRequest = async (req, res) => {
         authentication: 'plain',
       },
     })
-    console.log(process.env.sender_email, process.env.sender_password)
     var mailOptions = {
       from: process.env.sender_email,
-      to: 'antonywaseem@gmail.com',
+      to: emails,
       subject: 'New Resource Request',
       text: 'A Resource Request is Added',
     }
@@ -241,6 +254,17 @@ const updateResourceRequest = async (req, res) => {
     })
 
     if (req.body.ReleaseRequest.request_status) {
+      var emails = []
+      const sendList = await Role.findAll({
+        where: { role_name: 'TPD Team' },
+        include: [{ model: UserRole, include: [{ model: User }] }],
+      })
+      // console.log(sendList)
+      for (const contact of sendList) {
+        for (const userrole of contact.users_roles) {
+          emails.push(userrole.user.email)
+        }
+      }
       var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -249,10 +273,9 @@ const updateResourceRequest = async (req, res) => {
           authentication: 'plain',
         },
       })
-      console.log(process.env.sender_email, process.env.sender_password)
       var mailOptions = {
         from: process.env.sender_email,
-        to: 'antonywaseem@gmail.com',
+        to: emails,
         subject: 'Resource Request is updated',
         text: 'A Resource Request status is updated',
       }

@@ -10,6 +10,7 @@ const {
   updateResourceRequest,
   updateResourceRequestAction,
   getResourceRequestActions,
+  exportAllResourceRequests,
 } = require("../services/resource_requests.service");
 
 // const {
@@ -42,6 +43,8 @@ router.post(
   // validateAddResourceRequest,
   addResourceRequest
 );
+router.post("/exportAll", exportAllResourceRequests);
+
 router.delete(
   "/",
   //  validateDeleteResourceRequest,

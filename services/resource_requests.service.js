@@ -161,7 +161,7 @@ const addResourceRequest = async (req, res) => {
     if (skills) {
       for (const skill of skills) {
         ResourceRequestSkill.create({
-          request_reference_number: requestCreated.id,
+          request_reference_number: requestCreated.reference_number,
           category: skill.category,
           subcategory: skill.subcategory,
         })
@@ -229,19 +229,19 @@ const updateResourceRequest = async (req, res) => {
 const deleteResourceRequestSkill = async (req, res) => {
   try {
     const resourceRequestSkill = req.body.ResourceRequestSkill
-    const checkRequest = await ResourceRequest.findOne({
-      reference_number: resourceRequestSkill.request_reference_number,
+    const checkRequest = await ResourceRequestSkill.findOne({
+      skill_id: resourceRequestSkill.skill_id,
     })
     if (!checkRequest) {
       return res.json({
-        error: 'Request Does not exist',
+        error: 'Skill Does not exist',
         // statusCode: statusCodes.entityNotFound,
       })
     }
 
-    const requestDeleted = await ResourceRequestSkill.destroy(resourceRequestSkill, {
+    const requestDeleted = await ResourceRequestSkill.destroy({
       where: {
-        id: resourceRequestSkill.id,
+        skill_id: resourceRequestSkill.skill_id,
       },
     })
 
@@ -271,17 +271,17 @@ const addResourceRequestSkill = async (req, res) => {
       })
     }
 
-    const requestDeleted = await ResourceRequestSkill.destroy(
+    const requestSkill = await ResourceRequestSkill.create(
       resourceRequestSkill,
       {
         where: {
-          id: resourceRequestSkill.id,
+          skill_id: resourceRequestSkill.skill_id,
         },
       }
     )
 
     return res.json({
-      msg: 'Request successfully deleted',
+      msg: 'Skill successfully added',
       // statusCode: statusCodes.success,
     })
   } catch (exception) {
@@ -295,7 +295,7 @@ const addResourceRequestSkill = async (req, res) => {
 
 const deleteResourceRequest = async (req, res) => {
   try {
-    const resourceRequest = req.body.ResourceRequest
+    const resourceRequest = req.body
     const checkCustomer = await ResourceRequest.findOne({
       reference_number: resourceRequest.reference_number,
     })
@@ -306,7 +306,7 @@ const deleteResourceRequest = async (req, res) => {
       })
     }
 
-    const requestDeleted = await ResourceRequest.destroy(resourceRequest, {
+    const requestDeleted = await ResourceRequest.destroy({
       where: {
         reference_number: resourceRequest.reference_number,
       },
@@ -329,8 +329,7 @@ const getResourceRequest = async (req, res) => {
   try {
     const resourceRequest = await ResourceRequest.findOne({
       where: {
-        request_reference_number:
-          req.body.ResourceRequest.request_reference_number,
+        reference_number: req.body.reference_number,
       },
     })
     if (!resourceRequest) {
@@ -358,7 +357,7 @@ const addResourceRequestِAction = async (req, res) => {
 
     // const resourceRequest = req.body.ResourceRequest
     const checkRequest = await ResourceRequest.findOne({
-      request_reference_number: req.body.request_reference_number,
+      request_reference_number: resourceRequestAction.request_reference_number,
     })
     if (!checkRequest) {
       return res.json({
@@ -419,7 +418,7 @@ const updateResourceRequestAction = async (req, res) => {
 const getResourceRequestActions = async (req, res) => {
   try {
     const resourceRequest = await ResourceRequest.findOne({
-      where: { reference_number: req.body.ResourceRequest.reference_number },
+      where: { reference_number: req.body.reference_number },
     })
     if (!resourceRequest) {
       return res.json({
@@ -428,7 +427,7 @@ const getResourceRequestActions = async (req, res) => {
       })
     }
     const resourceRequestActions = await ResourceRequestAction.findAll({
-      where: { reference_number: req.body.ResourceRequest.reference_number },
+      where: { reference_number: req.body.reference_number },
     })
     return res.json({
       ResourceRequestActions: resourceRequestActions,

@@ -41,7 +41,7 @@ const validateExportAllResourceRequests = (req, res, next) => {
 }
 const validateAddResourceRequest = (req, res, next) => {
   const schema = Joi.object({
-    ReleaseRequest: Joi.object({
+    ResourceRequest: Joi.object({
       manager_name: Joi.string().required(),
       function: Joi.string().required(),
       title: Joi.string().required(),
@@ -69,36 +69,22 @@ const validateAddResourceRequest = (req, res, next) => {
   }
   return next()
 }
-const validateUpdateReleaseRequest = (req, res, next) => {
-    const schema = Joi.object({
-        ReleaseRequest: Joi.object({
-          manager_name: Joi.string(),
-          function: Joi.string(),
-          title: Joi.string(),
-          replacement_for: Joi.string(),
-          replacement: Joi.string().max(1),
-          core_team_member: Joi.string().max(1),
-          requests_count: Joi.number().integer(),
-          propability: Joi.number().integer(),
-          percentage: Joi.number().integer(),
-          start_date: Joi.date(),
-          end_date: Joi.date(),
-          related_Opportunity: Joi.string(),
-          comments: Joi.string(),
-        }).required(),
-      })
-      const isValid = Joi.validate(req.body, schema)
-      if (isValid.error) {
-        return res.json({
-          error: isValid.error.details[0].message,
-        })
-      }
-      return next()
-}
-const validateDeleteReleaseRequest = (req, res, next) => {
+const validateUpdateResourceRequest = (req, res, next) => {
   const schema = Joi.object({
-    ReleaseRequest: Joi.object({
-      reference_number: Joi.number().required(),
+    ResourceRequest: Joi.object({
+      manager_name: Joi.string(),
+      function: Joi.string(),
+      title: Joi.string(),
+      replacement_for: Joi.string(),
+      replacement: Joi.string().max(1),
+      core_team_member: Joi.string().max(1),
+      requests_count: Joi.number().integer(),
+      propability: Joi.number().integer(),
+      percentage: Joi.number().integer(),
+      start_date: Joi.date(),
+      end_date: Joi.date(),
+      related_Opportunity: Joi.string(),
+      comments: Joi.string(),
     }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
@@ -109,10 +95,13 @@ const validateDeleteReleaseRequest = (req, res, next) => {
   }
   return next()
 }
-const validateGetReleaseRequest = (req, res, next) => {
+
+const validateAddResourceRequestSkill = (req, res, next) => {
   const schema = Joi.object({
-    ReleaseRequest: Joi.object({
-      reference_number: Joi.number().required(),
+    ResourceRequestSkill: Joi.object({
+      subcategory: Joi.string().required(),
+      category: Joi.string().required(),
+      request_reference_number: Joi.number().integer().required(),
     }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
@@ -123,10 +112,61 @@ const validateGetReleaseRequest = (req, res, next) => {
   }
   return next()
 }
-const validateGetReleaseRequestActions = (req, res, next) => {
+const validateDeleteResourceRequestSkill = (req, res, next) => {
   const schema = Joi.object({
-    ReleaseRequestAction: Joi.object({
+    skill_id: Joi.number().integer().required(),
+  })
+  const isValid = Joi.validate(req.body, schema)
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    })
+  }
+  return next()
+}
+
+const validateDeleteResourceRequest = (req, res, next) => {
+  const schema = Joi.object({
+    reference_number: Joi.number().required(),
+  })
+  const isValid = Joi.validate(req.body, schema)
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    })
+  }
+  return next()
+}
+const validateGetResourceRequest = (req, res, next) => {
+  const schema = Joi.object({
+    reference_number: Joi.number().required(),
+  })
+  const isValid = Joi.validate(req.body, schema)
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    })
+  }
+  return next()
+}
+const validateGetResourceRequestActions = (req, res, next) => {
+  const schema = Joi.object({
+    reference_number: Joi.number().required(),
+  })
+  const isValid = Joi.validate(req.body, schema)
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    })
+  }
+  return next()
+}
+const validateAddResourceeRequestActions = (req, res, next) => {
+  const schema = Joi.object({
+    ResourceRequestAction: Joi.object({
       request_reference_number: Joi.number().required(),
+      action: Joi.string().required(),
+      action_note: Joi.string().required(),
     }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
@@ -137,28 +177,13 @@ const validateGetReleaseRequestActions = (req, res, next) => {
   }
   return next()
 }
-const validateAddReleaseRequestActions = (req, res, next) => {
+const validateUpdateResourceRequestActions = (req, res, next) => {
   const schema = Joi.object({
-    ReleaseRequestAction: Joi.object({
+    ResourceRequestAction: Joi.object({
+      action_id: Joi.number().required(),
       request_reference_number: Joi.number().required(),
-      action: Joi.string().required,
-      action_note: Joi.string(),
-    }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
-  if (isValid.error) {
-    return res.json({
-      error: isValid.error.details[0].message,
-    })
-  }
-  return next()
-}
-const validateUpdateReleaseRequestActions = (req, res, next) => {
-  const schema = Joi.object({
-    ReleaseRequestAction: Joi.object({
-      request_reference_number: Joi.number().required(),
-      action: Joi.string(),
-      action_note: Joi.string(),
+      action: Joi.string().required(),
+      action_note: Joi.string().required(),
     }).required,
   })
   const isValid = Joi.validate(req.body, schema)
@@ -169,20 +194,7 @@ const validateUpdateReleaseRequestActions = (req, res, next) => {
   }
   return next()
 }
-const validateDeleteReleaseRequestActions = (req, res, next) => {
-  const schema = Joi.object({
-    ReleaseRequestAction: Joi.object({
-      request_reference_number: Joi.number().required(),
-    }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
-  if (isValid.error) {
-    return res.json({
-      error: isValid.error.details[0].message,
-    })
-  }
-  return next()
-}
+
 
 module.exports = {
   validateGetAllResourceRequests,

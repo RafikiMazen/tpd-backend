@@ -21,8 +21,8 @@ const validateAddAssignment = (req, res, next) => {
       sdm_reporting_manager: Joi.string().required(),
       allocation_percentage: Joi.number().required(),
       start_date: Joi.date().required(),
-      release_date:Joi.date()
-
+      release_date: Joi.date(),
+      employee_id: Joi.number().required(),
     }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
@@ -33,4 +33,4 @@ const validateAddAssignment = (req, res, next) => {
   }
   return next()
 }
-module.exports = { validateEmployeeAssignment }
+module.exports = { validateEmployeeAssignment, validateAddAssignment }

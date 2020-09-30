@@ -6,10 +6,12 @@ const {
   getMyAssignments,
   getEmployeeAssignments,
   getEmployeeAssignmentsHistory,
+  addAssignment,
 } = require('../services/assignments.service')
 
 const {
   validateEmployeeAssignment,
+  validateAddAssignment,
 } = require('../middlewares/validations/assignment.validations')
 // const {
 //   verifyToken,
@@ -21,6 +23,7 @@ const {
 // } = require('../auth/verifyToken')
 
 router.get('/history', getMyAssignmentsHistory)
+router.post('/', validateAddAssignment, addAssignment)
 router.post(
   '/history/empoloyee',
   validateEmployeeAssignment,

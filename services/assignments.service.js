@@ -33,25 +33,31 @@ const getMyAssignmentsHistory = async (req, res) => {
   }
 }
 
-const addAssignment = async(req,res)=>{
-try{
-  const assignment = req.body.Skill
- 
+const addAssignment = async (req, res) => {
+  try {
+    const assignment = req.body.Assignment
+    const result = await EmployeeProfile.findAll({
+      where: [{ user_id: assignment.employee_id }],
+    })
+    if (!result) {
+      return res.json({
+        error: 'Employee does not exist',
+      })
+    }
 
-  const orderCreated = await Assignment.create(assignment)
+    const orderCreated = await Assignment.create(assignment)
 
-  return res.json({
-    msg: 'Assignment added',
-    // statusCode: statusCodes.success,
-  })
-}catch (exception) {
+    return res.json({
+      msg: 'Assignment added',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
     console.log(exception)
     return res.json({
       error: 'Something went wrong',
     })
   }
 }
-
 
 const getMyAssignments = async (req, res) => {
   try {

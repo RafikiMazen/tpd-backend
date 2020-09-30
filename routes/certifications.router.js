@@ -16,6 +16,8 @@ const {
   deleteCertification,
   editCertification,
   exportCertificateProviders,
+  getCertificateHistory,
+  exportCertificateHistory,
 } = require('../services/certificates.service')
 
 const {
@@ -30,6 +32,7 @@ const {
   validateGetAllCertificates,
   validateDeleteCertification,
   validateEditCertification,
+  validateGetAllCertificatesHistory,
 } = require('../middlewares/validations/certificate.validations')
 // const {
 //   verifyToken,
@@ -40,6 +43,16 @@ const {
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
+router.post(
+  '/history',
+  validateGetAllCertificatesHistory,
+  getCertificateHistory
+)
+router.post(
+  '/history/export',
+  validateGetAllCertificatesHistory,
+  exportCertificateHistory
+)
 router.get('/my', getMyCertificates)
 router.post('/employee', validateAddEmployeeCertificate, addEmployeeCertificate)
 router.put(

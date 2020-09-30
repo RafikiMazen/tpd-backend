@@ -56,9 +56,15 @@ const getAllSkillHistory = async (req, res) => {
             [key]: filters[key],
           })
         } else {
-          filtersEmployee.push({
-            [key]: filters[key],
-          })
+          if (key == 'employee_id') {
+            filtersEmployee.push({
+              id: filters[key],
+            })
+          } else {
+            filtersEmployee.push({
+              [key]: filters[key],
+            })
+          }
         }
       })
     }
@@ -122,10 +128,11 @@ const exportSkillHistory = async (req, res) => {
             filtersEmployee.push({
               id: filters[key],
             })
+          } else {
+            filtersEmployee.push({
+              [key]: filters[key],
+            })
           }
-          filtersEmployee.push({
-            [key]: filters[key],
-          })
         }
       })
     }

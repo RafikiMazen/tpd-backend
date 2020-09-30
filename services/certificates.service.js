@@ -9,6 +9,7 @@ const EmployeeCertification = require('../models/employee_certifications.model')
 const CertificationProvider = require('../models/certification_providers.model')
 const flatten = require('flat').flatten
 const { Parser } = require('json2csv')
+const CertificationHistory = require('../models/certifications_history.model')
 const getMyCertificates = async (req, res) => {
   try {
     const usertoken = req.headers.authorization
@@ -403,8 +404,6 @@ const getCertificatesByProvider = async (req, res) => {
 
 const getCertificates = async (req, res) => {
   try {
-    const page = req.body.Page
-    const limit = req.body.Limit
     const filters = req.body.Filters
     var filtersMainApplied = []
     if (filters) {
@@ -418,8 +417,8 @@ const getCertificates = async (req, res) => {
     let result
 
     result = await Certification.findAll({
-      offset: page * limit,
-      limit,
+      // offset: page * limit,
+      // limit,
       include: [
         { model: CertificationProvider },
         { where: filtersMainApplied },
@@ -446,8 +445,6 @@ const getCertificates = async (req, res) => {
 
 const exportCertificates = async (req, res) => {
   try {
-    const page = req.body.Page
-    const limit = req.body.Limit
     const filters = req.body.Filters
     var filtersMainApplied = []
     if (filters) {
@@ -461,8 +458,8 @@ const exportCertificates = async (req, res) => {
     let certifications
 
     certifications = await Certification.findAll({
-      offset: page * limit,
-      limit,
+      // offset: page * limit,
+      // limit,
       include: [
         { model: CertificationProvider },
         { where: filtersMainApplied },
@@ -567,6 +564,175 @@ const editCertification = async (req, res) => {
   }
 }
 
+const getCertificateHistory = async (req, res) => {
+  try {
+    const page = req.body.Page
+    const limit = req.body.Limit
+    const filters = req.body.Filters
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    var filtersCertification = []
+    var filtersCertificationProvider = []
+    var filtersEmployee = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        if (key == 'certification_id') {
+          filtersCertification.push({
+            [key]: filters[key],
+          })
+        } else {
+          if (key == 'employee_id') {
+            filtersEmployee.push({
+              id: filters[key],
+            })
+          } else {
+            if (key == 'certification_provider_id')
+              filtersCertificationProvider.push({
+                [key]: filters[key],
+              })
+          }
+        }
+      })
+    }
+    let certificationHistories
+
+    certificationHistories = await CertificationHistory.findAll({
+      offset: page * limit,
+      limit,
+      // where: filtersSkill,
+      order: [
+        ['updatedAt', 'DESC'],
+        ['id', 'DESC'],
+      ],
+      include: [
+        {
+          model: Certification,
+          where: filtersCertification,
+          include: [
+            {
+              model: EmployeeCertification,
+              include: [
+                { model: EmployeeProfile, where: filtersEmployee },
+                {
+                  model: CertificationProvider,
+                  where: filtersCertificationProvider,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+    const count = certificationHistories.length
+
+    return res.json({
+      ReleaseRequests: certificationHistories,
+      count,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
+const exportCertificateHistory = async (req, res) => {
+  try {
+    const page = req.body.Page
+    const limit = req.body.Limit
+    const filters = req.body.Filters
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    var filtersCertification = []
+    var filtersCertificationProvider = []
+    var filtersEmployee = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        if (key == 'certification_id') {
+          filtersCertification.push({
+            [key]: filters[key],
+          })
+        } else {
+          if (key == 'employee_id') {
+            filtersEmployee.push({
+              id: filters[key],
+            })
+          } else {
+            if (key == 'certification_provider_id')
+              filtersCertificationProvider.push({
+                [key]: filters[key],
+              })
+          }
+        }
+      })
+    }
+    let certificationHistories
+
+    certificationHistories = await CertificationHistory.findAll({
+      offset: page * limit,
+      limit,
+      // where: filtersSkill,
+      order: [
+        ['updatedAt', 'DESC'],
+        ['id', 'DESC'],
+      ],
+      include: [
+        {
+          model: Certification,
+          where: filtersCertification,
+          include: [
+            {
+              model: EmployeeCertification,
+              include: [
+                { model: EmployeeProfile, where: filtersEmployee },
+                {
+                  model: CertificationProvider,
+                  where: filtersCertificationProvider,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+    const count = certificationHistories.length
+
+    res.set('Content-Type', 'application/octet-stream')
+    const result = JSON.parse(JSON.stringify(certificationHistories))
+    var max_length = 0
+    var fields = []
+    var fieldNames = []
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length
+        fields = Object.keys(flatten(result[i]))
+        fieldNames = Object.keys(flatten(result[i]))
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    })
+    const data = parser.parse(result)
+    res.attachment('CertificationHistory.csv')
+    res.status(200).send(data)
+
+    return
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
 module.exports = {
   getMyCertificates,
   addEmployeeCertificate,
@@ -583,4 +749,6 @@ module.exports = {
   editCertification,
   exportCertificates,
   exportCertificateProviders,
+  getCertificateHistory,
+  exportCertificateHistory,
 }

@@ -209,7 +209,9 @@ const addCertification = async (req, res) => {
       })
     }
     const provider = await CertificationProvider.findOne({
-      where: { id: CertificationBody.certification_provider_id },
+      where: {
+        certification_provider_id: CertificationBody.certification_provider_id,
+      },
     })
     if (!provider) {
       return res.json({
@@ -269,7 +271,7 @@ const editCertificationProvider = async (req, res) => {
     const CertificationBody = req.body.CertificationProvider
     const certification = await CertificationProvider.findOne({
       where: {
-        id: CertificationBody.id,
+        certification_provider_id: CertificationBody.certification_provider_id,
       },
     })
     if (!certification) {
@@ -280,7 +282,9 @@ const editCertificationProvider = async (req, res) => {
     }
 
     const orderCreated = await CertificationProvider.update(CertificationBody, {
-      where: { id: CertificationBody.id },
+      where: {
+        certification_provider_id: CertificationBody.certification_provider_id,
+      },
     })
 
     return res.json({
@@ -312,7 +316,9 @@ const deleteCertificationProvider = async (req, res) => {
     }
 
     const orderCreated = await CertificationProvider.destroy({
-      where: { id: CertificationBody.id },
+      where: {
+        certification_provider_id: CertificationBody.certification_provider_id,
+      },
     })
 
     return res.json({

@@ -13,7 +13,7 @@ const validateEmployeeAssignment = (req, res, next) => {
   return next()
 }
 
-const validateMyAssignment = (req, res, next) => {
+const validateAddAssignment = (req, res, next) => {
   const schema = Joi.object({
     employee_id: Joi.string().required(),
   })

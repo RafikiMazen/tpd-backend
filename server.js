@@ -20,7 +20,7 @@ sequelize
   })
 const eraseDatabaseOnSync = false
 sequelize
-  .sync({ force: eraseDatabaseOnSync, alter: true })
+  .sync({ force: eraseDatabaseOnSync, alter: false })
   .then(() => {
     console.log('Synced models with database 💃 .')
   })

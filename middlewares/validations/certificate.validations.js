@@ -74,7 +74,7 @@ const validateAddCertificationProvider = (req, res, next) => {
 const validateEditCertificationProvider = (req, res, next) => {
   const schema = Joi.object({
     CertificationProvider: Joi.object({
-      certificate_provider_id: Joi.number().integer().required(),
+      certification_provider_id: Joi.number().integer().required(),
       certification_provider_name: Joi.string().required(),
     }).required(),
   })

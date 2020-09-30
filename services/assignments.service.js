@@ -51,7 +51,7 @@ try{
     })
   }
 }
-}
+
 
 const getMyAssignments = async (req, res) => {
   try {

@@ -305,7 +305,7 @@ const deleteCertificationProvider = async (req, res) => {
     const CertificationBody = req.body.CertificationProvider
     const certification = await CertificationProvider.findOne({
       where: {
-        id: CertificationBody.id,
+        certification_provider_id: CertificationBody.certification_provider_id,
       },
     })
     if (!certification) {

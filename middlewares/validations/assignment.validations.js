@@ -15,7 +15,15 @@ const validateEmployeeAssignment = (req, res, next) => {
 
 const validateAddAssignment = (req, res, next) => {
   const schema = Joi.object({
-    employee_id: Joi.string().required(),
+    Assignment: Joi.object({
+      workgroup: Joi.string().required(),
+      cost_center: Joi.string().required(),
+      sdm_reporting_manager: Joi.string().required(),
+      allocation_percentage: Joi.number().required(),
+      start_date: Joi.date().required(),
+      release_date:Joi.date()
+
+    }).required(),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {

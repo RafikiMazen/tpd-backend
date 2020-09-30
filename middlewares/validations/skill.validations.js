@@ -9,6 +9,47 @@ const validateGetMySkills = (req, res, next) => {
   }
   return next()
 }
+
+const validateGetAllSkillHistory = (req, res, next) => {
+  const schema = Joi.object({
+    Page: Joi.number().integer().required().min(0),
+    Limit: Joi.number().integer().required().min(0),
+    Filters: Joi.object({
+      employee_id: Joi.string(),
+      skill_id: Joi.string(),
+      function: Joi.string(),
+      title: Joi.string(),
+    }).required(),
+  })
+  const isValid = Joi.validate(req.body, schema)
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    })
+  }
+  return next()
+}
+
+const validateExportAllSkillHistory = (req, res, next) => {
+  const schema = Joi.object({
+    Page: Joi.number().integer().required().min(0),
+    Limit: Joi.number().integer().required().min(0),
+    Filters: Joi.object({
+      employee_id: Joi.string(),
+      skill_id: Joi.string(),
+      function: Joi.string(),
+      title: Joi.string(),
+    }).required(),
+  })
+  const isValid = Joi.validate(req.body, schema)
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    })
+  }
+  return next()
+}
+
 const validateGetSubcategories = (req, res, next) => {
   const schema = Joi.object({ category: Joi.string().required() })
   const isValid = Joi.validate(req.body, schema)
@@ -101,4 +142,6 @@ module.exports = {
   validateDeleteEmployeeSkill,
   validateAddSkill,
   validateEditSkill,
+  validateExportAllSkillHistory,
+  validateGetAllSkillHistory,
 }

@@ -349,6 +349,39 @@ const getCertificateProviders = async (req, res) => {
   }
 }
 
+const exportCertificateProviders = async (req, res) => {
+  try {
+    let certificationProviders
+    certificationProviders = await CertificationProvider.findAll({})
+    res.set('Content-Type', 'application/octet-stream')
+    const result = JSON.parse(JSON.stringify(certificationProviders))
+    var max_length = 0
+    var fields = []
+    var fieldNames = []
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length
+        fields = Object.keys(flatten(result[i]))
+        fieldNames = Object.keys(flatten(result[i]))
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    })
+    const data = parser.parse(result)
+    res.attachment('allCertificationProviders.csv')
+    res.status(200).send(data)
+
+    return
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+    })
+  }
+}
+
 const getCertificatesByProvider = async (req, res) => {
   try {
     let result
@@ -411,64 +444,64 @@ const getCertificates = async (req, res) => {
   }
 }
 
-// const exportCertificates = async (req, res) => {
-//   try {
-//     const page = req.body.Page
-//     const limit = req.body.Limit
-//     const filters = req.body.Filters
-//     var filtersMainApplied = []
-//     if (filters) {
-//       const values = Object.values(filters)
-//       Object.keys(filters).forEach((key, index) => {
-//         filtersMainApplied.push({
-//           [key]: filters[key],
-//         })
-//       })
-//     }
-//     let result
+const exportCertificates = async (req, res) => {
+  try {
+    const page = req.body.Page
+    const limit = req.body.Limit
+    const filters = req.body.Filters
+    var filtersMainApplied = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        filtersMainApplied.push({
+          [key]: filters[key],
+        })
+      })
+    }
+    let certifications
 
-//     result = await Certification.findAll({
-//       offset: page * limit,
-//       limit,
-//       include: [
-//         { model: CertificationProvider },
-//         { where: filtersMainApplied },
-//       ],
-//       order: [
-//         ['updatedAt', 'DESC'],
-//         ['id', 'DESC'],
-//       ],
-//     })
-//     const count = result.length
-//     res.set('Content-Type', 'application/octet-stream')
-//     const result = JSON.parse(JSON.stringify(requests))
-//     var max_length = 0
-//     var fields = []
-//     var fieldNames = []
-//     for (var i = 0; i < result.length; i++) {
-//       if (Object.keys(flatten(result[i])).length > max_length) {
-//         max_length = Object.keys(flatten(result[i])).length
-//         fields = Object.keys(flatten(result[i]))
-//         fieldNames = Object.keys(flatten(result[i]))
-//       }
-//     }
-//     const parser = new Parser({
-//       fields,
-//       unwind: fieldNames,
-//     })
-//     const data = parser.parse(result)
-//     res.attachment('allReleaseRequests.csv')
-//     res.status(200).send(data)
+    certifications = await Certification.findAll({
+      offset: page * limit,
+      limit,
+      include: [
+        { model: CertificationProvider },
+        { where: filtersMainApplied },
+      ],
+      order: [
+        ['updatedAt', 'DESC'],
+        ['id', 'DESC'],
+      ],
+    })
+    const count = certifications.length
+    res.set('Content-Type', 'application/octet-stream')
+    const result = JSON.parse(JSON.stringify(certifications))
+    var max_length = 0
+    var fields = []
+    var fieldNames = []
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length
+        fields = Object.keys(flatten(result[i]))
+        fieldNames = Object.keys(flatten(result[i]))
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    })
+    const data = parser.parse(result)
+    res.attachment('allCertifications.csv')
+    res.status(200).send(data)
 
-//     return
-//   } catch (exception) {
-//     console.log(exception)
-//     return res.json({
-//       error: 'Something went wrong',
-//       // statusCode: unknown
-//     })
-//   }
-// }
+    return
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
 
 const deleteCertification = async (req, res) => {
   try {
@@ -548,4 +581,6 @@ module.exports = {
   getCertificates,
   deleteCertification,
   editCertification,
+  exportCertificates,
+  exportCertificateProviders,
 }

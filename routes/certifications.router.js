@@ -15,6 +15,7 @@ const {
   getCertificates,
   deleteCertification,
   editCertification,
+  exportCertificateProviders,
 } = require('../services/certificates.service')
 
 const {
@@ -68,7 +69,7 @@ router.delete(
   deleteCertificationProvider
 )
 router.get('/provider', getCertificateProviders)
-
+router.get('/provider/export', exportCertificateProviders)
 router.post(
   '/allByProvider',
   validateGetCertificationsByProvider,

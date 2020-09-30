@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const {
   getMySkills,
@@ -11,7 +11,9 @@ const {
   addSkill,
   editSkill,
   getSkills,
-} = require("../services/skills.service");
+  getAllSkillHistory,
+  exportSkillHistory,
+} = require('../services/skills.service')
 
 const {
   validateGetMySkills,
@@ -21,28 +23,32 @@ const {
   validateDeleteEmployeeSkill,
   validateAddSkill,
   validateEditSkill,
-} = require("../middlewares/validations/skill.validations");
+  validateExportAllSkillHistory,
+  validateGetAllSkillHistory,
+} = require('../middlewares/validations/skill.validations')
 const {
   verifyToken,
   verifyEmployee,
   verifyManager,
   verifyTPD,
   verifyTPDorManager,
-} = require("../auth/verifyToken");
+} = require('../auth/verifyToken')
 
-router.post("/my", validateGetMySkills, getMySkills);
-router.get("/categories", getCategories);
-router.post("/subcategories", validateGetSubcategories, getSubCategories);
+router.post('/my', validateGetMySkills, getMySkills)
+router.get('/categories', getCategories)
+router.post('/subcategories', validateGetSubcategories, getSubCategories)
 router.post(
-  "/employee",
+  '/employee',
   verifyToken,
   verifyEmployee,
   validateAddEmployeeSkill,
   addEmployeeSkill
-);
-router.put("/employee", validateEditEmployeeSkill, editEmployeeSkill);
-router.delete("/employee", validateDeleteEmployeeSkill, deleteEmployeeSkill);
-router.post("/", validateAddSkill, addSkill);
-router.put("/", validateEditSkill, editSkill);
-router.get("/", getSkills);
-module.exports = router;
+)
+router.post('/history', validateGetAllSkillHistory, getAllSkillHistory)
+router.post('/history/export', validateGetAllSkillHistory, exportSkillHistory)
+router.put('/employee', validateEditEmployeeSkill, editEmployeeSkill)
+router.delete('/employee', validateDeleteEmployeeSkill, deleteEmployeeSkill)
+router.post('/', validateAddSkill, addSkill)
+router.put('/', validateEditSkill, editSkill)
+router.get('/', getSkills)
+module.exports = router

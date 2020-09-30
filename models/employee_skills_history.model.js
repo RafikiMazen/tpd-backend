@@ -3,7 +3,7 @@ const EmployeeProfile = require('./employee_profiles.model')
 const Skill = require('./skills.model')
 const { sequelize } = require('../config/dbConfig')
 
-var employeeSkillHistory = sequelize.define('employee_skills_history', {
+var EmployeeSkillHistory = sequelize.define('employee_skills_history', {
   last_used_date: {
     type: Sequelize.DATE,
   },
@@ -20,6 +20,6 @@ var employeeSkillHistory = sequelize.define('employee_skills_history', {
     type: Sequelize.STRING(128),
   },
 })
-employeeSkillHistory.belongsTo(Skill, { foreignKey: 'skill_id' })
-employeeSkillHistory.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
-module.exports = employeeSkillHistory
+EmployeeSkillHistory.belongsTo(Skill, { foreignKey: 'skill_id' })
+EmployeeSkillHistory.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
+module.exports = EmployeeSkillHistory

@@ -14,4 +14,5 @@ EmployeeCertification.belongsTo(certification, {
   foreignKey: 'certification_id',
 })
 certification.hasMany(EmployeeCertification, { foreignKey: 'certification_id' })
+EmployeeProfile.hasMany(EmployeeCertification, { foreignKey: 'employee_id' })
 module.exports = EmployeeCertification

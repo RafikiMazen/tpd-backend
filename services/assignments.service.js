@@ -1,6 +1,7 @@
 const Assignment = require('../models/assignment.model')
 const EmployeeProfile = require('../models/employee_profiles.model')
 const jwt = require('jsonwebtoken')
+
 const getMyAssignmentsHistory = async (req, res) => {
   try {
     const usertoken = req.headers.authorization
@@ -30,6 +31,26 @@ const getMyAssignmentsHistory = async (req, res) => {
       error: 'Something went wrong',
     })
   }
+}
+
+const addAssignment = async(req,res)=>{
+try{
+  const assignment = req.body.Skill
+ 
+
+  const orderCreated = await Assignment.create(assignment)
+
+  return res.json({
+    msg: 'Assignment added',
+    // statusCode: statusCodes.success,
+  })
+}catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+    })
+  }
+}
 }
 
 const getMyAssignments = async (req, res) => {
@@ -126,4 +147,5 @@ module.exports = {
   getMyAssignments,
   getEmployeeAssignments,
   getEmployeeAssignmentsHistory,
+  addAssignment,
 }

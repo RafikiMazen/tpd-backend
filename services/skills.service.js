@@ -4,8 +4,10 @@ const Skill = require('../models/skills.model')
 const jwt = require('jsonwebtoken')
 const ResourceRequestSkill = require('../models/resource_request_skills.model')
 const SkillCatalog = require('../models/skillcatalog.model')
-const employeeSkillHistory = require('../models/employee_skills_history.model')
+const EmployeeSkillHistory = require('../models/employee_skills_history.model')
 const Manager = require('../models/managers.model')
+const flatten = require('flat').flatten
+const { Parser } = require('json2csv')
 
 const getMySkills = async (req, res) => {
   try {
@@ -35,6 +37,153 @@ const getMySkills = async (req, res) => {
     })
   }
 }
+
+const getAllSkillHistory = async (req, res) => {
+  try {
+    const page = req.body.Page
+    const limit = req.body.Limit
+    const filters = req.body.Filters
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    var filtersSkill = []
+    var filtersEmployee = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        if (key == 'skill_name') {
+          filtersSkill.push({
+            [key]: filters[key],
+          })
+        } else {
+          filtersEmployee.push({
+            [key]: filters[key],
+          })
+        }
+      })
+    }
+    let result
+
+    result = await EmployeeSkillHistory.findAll({
+      offset: page * limit,
+      limit,
+      // where: filtersSkill,
+      order: [
+        ['updatedAt', 'DESC'],
+        ['id', 'DESC'],
+      ],
+      include: [
+        {
+          model: Skill,
+          where: filtersSkill,
+          include: [
+            {
+              model: EmployeeSkills,
+              include: [{ model: EmployeeProfile, where: { filtersEmployee } }],
+            },
+          ],
+        },
+      ],
+    })
+    const count = result.length
+
+    return res.json({
+      ReleaseRequests: result,
+      count,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
+const exportSkillHistory = async (req, res) => {
+  try {
+    const page = req.body.Page
+    const limit = req.body.Limit
+    const filters = req.body.Filters
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    var filtersSkill = []
+    var filtersEmployee = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        if (key == 'skill_id') {
+          filtersSkill.push({
+            [key]: filters[key],
+          })
+        } else {
+          if (key == 'employee_id') {
+            filtersEmployee.push({
+              id: filters[key],
+            })
+          }
+          filtersEmployee.push({
+            [key]: filters[key],
+          })
+        }
+      })
+    }
+    let skillHistories
+
+    skillHistories = await EmployeeSkillHistory.findAll({
+      offset: page * limit,
+      limit,
+      // where: filtersSkill,
+      order: [
+        ['updatedAt', 'DESC'],
+        ['id', 'DESC'],
+      ],
+      include: [
+        {
+          model: Skill,
+          where: filtersSkill,
+          include: [
+            {
+              model: EmployeeSkills,
+              include: [{ model: EmployeeProfile, where: { filtersEmployee } }],
+            },
+          ],
+        },
+      ],
+    })
+    const count = skillHistories.length
+
+    res.set('Content-Type', 'application/octet-stream')
+    const result = JSON.parse(JSON.stringify(skillHistories))
+    var max_length = 0
+    var fields = []
+    var fieldNames = []
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length
+        fields = Object.keys(flatten(result[i]))
+        fieldNames = Object.keys(flatten(result[i]))
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    })
+    const data = parser.parse(result)
+    res.attachment('SkillHistory.csv')
+    res.status(200).send(data)
+
+    return
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
 const getSkills = async (req, res) => {
   try {
     const result = await Skill.findAll({})
@@ -130,7 +279,7 @@ const addEmployeeSkill = async (req, res) => {
     body.title = employee.title
     body.function = employee.function
     body.manager_name = manager.name
-    await employeeSkillHistory.create({
+    await EmployeeSkillHistory.create({
       body,
     })
     return res.json({
@@ -195,7 +344,7 @@ const editEmployeeSkill = async (req, res) => {
     body.title = employee.title
     body.function = employee.function
     body.manager_name = manager.name
-    await employeeSkillHistory.create({
+    await EmployeeSkillHistory.create({
       body,
     })
 
@@ -327,4 +476,6 @@ module.exports = {
   addSkill,
   editSkill,
   getSkills,
+  getAllSkillHistory,
+  exportSkillHistory,
 }

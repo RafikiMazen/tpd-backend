@@ -117,11 +117,28 @@ const validateGetCertificationsByProvider = (req, res, next) => {
 
 const validateGetAllCertificates = (req, res, next) => {
   const schema = Joi.object({
+    Filters: Joi.object({
+      certification_provider_id: Joi.number().integer(),
+    }).required(),
+  })
+  const isValid = Joi.validate(req.body, schema)
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    })
+  }
+  return next()
+}
+
+const validateGetAllCertificatesHistory = (req, res, next) => {
+  const schema = Joi.object({
     Page: Joi.number().integer().required().min(0),
     Limit: Joi.number().integer().required().min(0),
     Filters: Joi.object({
       certification_provider_id: Joi.number().integer(),
-    }).required(),
+      certification_id: Joi.number().integer(),
+      employee_id: Joi.number().integer(),
+    }),
   })
   const isValid = Joi.validate(req.body, schema)
   if (isValid.error) {
@@ -174,4 +191,5 @@ module.exports = {
   validateGetAllCertificates,
   validateDeleteCertification,
   validateEditCertification,
+  validateGetAllCertificatesHistory,
 }

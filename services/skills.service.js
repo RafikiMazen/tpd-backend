@@ -15,7 +15,9 @@ const getMySkills = async (req, res) => {
     let result
     result = await EmployeeProfile.findAll({
       where: [{ user_id: decoded.id }],
-      include: [{ model: EmployeeSkills, include: [{ model: Skill }] }],
+      include: [
+        { model: EmployeeSkills, required: true, include: [{ model: Skill }] },
+      ],
     })
     if (!result) {
       return res.json({
@@ -25,6 +27,20 @@ const getMySkills = async (req, res) => {
 
     return res.json({
       Employee: result,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+    })
+  }
+}
+const getSkills = async (req, res) => {
+  try {
+    const result = await Skill.findAll({})
+
+    return res.json({
+      Skills: result,
     })
   } catch (exception) {
     console.log(exception)
@@ -271,6 +287,36 @@ const addSkill = async (req, res) => {
     })
   }
 }
+
+const editSkill = async (req, res) => {
+  try {
+    const SkillBody = req.body.Skill
+    const skill = await Skill.findOne({
+      where: { skill_id: SkillBody.skill_id },
+    })
+    if (!skill) {
+      return res.json({
+        error: 'This skill does not exist',
+        // statusCode: statusCodes.entityNotFound,
+      })
+    }
+
+    const orderCreated = await Skill.update(SkillBody, {
+      where: { skill_id: SkillBody.skill_id },
+    })
+
+    return res.json({
+      msg: 'Skill updated',
+      // statusCode: statusCodes.success,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: statusCodes.unknown,
+    })
+  }
+}
 module.exports = {
   getMySkills,
   getCategories,
@@ -279,4 +325,6 @@ module.exports = {
   editEmployeeSkill,
   deleteEmployeeSkill,
   addSkill,
+  editSkill,
+  getSkills,
 }

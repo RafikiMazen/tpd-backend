@@ -77,6 +77,22 @@ const validateAddSkill = (req, res, next) => {
   return next()
 }
 
+const validateEditSkill = (req, res, next) => {
+  const schema = Joi.object({
+    Skill: Joi.object({
+      skill_id: Joi.number().required(),
+      skill_name: Joi.string().required(),
+    }).required(),
+  })
+  const isValid = Joi.validate(req.body, schema)
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    })
+  }
+  return next()
+}
+
 module.exports = {
   validateGetMySkills,
   validateGetSubcategories,
@@ -84,4 +100,5 @@ module.exports = {
   validateEditEmployeeSkill,
   validateDeleteEmployeeSkill,
   validateAddSkill,
+  validateEditSkill,
 }

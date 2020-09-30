@@ -419,13 +419,10 @@ const getCertificates = async (req, res) => {
     result = await Certification.findAll({
       // offset: page * limit,
       // limit,
-      include: [
-        { model: CertificationProvider },
-        { where: filtersMainApplied },
-      ],
+      include: [{ model: CertificationProvider, where: filtersMainApplied }],
       order: [
         ["updatedAt", "DESC"],
-        ["id", "DESC"],
+        ["certification_id", "DESC"],
       ],
     });
     const count = result.length;

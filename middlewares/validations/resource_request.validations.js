@@ -1,4 +1,4 @@
-const Joi = require('joi')
+const Joi = require("joi");
 
 const validateGetAllResourceRequests = (req, res, next) => {
   const schema = Joi.object({
@@ -12,15 +12,15 @@ const validateGetAllResourceRequests = (req, res, next) => {
       category: Joi.string(),
       subcategory: Joi.string(),
     }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 const validateExportAllResourceRequests = (req, res, next) => {
   const schema = Joi.object({
     Filters: Joi.object({
@@ -30,15 +30,15 @@ const validateExportAllResourceRequests = (req, res, next) => {
       employee_title: Joi.string(),
       request_status: Joi.string(),
     }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 const validateAddResourceRequest = (req, res, next) => {
   const schema = Joi.object({
     ResourceRequest: Joi.object({
@@ -62,18 +62,19 @@ const validateAddResourceRequest = (req, res, next) => {
         subcategory: Joi.string().required(),
       })
     ),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 const validateUpdateResourceRequest = (req, res, next) => {
   const schema = Joi.object({
     ResourceRequest: Joi.object({
+      reference_number: Joi.number().required(),
       manager_name: Joi.string(),
       function: Joi.string(),
       title: Joi.string(),
@@ -88,15 +89,15 @@ const validateUpdateResourceRequest = (req, res, next) => {
       related_Opportunity: Joi.string(),
       comments: Joi.string(),
     }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 
 const validateAddResourceRequestSkill = (req, res, next) => {
   const schema = Joi.object({
@@ -105,64 +106,64 @@ const validateAddResourceRequestSkill = (req, res, next) => {
       category: Joi.string().required(),
       request_reference_number: Joi.number().integer().required(),
     }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 const validateDeleteResourceRequestSkill = (req, res, next) => {
   const schema = Joi.object({
     skill_id: Joi.number().integer().required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 
 const validateDeleteResourceRequest = (req, res, next) => {
   const schema = Joi.object({
     reference_number: Joi.number().required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 const validateGetResourceRequest = (req, res, next) => {
   const schema = Joi.object({
     reference_number: Joi.number().required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 const validateGetResourceRequestActions = (req, res, next) => {
   const schema = Joi.object({
     reference_number: Joi.number().required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 const validateAddResourceRequestActions = (req, res, next) => {
   const schema = Joi.object({
     ResourceRequestAction: Joi.object({
@@ -170,15 +171,15 @@ const validateAddResourceRequestActions = (req, res, next) => {
       action: Joi.string().required(),
       action_note: Joi.string().required(),
     }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 const validateUpdateResourceRequestActions = (req, res, next) => {
   const schema = Joi.object({
     ResourceRequestAction: Joi.object({
@@ -187,15 +188,15 @@ const validateUpdateResourceRequestActions = (req, res, next) => {
       action: Joi.string().required(),
       action_note: Joi.string().required(),
     }).required,
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 
 module.exports = {
   validateGetAllResourceRequests,
@@ -209,4 +210,4 @@ module.exports = {
   validateExportAllResourceRequests,
   validateDeleteResourceRequestSkill,
   validateAddResourceRequestSkill,
-}
+};

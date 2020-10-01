@@ -529,7 +529,7 @@ const editCertification = async (req, res) => {
     const CertificationBody = req.body.Certification;
     const certification = await Certification.findOne({
       where: {
-        id: CertificationBody.id,
+        certification_id: CertificationBody.id,
       },
     });
     if (!certification) {
@@ -540,7 +540,7 @@ const editCertification = async (req, res) => {
     }
 
     const orderCreated = await Certification.update(CertificationBody, {
-      where: { id: CertificationBody.id },
+      where: { certification_id: CertificationBody.id },
     });
 
     return res.json({

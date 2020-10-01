@@ -574,7 +574,7 @@ const getCertificateHistory = async (req, res) => {
         } else {
           if (key == "name") {
             filtersEmployee.push({
-              id: filters[key],
+              [key]: filters[key],
             });
           } else {
             if (key == "certification_provider_id")
@@ -648,7 +648,7 @@ const exportCertificateHistory = async (req, res) => {
         } else {
           if (key == "name") {
             filtersEmployee.push({
-              id: filters[key],
+              [key]: filters[key],
             });
           } else {
             if (key == "certification_provider_id")

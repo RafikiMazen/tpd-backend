@@ -26,7 +26,7 @@ const validateDeleteSkill = (req, res, next) => {
 const validateGetAllSkillHistory = (req, res, next) => {
   const schema = Joi.object({
     Filters: Joi.object({
-      user_name: Joi.string(),
+      name: Joi.string(),
       skill_id: Joi.number().integer(),
       function: Joi.string(),
       title: Joi.string(),

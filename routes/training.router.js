@@ -1,14 +1,14 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 const {
   getEmployeeTrainings,
   getMyTrainings,
-} = require('../services/trainings.service')
+} = require("../services/trainings.service");
 
 const {
   validateGetEmployeeTrainings,
-} = require('../middlewares/validations/training.validations')
+} = require("../middlewares/validations/training.validations");
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -19,10 +19,10 @@ const {
 // } = require('../auth/verifyToken')
 
 router.post(
-  '/employeeTrainings',
+  "/employeeTrainings",
   validateGetEmployeeTrainings,
   getEmployeeTrainings
-)
-router.get('/my', getMyTrainings)
+);
+router.post("/my", getMyTrainings);
 
-module.exports = router
+module.exports = router;

@@ -497,7 +497,7 @@ const deleteCertification = async (req, res) => {
     const CertificationBody = req.body.Certification;
     const certification = await Certification.findOne({
       where: {
-        id: CertificationBody.id,
+        certification_id: CertificationBody.id,
       },
     });
     if (!certification) {
@@ -508,7 +508,7 @@ const deleteCertification = async (req, res) => {
     }
 
     const orderCreated = await Certification.destroy({
-      where: { id: CertificationBody.id },
+      where: { certification_id: CertificationBody.id },
     });
 
     return res.json({

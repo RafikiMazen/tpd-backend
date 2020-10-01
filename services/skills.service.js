@@ -211,6 +211,38 @@ const getSkills = async (req, res) => {
   }
 };
 
+const deleteSkill = async (req, res) => {
+  try {
+    const skillID = req.body.skill_id;
+    const checkSkill = await Skill.findOne({
+      skill_id: skillID,
+    });
+    if (!checkSkill) {
+      return res.json({
+        error: "Skill Does not exist",
+        // statusCode: statusCodes.entityNotFound,
+      });
+    }
+
+    const skillDeleted = await Skill.destroy({
+      where: {
+        skill_id: skillID,
+      },
+    });
+
+    return res.json({
+      msg: "Skill successfully deleted",
+      // statusCode: statusCodes.success,
+    });
+  } catch (exception) {
+    console.log(exception);
+    return res.json({
+      error: "Something went wrong",
+      // statusCode: statusCodes.unknown,
+    });
+  }
+};
+
 const getCategories = async (req, res) => {
   try {
     let result;
@@ -490,4 +522,5 @@ module.exports = {
   getSkills,
   getAllSkillHistory,
   exportSkillHistory,
+  deleteSkill,
 };

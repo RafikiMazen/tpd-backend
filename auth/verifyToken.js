@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
   return jwt.verify(
@@ -6,16 +6,16 @@ const verifyToken = (req, res, next) => {
     process.env.JWT_KEY,
     (err, authorizedData) => {
       if (!err) {
-        const header = req.headers.authorization
-        const token = header
-        req.data = authorizedData
-        req.token = token
-        return next()
+        const header = req.headers.authorization;
+        const token = header;
+        req.data = authorizedData;
+        req.token = token;
+        return next();
       }
-      return res.json({ error: 'Please sign in' })
+      return res.json({ error: "Please sign in" });
     }
-  )
-}
+  );
+};
 
 const verifyTPD = (req, res, next) => {
   return jwt.verify(
@@ -23,21 +23,21 @@ const verifyTPD = (req, res, next) => {
     process.env.JWT_KEY,
     (err, authorizedData) => {
       if (!err) {
-        if (!authorizedData.roles.includes('TPD Team')) {
+        if (!authorizedData.roles.includes("TPD Team")) {
           return res.json({
-            error: 'Omly TPD are allowed',
-          })
+            error: "Only TPD are allowed",
+          });
         }
-        const header = req.headers.authorization
-        const token = header
-        req.data = authorizedData
-        req.token = token
-        return next()
+        const header = req.headers.authorization;
+        const token = header;
+        req.data = authorizedData;
+        req.token = token;
+        return next();
       }
-      return res.json({ error: 'breach' })
+      return res.json({ error: "breach" });
     }
-  )
-}
+  );
+};
 
 const verifyManager = (req, res, next) => {
   return jwt.verify(
@@ -45,21 +45,21 @@ const verifyManager = (req, res, next) => {
     process.env.JWT_KEY,
     (err, authorizedData) => {
       if (!err) {
-        if (!authorizedData.roles.includes('Manager')) {
+        if (!authorizedData.roles.includes("Manager")) {
           return res.json({
-            error: 'Omly Managers are allowed',
-          })
+            error: "Only Managers are allowed",
+          });
         }
-        const header = req.headers.authorization
-        const token = header
-        req.data = authorizedData
-        req.token = token
-        return next()
+        const header = req.headers.authorization;
+        const token = header;
+        req.data = authorizedData;
+        req.token = token;
+        return next();
       }
-      return res.json({ error: 'breach' })
+      return res.json({ error: "breach" });
     }
-  )
-}
+  );
+};
 
 const verifyEmployee = (req, res, next) => {
   return jwt.verify(
@@ -67,21 +67,21 @@ const verifyEmployee = (req, res, next) => {
     process.env.JWT_KEY,
     (err, authorizedData) => {
       if (!err) {
-        if (!authorizedData.roles.includes('Employee')) {
+        if (!authorizedData.roles.includes("Employee")) {
           return res.json({
-            error: 'Omly Employees are allowed',
-          })
+            error: "Only Employees are allowed",
+          });
         }
-        const header = req.headers.authorization
-        const token = header
-        req.data = authorizedData
-        req.token = token
-        return next()
+        const header = req.headers.authorization;
+        const token = header;
+        req.data = authorizedData;
+        req.token = token;
+        return next();
       }
-      return res.json({ error: 'breach' })
+      return res.json({ error: "breach" });
     }
-  )
-}
+  );
+};
 
 const verifyTPDorManager = (req, res, next) => {
   return jwt.verify(
@@ -91,24 +91,24 @@ const verifyTPDorManager = (req, res, next) => {
       if (!err) {
         if (
           !(
-            authorizedData.roles.includes('TPD Team') ||
-            authorizedData.roles.includes('Manager')
+            authorizedData.roles.includes("TPD Team") ||
+            authorizedData.roles.includes("Manager")
           )
         ) {
           return res.json({
-            error: 'Omly TPD are allowed',
-          })
+            error: "Only TPD are allowed",
+          });
         }
-        const header = req.headers.authorization
-        const token = header
-        req.data = authorizedData
-        req.token = token
-        return next()
+        const header = req.headers.authorization;
+        const token = header;
+        req.data = authorizedData;
+        req.token = token;
+        return next();
       }
-      return res.json({ error: 'breach' })
+      return res.json({ error: "breach" });
     }
-  )
-}
+  );
+};
 
 module.exports = {
   verifyToken,
@@ -116,4 +116,4 @@ module.exports = {
   verifyManager,
   verifyEmployee,
   verifyTPDorManager,
-}
+};

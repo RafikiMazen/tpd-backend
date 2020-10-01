@@ -18,8 +18,8 @@ const getMySkills = async (req, res) => {
     let result;
     // console.log("IDDDDDDDDDDDDDDD:" + decoded.id);
     result = await EmployeeProfile.findOne({
-      where: [{ user_id: decoded.id }],
-      include: [{ model: EmployeeSkills }],
+      where: { user_id: decoded.id },
+      include: [{ model: EmployeeSkills, include: [{ model: Skill }] }],
     });
     if (!result) {
       return res.json({

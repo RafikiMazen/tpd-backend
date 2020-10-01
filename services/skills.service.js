@@ -8,6 +8,7 @@ const EmployeeSkillHistory = require("../models/employee_skills_history.model");
 const Manager = require("../models/managers.model");
 const flatten = require("flat").flatten;
 const { Parser } = require("json2csv");
+const User = require("../models/users.model");
 
 const getMySkills = async (req, res) => {
   try {
@@ -15,12 +16,10 @@ const getMySkills = async (req, res) => {
     const token = usertoken.split(" ");
     const decoded = jwt.verify(token[0], process.env.JWT_KEY);
     let result;
+    // console.log("IDDDDDDDDDDDDDDD:" + decoded.id);
     result = await EmployeeProfile.findOne({
       where: [{ user_id: decoded.id }],
-      include: [
-        { model: EmployeeSkills, required: true, include: [{ model: Skill }] },
-        { model: Manager, required: true },
-      ],
+      include: [{ model: EmployeeSkills }],
     });
     if (!result) {
       return res.json({
@@ -41,14 +40,16 @@ const getMySkills = async (req, res) => {
 
 const getAllSkillHistory = async (req, res) => {
   try {
-    const page = req.body.Page;
-    const limit = req.body.Limit;
+    // const page = req.body.Page;
+    // const limit = req.body.Limit;
     const filters = req.body.Filters;
     const usertoken = req.headers.authorization;
     const token = usertoken.split(" ");
     const decoded = jwt.verify(token[0], process.env.JWT_KEY);
     var filtersSkill = [];
     var filtersEmployee = [];
+    var filtersUser = [];
+
     if (filters) {
       const values = Object.values(filters);
       Object.keys(filters).forEach((key, index) => {
@@ -57,9 +58,9 @@ const getAllSkillHistory = async (req, res) => {
             [key]: filters[key],
           });
         } else {
-          if (key == "employee_id") {
-            filtersEmployee.push({
-              id: filters[key],
+          if (key == "user_name") {
+            filtersUser.push({
+              [key]: filters[key],
             });
           } else {
             filtersEmployee.push({
@@ -72,8 +73,8 @@ const getAllSkillHistory = async (req, res) => {
     let result;
 
     result = await EmployeeSkillHistory.findAll({
-      offset: page * limit,
-      limit,
+      // offset: page * limit,
+      // limit,
       // where: filtersSkill,
       order: [
         ["updatedAt", "DESC"],
@@ -83,10 +84,14 @@ const getAllSkillHistory = async (req, res) => {
         {
           model: Skill,
           where: filtersSkill,
+        },
+        {
+          model: EmployeeProfile,
+          where: filtersEmployee,
           include: [
             {
-              model: EmployeeSkills,
-              include: [{ model: EmployeeProfile, where: { filtersEmployee } }],
+              model: User,
+              where: filtersUser,
             },
           ],
         },
@@ -95,7 +100,7 @@ const getAllSkillHistory = async (req, res) => {
     const count = result.length;
 
     return res.json({
-      ReleaseRequests: result,
+      Skills: result,
       count,
     });
   } catch (exception) {

@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const validateAddEmployeeCertificate = (req, res, next) => {
   const schema = Joi.object({
-    certificate_name: Joi.string().required(),
+    certification_id: Joi.number().integer().required(),
     expiry_date: Joi.date().required(),
   });
   const isValid = Joi.validate(req.body, schema);

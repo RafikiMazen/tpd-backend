@@ -63,21 +63,15 @@ const addEmployeeCertificate = async (req, res) => {
       });
     }
     const employee_id = employee.id;
-    const certification_name = req.body.certification_name;
 
     // const resourceRequest = req.body.ResourceRequest
     var checkCertification = await Certification.findOne({
-      certification_name: certification_name,
+      certification_id: req.body.certification_id,
     });
-    if (!checkCertification) {
-      checkCertification = await Certification.create({
-        certification_name: certification_name,
-      });
-    }
     const orderCreated = await EmployeeCertification.create({
       employee_id: employee_id,
-      certification_id: checkCertification.id,
-      expiry_date: req.body.expiry_date,
+      certification_id: req.body.certification_id,
+      expiration_date: req.body.expiry_date,
     });
 
     return res.json({

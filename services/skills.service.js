@@ -159,6 +159,10 @@ const exportSkillHistory = async (req, res) => {
       ],
       include: [
         {
+          model: EmployeeSkills,
+          // where: filtersSkill,
+        },
+        {
           model: Skill,
           where: filtersSkill,
         },

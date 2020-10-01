@@ -16,7 +16,7 @@ const validateAddEmployeeCertificate = (req, res, next) => {
 
 const validateEditEmployeeCertificate = (req, res, next) => {
   const schema = Joi.object({
-    certificate_id: Joi.number().integer().required(),
+    certification_id: Joi.number().integer().required(),
     expiry_date: Joi.date(),
     id: Joi.number().integer().required(),
   });

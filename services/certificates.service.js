@@ -102,11 +102,11 @@ const editEmployeeCertificate = async (req, res) => {
       });
     }
     const employee_id = employee.id;
-    const certificate_id = req.body.certificate_id;
+    const certificate_id = req.body.certification_id;
 
     // const resourceRequest = req.body.ResourceRequest
     const checkRequest = await Certification.findOne({
-      id: certificate_id,
+      certification_id: certificate_id,
     });
     if (!checkRequest) {
       return res.json({

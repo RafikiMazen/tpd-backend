@@ -18,6 +18,7 @@ const {
   exportCertificateProviders,
   getCertificateHistory,
   exportCertificateHistory,
+  exportCertificates,
 } = require("../services/certificates.service");
 
 const {
@@ -87,6 +88,8 @@ router.delete(
 );
 router.get("/provider", getCertificateProviders);
 router.get("/provider/export", exportCertificateProviders);
+router.post("/export", validateGetAllCertificates, exportCertificates);
+
 router.post(
   "/allByProvider",
   validateGetCertificationsByProvider,

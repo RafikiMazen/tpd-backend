@@ -452,13 +452,10 @@ const exportCertificates = async (req, res) => {
     certifications = await Certification.findAll({
       // offset: page * limit,
       // limit,
-      include: [
-        { model: CertificationProvider },
-        { where: filtersMainApplied },
-      ],
+      include: [{ model: CertificationProvider, where: filtersMainApplied }],
       order: [
         ["updatedAt", "DESC"],
-        ["id", "DESC"],
+        ["certification_id", "DESC"],
       ],
     });
     const count = certifications.length;
@@ -479,7 +476,7 @@ const exportCertificates = async (req, res) => {
       unwind: fieldNames,
     });
     const data = parser.parse(result);
-    res.attachment("allCertifications.csv");
+    res.attachment("Certifications.csv");
     res.status(200).send(data);
 
     return;

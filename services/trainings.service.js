@@ -59,7 +59,7 @@ const getMyTrainings = async (req, res) => {
     const token = usertoken.split(" ");
     const decoded = jwt.verify(token[0], process.env.JWT_KEY);
     let result;
-    result = await EmployeeProfile.findAll({
+    result = await EmployeeProfile.findOne({
       where: { user_id: decoded.id },
       include: [
         {

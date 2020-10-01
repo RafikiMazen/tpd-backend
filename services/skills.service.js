@@ -113,14 +113,16 @@ const getAllSkillHistory = async (req, res) => {
 
 const exportSkillHistory = async (req, res) => {
   try {
-    const page = req.body.Page;
-    const limit = req.body.Limit;
+    // const page = req.body.Page;
+    // const limit = req.body.Limit;
     const filters = req.body.Filters;
     const usertoken = req.headers.authorization;
     const token = usertoken.split(" ");
     const decoded = jwt.verify(token[0], process.env.JWT_KEY);
     var filtersSkill = [];
     var filtersEmployee = [];
+    var filtersUser = [];
+
     if (filters) {
       const values = Object.values(filters);
       Object.keys(filters).forEach((key, index) => {
@@ -129,9 +131,9 @@ const exportSkillHistory = async (req, res) => {
             [key]: filters[key],
           });
         } else {
-          if (key == "employee_id") {
-            filtersEmployee.push({
-              id: filters[key],
+          if (key == "user_name") {
+            filtersUser.push({
+              [key]: filters[key],
             });
           } else {
             filtersEmployee.push({
@@ -144,8 +146,8 @@ const exportSkillHistory = async (req, res) => {
     let skillHistories;
 
     skillHistories = await EmployeeSkillHistory.findAll({
-      offset: page * limit,
-      limit,
+      // offset: page * limit,
+      // limit,
       // where: filtersSkill,
       order: [
         ["updatedAt", "DESC"],
@@ -155,10 +157,14 @@ const exportSkillHistory = async (req, res) => {
         {
           model: Skill,
           where: filtersSkill,
+        },
+        {
+          model: EmployeeProfile,
+          where: filtersEmployee,
           include: [
             {
-              model: EmployeeSkills,
-              include: [{ model: EmployeeProfile, where: { filtersEmployee } }],
+              model: User,
+              where: filtersUser,
             },
           ],
         },

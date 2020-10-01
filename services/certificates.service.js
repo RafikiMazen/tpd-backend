@@ -558,8 +558,8 @@ const editCertification = async (req, res) => {
 
 const getCertificateHistory = async (req, res) => {
   try {
-    const page = req.body.Page;
-    const limit = req.body.Limit;
+    // const page = req.body.Page;
+    // const limit = req.body.Limit;
     const filters = req.body.Filters;
     const usertoken = req.headers.authorization;
     const token = usertoken.split(" ");
@@ -591,8 +591,8 @@ const getCertificateHistory = async (req, res) => {
     let certificationHistories;
 
     certificationHistories = await CertificationHistory.findAll({
-      offset: page * limit,
-      limit,
+      // offset: page * limit,
+      // limit,
       // where: filtersSkill,
       order: [
         ["updatedAt", "DESC"],
@@ -604,23 +604,21 @@ const getCertificateHistory = async (req, res) => {
           where: filtersCertification,
           include: [
             {
-              model: EmployeeCertification,
-              include: [
-                { model: EmployeeProfile, where: filtersEmployee },
-                {
-                  model: CertificationProvider,
-                  where: filtersCertificationProvider,
-                },
-              ],
+              model: CertificationProvider,
+              where: filtersCertificationProvider,
             },
           ],
+        },
+        {
+          model: EmployeeProfile,
+          where: filtersEmployee,
         },
       ],
     });
     const count = certificationHistories.length;
 
     return res.json({
-      ReleaseRequests: certificationHistories,
+      Certifications: certificationHistories,
       count,
     });
   } catch (exception) {

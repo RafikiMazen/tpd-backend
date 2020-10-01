@@ -132,8 +132,8 @@ const validateGetAllCertificates = (req, res, next) => {
 
 const validateGetAllCertificatesHistory = (req, res, next) => {
   const schema = Joi.object({
-    Page: Joi.number().integer().required().min(0),
-    Limit: Joi.number().integer().required().min(0),
+    // Page: Joi.number().integer().required().min(0),
+    // Limit: Joi.number().integer().required().min(0),
     Filters: Joi.object({
       certification_provider_id: Joi.number().integer(),
       certification_id: Joi.number().integer(),

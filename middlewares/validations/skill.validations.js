@@ -41,6 +41,21 @@ const validateGetAllSkillHistory = (req, res, next) => {
   return next();
 };
 
+const validateGetAllSkillTracking = (req, res, next) => {
+  const schema = Joi.object({
+    Filters: Joi.object({
+      name: Joi.string(),
+      status: Joi.string().valid("Last Updated", "Non-registered"),
+    }).required(),
+  });
+  const isValid = Joi.validate(req.body, schema);
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    });
+  }
+  return next();
+};
 const validateExportAllSkillHistory = (req, res, next) => {
   const schema = Joi.object({
     Page: Joi.number().integer().required().min(0),
@@ -156,4 +171,5 @@ module.exports = {
   validateExportAllSkillHistory,
   validateGetAllSkillHistory,
   validateDeleteSkill,
+  validateGetAllSkillTracking,
 };

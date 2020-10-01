@@ -9,6 +9,7 @@ const Manager = require("../models/managers.model");
 const flatten = require("flat").flatten;
 const { Parser } = require("json2csv");
 const User = require("../models/users.model");
+const { sequelize } = require("../config/dbConfig");
 
 const getMySkills = async (req, res) => {
   try {
@@ -198,6 +199,119 @@ const exportSkillHistory = async (req, res) => {
     });
     const data = parser.parse(result);
     res.attachment("SkillHistory.csv");
+    res.status(200).send(data);
+
+    return;
+  } catch (exception) {
+    console.log(exception);
+    return res.json({
+      error: "Something went wrong",
+      // statusCode: unknown
+    });
+  }
+};
+
+const getAllSkillTracking = async (req, res) => {
+  try {
+    const filters = req.body.Filters;
+    var filtersProfile = [];
+    var filtersEmployee = [];
+
+    if (filters) {
+      const values = Object.values(filters);
+      Object.keys(filters).forEach((key, index) => {
+        filtersProfile.push({
+          [key]: filters[key],
+        });
+      });
+    }
+    var nameQuery = "";
+    var statusQuery = "";
+
+    if (filters) {
+      if (filters.name) nameQuery = ' where p.name = "' + filters.name + '" ';
+      if (filters.status) {
+        if (filters.status == "Last Updated")
+          statusQuery = " Having max(last_used_date) IS not NULL ";
+        if (filters.status == "Non-registered")
+          statusQuery = "  Having max(last_used_date) IS NULL ";
+      }
+    }
+    // let result;
+    const [results, metadata] = await sequelize.query(
+      " SELECT  max(last_used_date) AS LastUpdated ,employee_id ,p.* FROM employee_profiles p  left join employee_skills s on s.employee_id=p.id " +
+        nameQuery +
+        " group by p.id " +
+        statusQuery +
+        " order by LastUpdated desc;"
+    );
+
+    return res.json({
+      Skills: results,
+      // count,
+    });
+  } catch (exception) {
+    console.log(exception);
+    return res.json({
+      error: "Something went wrong",
+      // statusCode: unknown
+    });
+  }
+};
+
+const exportSkillTracking = async (req, res) => {
+  try {
+    const filters = req.body.Filters;
+    var filtersProfile = [];
+    var filtersEmployee = [];
+
+    if (filters) {
+      const values = Object.values(filters);
+      Object.keys(filters).forEach((key, index) => {
+        filtersProfile.push({
+          [key]: filters[key],
+        });
+      });
+    }
+    var nameQuery = "";
+    var statusQuery = "";
+
+    if (filters) {
+      if (filters.name) nameQuery = ' where p.name = "' + filters.name + '" ';
+      if (filters.status) {
+        if (filters.status == "Last Updated")
+          statusQuery = " Having max(last_used_date) IS not NULL ";
+        if (filters.status == "Non-registered")
+          statusQuery = "  Having max(last_used_date) IS NULL ";
+      }
+    }
+    // let result;
+    const [results, metadata] = await sequelize.query(
+      " SELECT  max(last_used_date) AS LastUpdated ,employee_id ,p.* FROM employee_profiles p  left join employee_skills s on s.employee_id=p.id " +
+        nameQuery +
+        " group by p.id " +
+        statusQuery +
+        " order by LastUpdated desc;"
+    );
+
+    res.set("Content-Type", "application/octet-stream");
+    const result = JSON.parse(JSON.stringify(results));
+    var max_length = 0;
+    var fields = [];
+    var fieldNames = [];
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length;
+        fields = Object.keys(flatten(result[i]));
+        fieldNames = Object.keys(flatten(result[i]));
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    });
+    const data = parser.parse(result);
+    res.attachment("SkillTracking.csv");
     res.status(200).send(data);
 
     return;
@@ -533,4 +647,6 @@ module.exports = {
   getAllSkillHistory,
   exportSkillHistory,
   deleteSkill,
+  getAllSkillTracking,
+  exportSkillTracking,
 };

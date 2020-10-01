@@ -1,9 +1,10 @@
-const Sequelize = require('sequelize')
-const EmployeeProfile = require('./employee_profiles.model')
-const Skill = require('./skills.model')
-const { sequelize } = require('../config/dbConfig')
+const Sequelize = require("sequelize");
+const EmployeeProfile = require("./employee_profiles.model");
+const Skill = require("./skills.model");
+const { sequelize } = require("../config/dbConfig");
+const EmployeeSkills = require("./employee_skills.model");
 
-var EmployeeSkillHistory = sequelize.define('employee_skills_history', {
+var EmployeeSkillHistory = sequelize.define("employee_skills_history", {
   last_used_date: {
     type: Sequelize.DATE,
   },
@@ -19,7 +20,9 @@ var EmployeeSkillHistory = sequelize.define('employee_skills_history', {
   function: {
     type: Sequelize.STRING(128),
   },
-})
-EmployeeSkillHistory.belongsTo(Skill, { foreignKey: 'skill_id' })
-EmployeeSkillHistory.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
-module.exports = EmployeeSkillHistory
+});
+EmployeeSkillHistory.belongsTo(Skill, { foreignKey: "skill_id" });
+EmployeeSkillHistory.belongsTo(EmployeeProfile, { foreignKey: "employee_id" });
+EmployeeSkillHistory.belongsTo(EmployeeSkills, { foreignKey: "skill_id" });
+
+module.exports = EmployeeSkillHistory;

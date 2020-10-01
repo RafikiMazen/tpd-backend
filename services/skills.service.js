@@ -52,7 +52,7 @@ const getAllSkillHistory = async (req, res) => {
     if (filters) {
       const values = Object.values(filters);
       Object.keys(filters).forEach((key, index) => {
-        if (key == "skill_name") {
+        if (key == "skill_id") {
           filtersSkill.push({
             [key]: filters[key],
           });
@@ -80,6 +80,10 @@ const getAllSkillHistory = async (req, res) => {
         ["id", "DESC"],
       ],
       include: [
+        {
+          model: EmployeeSkills,
+          // where: filtersSkill,
+        },
         {
           model: Skill,
           where: filtersSkill,

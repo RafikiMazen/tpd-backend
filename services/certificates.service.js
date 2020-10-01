@@ -10,6 +10,7 @@ const CertificationProvider = require("../models/certification_providers.model")
 const flatten = require("flat").flatten;
 const { Parser } = require("json2csv");
 const CertificationHistory = require("../models/certifications_history.model");
+
 const getMyCertificates = async (req, res) => {
   try {
     const usertoken = req.headers.authorization;
@@ -17,7 +18,7 @@ const getMyCertificates = async (req, res) => {
     const decoded = jwt.verify(token[0], process.env.JWT_KEY);
     let result;
     result = await EmployeeProfile.findOne({
-      where: [{ user_id: decoded.id }],
+      where: { user_id: decoded.id },
       include: [
         {
           model: EmployeeCertificationModel,

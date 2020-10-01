@@ -572,7 +572,7 @@ const getCertificateHistory = async (req, res) => {
             [key]: filters[key],
           });
         } else {
-          if (key == "employee_id") {
+          if (key == "name") {
             filtersEmployee.push({
               id: filters[key],
             });
@@ -629,8 +629,8 @@ const getCertificateHistory = async (req, res) => {
 
 const exportCertificateHistory = async (req, res) => {
   try {
-    const page = req.body.Page;
-    const limit = req.body.Limit;
+    // const page = req.body.Page;
+    // const limit = req.body.Limit;
     const filters = req.body.Filters;
     const usertoken = req.headers.authorization;
     const token = usertoken.split(" ");
@@ -646,7 +646,7 @@ const exportCertificateHistory = async (req, res) => {
             [key]: filters[key],
           });
         } else {
-          if (key == "employee_id") {
+          if (key == "name") {
             filtersEmployee.push({
               id: filters[key],
             });
@@ -662,8 +662,8 @@ const exportCertificateHistory = async (req, res) => {
     let certificationHistories;
 
     certificationHistories = await CertificationHistory.findAll({
-      offset: page * limit,
-      limit,
+      // offset: page * limit,
+      // limit,
       // where: filtersSkill,
       order: [
         ["updatedAt", "DESC"],
@@ -675,16 +675,14 @@ const exportCertificateHistory = async (req, res) => {
           where: filtersCertification,
           include: [
             {
-              model: EmployeeCertification,
-              include: [
-                { model: EmployeeProfile, where: filtersEmployee },
-                {
-                  model: CertificationProvider,
-                  where: filtersCertificationProvider,
-                },
-              ],
+              model: CertificationProvider,
+              where: filtersCertificationProvider,
             },
           ],
+        },
+        {
+          model: EmployeeProfile,
+          where: filtersEmployee,
         },
       ],
     });

@@ -4,10 +4,8 @@ const allRoutes = require("express-list-endpoints");
 
 const app = express();
 
-const certificationProvider = require("./certification_providers.router");
 const certification = require("./certifications.router");
 const skill = require("./skills.router");
-const employeeSkill = require("./employee_skills.router");
 const employeeProfile = require("./employee_profiles.router");
 const assignment = require("./assignment.router");
 const releaseRequest = require("./release_requests.router");
@@ -69,16 +67,13 @@ const routes = (app) => {
   // app.use('/', template)
   app.use("/api/auth", auth);
   app.use(verifyToken.verifyToken);
-  app.use("/api/certification-provider", certificationProvider);
   app.use("/api/explore", explore);
   app.use("/api/certification", certification);
   app.use("/api/skill", skill);
-  app.use("/api/employee-skill", employeeSkill);
   app.use("/api/employee-profile", employeeProfile);
   app.use("/api/assignment", assignment);
   app.use("/api/release-request", releaseRequest);
   app.use("/api/resource-request", resourceRequest);
-
   app.use("/api/role", role);
   app.use("/api/manager", manager);
   app.use("/api/training", training);

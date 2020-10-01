@@ -137,7 +137,7 @@ const validateGetAllCertificatesHistory = (req, res, next) => {
     Filters: Joi.object({
       certification_provider_id: Joi.number().integer(),
       certification_id: Joi.number().integer(),
-      employee_id: Joi.number().integer(),
+      name: Joi.string(),
     }),
   });
   const isValid = Joi.validate(req.body, schema);

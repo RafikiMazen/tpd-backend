@@ -300,32 +300,28 @@ const addEmployeeSkill = async (req, res) => {
       });
     }
     const employee_id = employee.id;
-    const skill_name = req.body.skill_name;
 
     // const resourceRequest = req.body.ResourceRequest
     var checkSkill = await Skill.findOne({
-      skill_name: skill_name,
+      skill_id: req.body.skill_id,
     });
     if (!checkSkill) {
-      checkSkill = await Skill.create({
-        skill_name: skill_name,
+      return res.json({
+        error: "Skill Does not exist",
+        // statusCode: statusCodes.entityNotFound,
       });
     }
     var body = req.body;
     body.employee_id = employee_id;
-    body.skill_id = checkSkill.id;
-    const orderCreated = await EmployeeSkills.create({
-      body,
-    });
+    body.skill_id = req.body.skill_id;
+    const orderCreated = await EmployeeSkills.create(body);
     const manager = await Manager.findOne({
       where: { id: employee.direct_manager },
     });
     body.title = employee.title;
     body.function = employee.function;
     body.manager_name = manager.name;
-    await EmployeeSkillHistory.create({
-      body,
-    });
+    await EmployeeSkillHistory.create(body);
     return res.json({
       msg: "Skill successfully added to employee",
       // statusCode: statusCodes.success,

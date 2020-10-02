@@ -5,10 +5,12 @@ const {
   getEmployeeTrainings,
   getMyTrainings,
   exportEmployeeTrainings,
+  getEmployeesTrainings,
 } = require("../services/trainings.service");
 
 const {
   validateGetEmployeeTrainings,
+  validateGetEmployeesTrainings,
 } = require("../middlewares/validations/training.validations");
 // const {
 //   verifyToken,
@@ -20,12 +22,19 @@ const {
 // } = require('../auth/verifyToken')
 
 router.post(
+  "/employeesTrainings",
+  validateGetEmployeesTrainings,
+  getEmployeesTrainings
+);
+
+router.post(
   "/employeeTrainings",
   validateGetEmployeeTrainings,
   getEmployeeTrainings
 );
+
 router.post(
-  "/employeeTrainings/export",
+  "/employeesTrainings/export",
   validateGetEmployeeTrainings,
   exportEmployeeTrainings
 );

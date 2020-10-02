@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const flatten = require("flat").flatten;
 const { Parser } = require("json2csv");
 
-const getEmployeeTrainings = async (req, res) => {
+const getEmployeesTrainings = async (req, res) => {
   try {
     const filters = req.body.Filters;
     var filtersMainApplied = [];
@@ -147,8 +147,37 @@ const getMyTrainings = async (req, res) => {
   }
 };
 
+const getEmployeeTrainings = async (req, res) => {
+  try {
+    let result;
+    result = await EmployeeProfile.findOne({
+      where: { id: req.body.employee_id },
+      include: [
+        {
+          model: EmployeeTraining,
+        },
+      ],
+    });
+    if (!result) {
+      return res.json({
+        error: "Employee does not exist",
+      });
+    }
+
+    return res.json({
+      Employee: result,
+    });
+  } catch (exception) {
+    console.log(exception);
+    return res.json({
+      error: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   getEmployeeTrainings,
   getMyTrainings,
   exportEmployeeTrainings,
+  getEmployeesTrainings,
 };

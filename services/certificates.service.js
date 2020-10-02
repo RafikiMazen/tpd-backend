@@ -48,6 +48,40 @@ const getMyCertificates = async (req, res) => {
   }
 };
 
+const getEmployeeCertifcates = async (req, res) => {
+  try {
+    let result;
+    result = await EmployeeProfile.findOne({
+      where: { id: req.body.employee_id },
+      include: [
+        {
+          model: EmployeeCertificationModel,
+          include: [
+            {
+              model: Certification,
+              include: [{ model: CertificationProvider }],
+            },
+          ],
+        },
+      ],
+    });
+    if (!result) {
+      return res.json({
+        error: "Employee does not exist",
+      });
+    }
+
+    return res.json({
+      Employee: result,
+    });
+  } catch (exception) {
+    console.log(exception);
+    return res.json({
+      error: "Something went wrong",
+    });
+  }
+};
+
 const addEmployeeCertificate = async (req, res) => {
   try {
     const usertoken = req.headers.authorization;
@@ -720,6 +754,7 @@ const exportCertificateHistory = async (req, res) => {
 
 module.exports = {
   getMyCertificates,
+  getEmployeeCertifcates,
   addEmployeeCertificate,
   editEmployeeCertificate,
   deleteEmployeeCertificate,

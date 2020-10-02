@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
   getMyCertificates,
+  getEmployeeCertifcates,
   addEmployeeCertificate,
   editEmployeeCertificate,
   deleteEmployeeCertificate,
@@ -55,6 +56,8 @@ router.post(
   exportCertificateHistory
 );
 router.post("/my", getMyCertificates);
+router.post("/employee/all", getEmployeeCertifcates);
+
 router.post(
   "/employee",
   validateAddEmployeeCertificate,

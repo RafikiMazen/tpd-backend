@@ -17,6 +17,7 @@ const {
   exportSkillTracking,
   deleteSkill,
   exportSkills,
+  getEmployeeSkills,
 } = require("../services/skills.service");
 
 const {
@@ -31,6 +32,7 @@ const {
   validateGetAllSkillHistory,
   validateGetAllSkillTracking,
   validateDeleteSkill,
+  validateGetEmployeeSkills,
 } = require("../middlewares/validations/skill.validations");
 const {
   verifyToken,
@@ -62,6 +64,8 @@ router.post(
 router.post("/history/export", validateGetAllSkillHistory, exportSkillHistory);
 router.put("/employee", validateEditEmployeeSkill, editEmployeeSkill);
 router.delete("/employee", validateDeleteEmployeeSkill, deleteEmployeeSkill);
+router.post("/employee/all", validateGetEmployeeSkills, getEmployeeSkills);
+
 router.delete("/", validateDeleteSkill, deleteSkill);
 
 router.post("/", validateAddSkill, addSkill);

@@ -30,6 +30,6 @@ router.post(
   getEmployeeAssignmentsHistory
 );
 router.post("/my", getMyAssignments);
-router.get("/employee", validateEmployeeAssignment, getEmployeeAssignments);
+router.post("/employee", validateEmployeeAssignment, getEmployeeAssignments);
 
 module.exports = router;

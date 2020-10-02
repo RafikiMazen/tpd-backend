@@ -122,7 +122,7 @@ const getEmployeeAssignmentsHistory = async (req, res) => {
 const getEmployeeAssignments = async (req, res) => {
   try {
     let result;
-    result = await EmployeeProfile.findAll({
+    result = await EmployeeProfile.findOne({
       where: [{ id: req.body.employee_id }],
       include: [
         {

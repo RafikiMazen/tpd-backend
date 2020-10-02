@@ -23,6 +23,19 @@ const validateDeleteSkill = (req, res, next) => {
   return next();
 };
 
+const validateGetEmployeeSkills = (req, res, next) => {
+  const schema = Joi.object({
+    employee_id: Joi.number().integer().required(),
+  });
+  const isValid = Joi.validate(req.body, schema);
+  if (isValid.error) {
+    return res.json({
+      error: isValid.error.details[0].message,
+    });
+  }
+  return next();
+};
+
 const validateGetAllSkillHistory = (req, res, next) => {
   const schema = Joi.object({
     Filters: Joi.object({
@@ -172,4 +185,5 @@ module.exports = {
   validateGetAllSkillHistory,
   validateDeleteSkill,
   validateGetAllSkillTracking,
+  validateGetEmployeeSkills,
 };

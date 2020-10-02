@@ -1,17 +1,17 @@
-const Joi = require('joi')
+const Joi = require("joi");
 
 const validateEmployeeAssignment = (req, res, next) => {
   const schema = Joi.object({
-    employee_id: Joi.string().required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+    employee_id: Joi.number().integer().required(),
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
+  return next();
+};
 
 const validateAddAssignment = (req, res, next) => {
   const schema = Joi.object({
@@ -24,13 +24,13 @@ const validateAddAssignment = (req, res, next) => {
       release_date: Joi.date(),
       employee_id: Joi.number().required(),
     }).required(),
-  })
-  const isValid = Joi.validate(req.body, schema)
+  });
+  const isValid = Joi.validate(req.body, schema);
   if (isValid.error) {
     return res.json({
       error: isValid.error.details[0].message,
-    })
+    });
   }
-  return next()
-}
-module.exports = { validateEmployeeAssignment, validateAddAssignment }
+  return next();
+};
+module.exports = { validateEmployeeAssignment, validateAddAssignment };

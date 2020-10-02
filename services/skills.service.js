@@ -327,6 +327,39 @@ const exportSkillTracking = async (req, res) => {
   }
 };
 
+const exportSkills = async (req, res) => {
+  try {
+    const results = await Skill.findAll({});
+
+    res.set("Content-Type", "application/octet-stream");
+    const result = JSON.parse(JSON.stringify(results));
+    var max_length = 0;
+    var fields = [];
+    var fieldNames = [];
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length;
+        fields = Object.keys(flatten(result[i]));
+        fieldNames = Object.keys(flatten(result[i]));
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    });
+    const data = parser.parse(result);
+    res.attachment("Skills.csv");
+    res.status(200).send(data);
+
+    return;
+  } catch (exception) {
+    console.log(exception);
+    return res.json({
+      error: "Something went wrong",
+      // statusCode: unknown
+    });
+  }
+};
 const getSkills = async (req, res) => {
   try {
     const result = await Skill.findAll({});
@@ -652,4 +685,5 @@ module.exports = {
   deleteSkill,
   getAllSkillTracking,
   exportSkillTracking,
+  exportSkills,
 };

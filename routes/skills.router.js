@@ -16,6 +16,7 @@ const {
   exportSkillHistory,
   exportSkillTracking,
   deleteSkill,
+  exportSkills,
 } = require("../services/skills.service");
 
 const {
@@ -66,4 +67,6 @@ router.delete("/", validateDeleteSkill, deleteSkill);
 router.post("/", validateAddSkill, addSkill);
 router.put("/", validateEditSkill, editSkill);
 router.get("/", getSkills);
+router.post("/all/export", exportSkills);
+
 module.exports = router;

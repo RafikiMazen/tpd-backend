@@ -9,7 +9,6 @@ const validateGetEmployeeTrainings = (req, res, next) => {
       training_activity_name: Joi.string(),
       event_from_date: Joi.string(),
       event_to_date: Joi.string(),
-      total_training_hours: Joi.string(),
     }).required(),
   });
   const isValid = Joi.validate(req.body, schema);

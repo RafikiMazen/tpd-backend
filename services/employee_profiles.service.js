@@ -7,6 +7,8 @@ const Assignment = require("../models/assignment.model");
 const EmployeeCertification = require("../models/employee_certifications.model");
 const EmployeeSkills = require("../models/employee_skills.model");
 const Manager = require("../models/managers.model");
+const flatten = require("flat").flatten;
+const { Parser } = require("json2csv");
 
 const getEmployee = async (req, res) => {
   try {
@@ -68,6 +70,65 @@ const getAllEmployees = async (req, res) => {
     console.log(exception);
     return res.json({
       error: "Something went wrong",
+    });
+  }
+};
+
+const exportAll = async (req, res) => {
+  try {
+    // const page = req.body.Page
+    // const limit = req.body.Limit
+    const filters = req.body.Filters;
+    var filtersMainApplied = [];
+    if (filters) {
+      const values = Object.values(filters);
+      Object.keys(filters).forEach((key, index) => {
+        filtersMainApplied.push({
+          [key]: filters[key],
+        });
+      });
+    }
+
+    let results;
+
+    results = await EmployeeProfile.findAll({
+      // offset: page * limit,
+      // limit,
+      where: filtersMainApplied,
+      order: [
+        ["updatedAt", "DESC"],
+        ["id", "DESC"],
+      ],
+      include: [{ model: Manager }],
+    });
+    const count = results.length;
+
+    res.set("Content-Type", "application/octet-stream");
+    const result = JSON.parse(JSON.stringify(results));
+    var max_length = 0;
+    var fields = [];
+    var fieldNames = [];
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length;
+        fields = Object.keys(flatten(result[i]));
+        fieldNames = Object.keys(flatten(result[i]));
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    });
+    const data = parser.parse(result);
+    res.attachment("Employees.csv");
+    res.status(200).send(data);
+
+    return;
+  } catch (exception) {
+    console.log(exception);
+    return res.json({
+      error: "Something went wrong",
+      // statusCode: unknown
     });
   }
 };
@@ -244,4 +305,5 @@ module.exports = {
   getEmployeeFunctions,
   getEmployeeWorkgroups,
   getEmployeeAssignment,
+  exportAll,
 };

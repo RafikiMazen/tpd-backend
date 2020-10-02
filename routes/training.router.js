@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   getEmployeeTrainings,
   getMyTrainings,
+  exportEmployeeTrainings,
 } = require("../services/trainings.service");
 
 const {
@@ -22,6 +23,11 @@ router.post(
   "/employeeTrainings",
   validateGetEmployeeTrainings,
   getEmployeeTrainings
+);
+router.post(
+  "/employeeTrainings/export",
+  validateGetEmployeeTrainings,
+  exportEmployeeTrainings
 );
 router.post("/my", getMyTrainings);
 

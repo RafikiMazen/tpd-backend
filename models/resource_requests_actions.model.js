@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const resourceRequest = require("./resource_requests.model");
 const { sequelize } = require("../config/dbConfig");
+const ResourceRequest = require("./resource_requests.model");
 
 var ResourceRequestAction = sequelize.define("resource_requests_actions", {
   action_id: {
@@ -17,6 +18,10 @@ var ResourceRequestAction = sequelize.define("resource_requests_actions", {
   resource_request_reference_numbe: {
     type: Sequelize.INTEGER,
   },
+});
+
+ResourceRequest.hasMany(ResourceRequestAction, {
+  foreignKey: "resource_request_reference_numbe",
 });
 
 ResourceRequestAction.belongsTo(resourceRequest, {

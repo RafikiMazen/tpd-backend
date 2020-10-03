@@ -40,7 +40,7 @@ const getAllReleaseRequests = async (req, res) => {
       include: [
         {
           model: ReleaseRequestAction,
-          order: [["updatedAt", "ASC"]],
+          order: [["updatedAt", "DESC"]],
         },
       ],
     });

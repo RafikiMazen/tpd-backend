@@ -55,6 +55,7 @@ const validateAddResourceRequest = (req, res, next) => {
       end_date: Joi.date().required(),
       related_Opportunity: Joi.string().required(),
       comments: Joi.string(),
+      status: Joi.string(),
     }).required(),
     Skills: Joi.array().items(
       Joi.object({
@@ -86,9 +87,9 @@ const validateUpdateResourceRequest = (req, res, next) => {
       percentage: Joi.number().integer(),
       start_date: Joi.date(),
       end_date: Joi.date(),
-      related_Opportunity: Joi.string(),
+      related_opportunity: Joi.string(),
       comments: Joi.string(),
-      request_status: Joi.string(),
+      status: Joi.string(),
     }).required(),
   });
   const isValid = Joi.validate(req.body, schema);

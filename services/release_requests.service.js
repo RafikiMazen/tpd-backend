@@ -37,9 +37,17 @@ const getAllReleaseRequests = async (req, res) => {
         ['updatedAt', 'DESC'],
         ['reference_number', 'DESC'],
       ],
-      include: [{ model: ReleaseRequestAction }],
+      include: [
+        {
+          model: ReleaseRequestAction,
+          order: [
+            ['updatedAt', 'DESC'],
+            ['reference_number', 'DESC'],
+          ],
+        },
+      ],
     })
-    const count = result.length
+  const count = result.length
 
     return res.json({
       ReleaseRequests: result,
@@ -416,7 +424,9 @@ const addReleaseRequestِAction = async (req, res) => {
     const usertoken = req.headers.authorization
     const token = usertoken.split(' ')
     const decoded = jwt.verify(token[0], process.env.JWT_KEY)
-    const owner = await EmployeeProfile.findOne({ where: { user_id: decoded.id } })
+    const owner = await EmployeeProfile.findOne({
+      where: { user_id: decoded.id },
+    })
     releaseRequestAction.action_owner_name = owner.name
     const orderCreated = await ReleaseRequestAction.create(releaseRequestAction)
 

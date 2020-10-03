@@ -169,7 +169,7 @@ const validateAddResourceRequestActions = (req, res, next) => {
     ResourceRequestAction: Joi.object({
       request_reference_number: Joi.number().required(),
       action: Joi.string().required(),
-      action_note: Joi.string().required(),
+      action_note: Joi.string(),
     }).required(),
   });
   const isValid = Joi.validate(req.body, schema);

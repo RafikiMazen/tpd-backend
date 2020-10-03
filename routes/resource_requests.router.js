@@ -13,6 +13,8 @@ const {
   exportAllResourceRequests,
   addResourceRequestSkill,
   deleteResourceRequestSkill,
+  managerExportAllResourceRequests,
+  managerGetAllResourceRequests,
 } = require('../services/resource_requests.service')
 
 const {
@@ -70,4 +72,14 @@ router.put(
   updateResourceRequestAction
 )
 
+router.post(
+  '/manager/getAll',
+  validateGetAllResourceRequests,
+  managerGetAllResourceRequests
+)
+router.post(
+  '/manager/exportAll',
+  validateExportAllResourceRequests,
+  managerExportAllResourceRequests
+)
 module.exports = router

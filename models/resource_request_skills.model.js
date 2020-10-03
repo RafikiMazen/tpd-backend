@@ -15,4 +15,7 @@ var ResourceRequestSkill = sequelize.define('resource_request_skills', {
 ResourceRequestSkill.belongsTo(ResourceRequest, {
   foreignKey: 'request_reference_number',
 })
+ResourceRequest.hasMany(ResourceRequestSkill, {
+  foreignKey: 'request_reference_number',
+})
 module.exports = ResourceRequestSkill

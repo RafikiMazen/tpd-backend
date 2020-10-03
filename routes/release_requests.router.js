@@ -11,6 +11,8 @@ const {
   updateReleaseRequestAction,
   getReleaseRequestActions,
   exportAllReleaseRequests,
+  managerExportAllReleaseRequests,
+  managerGetAllReleaseRequests,
 } = require('../services/release_requests.service')
 
 const {
@@ -63,6 +65,17 @@ router.put(
   '/action',
   validateUpdateReleaseRequestActions,
   updateReleaseRequestAction
+)
+
+router.post(
+  '/manager/getAll',
+  validateGetAllReleaseRequests,
+  managerGetAllReleaseRequests
+)
+router.post(
+  '/manager/exportAll',
+  validateExportAllReleaseRequests,
+  managerExportAllReleaseRequests
 )
 
 module.exports = router

@@ -8,6 +8,8 @@ const Role = require('../models/role.model')
 const { userRoles } = require('../constants/enums')
 const User = require('../models/users.model')
 const UserRole = require('../models/user_role.model')
+const jwt = require('jsonwebtoken')
+const Manager = require('../models/managers.model')
 
 //view release requests list with fiters
 const getAllReleaseRequests = async (req, res) => {
@@ -51,6 +53,58 @@ const getAllReleaseRequests = async (req, res) => {
   }
 }
 
+const managerGetAllReleaseRequests = async (req, res) => {
+  try {
+    const page = req.body.Page
+    const limit = req.body.Limit
+    const filters = req.body.Filters
+    var filtersMainApplied = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        filtersMainApplied.push({
+          [key]: filters[key],
+        })
+      })
+    }
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    const manager = Manager.findOne({ where: { user_id: decoded.id } })
+    if (!manager) {
+      return res.json({
+        error: 'This user is not a manager',
+      })
+    }
+    filtersMainApplied.push({ manager_name: manager.name })
+
+    let result
+
+    result = await ReleaseRequest.findAll({
+      offset: page * limit,
+      limit,
+      where: filtersMainApplied,
+      order: [
+        ['updatedAt', 'DESC'],
+        ['reference_number', 'DESC'],
+      ],
+      include: [{ model: ReleaseRequestAction }],
+    })
+    const count = result.length
+
+    return res.json({
+      ReleaseRequests: result,
+      count,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
 const exportAllReleaseRequests = async (req, res) => {
   res.set('Content-Type', 'application/octet-stream')
   try {
@@ -64,6 +118,72 @@ const exportAllReleaseRequests = async (req, res) => {
         })
       })
     }
+    let requests
+
+    requests = await ReleaseRequest.findAll({
+      where: filtersMainApplied,
+      order: [
+        ['updatedAt', 'DESC'],
+        ['reference_number', 'DESC'],
+      ],
+      include: [{ model: ReleaseRequestAction }],
+    })
+    const count = requests.length
+
+    const result = JSON.parse(JSON.stringify(requests))
+    var max_length = 0
+    var fields = []
+    var fieldNames = []
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length
+        fields = Object.keys(flatten(result[i]))
+        fieldNames = Object.keys(flatten(result[i]))
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    })
+    const data = parser.parse(result)
+    res.attachment('allReleaseRequests.csv')
+    res.status(200).send(data)
+
+    return
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
+const managerExportAllReleaseRequests = async (req, res) => {
+  res.set('Content-Type', 'application/octet-stream')
+  try {
+    const filters = req.body.Filters
+    var filtersMainApplied = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        filtersMainApplied.push({
+          [key]: filters[key],
+        })
+      })
+    }
+
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    const manager = Manager.findOne({ where: { user_id: decoded.id } })
+    if (!manager) {
+      return res.json({
+        error: 'Manager profile does not exist',
+      })
+    }
+    filtersMainApplied.push({ manager_name: manager.name })
+
     let requests
 
     requests = await ReleaseRequest.findAll({
@@ -387,4 +507,6 @@ module.exports = {
   updateReleaseRequestAction,
   getReleaseRequestActions,
   exportAllReleaseRequests,
+  managerExportAllReleaseRequests,
+  managerGetAllReleaseRequests,
 }

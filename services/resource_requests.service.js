@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken')
 const Role = require('../models/role.model')
 const UserRole = require('../models/user_role.model')
 const User = require('../models/users.model')
+const Manager = require('../models/managers.model')
 
 //view resource requests list with fiters
 const getAllResourceRequests = async (req, res) => {
@@ -34,9 +35,6 @@ const getAllResourceRequests = async (req, res) => {
       })
     }
     let result
-    ResourceRequest.hasMany(ResourceRequestSkill, {
-      foreignKey: 'request_reference_number',
-    })
     if (filtersSecondaryApplied.length != 0) {
       result = await ResourceRequest.findAll({
         offset: page * limit,
@@ -102,9 +100,6 @@ const exportAllResourceRequests = async (req, res) => {
       })
     }
     let requests
-    ResourceRequest.hasMany(ResourceRequestSkill, {
-      foreignKey: 'request_reference_number',
-    })
     if (filtersSecondaryApplied.length != 0) {
       requests = await ResourceRequest.findAll({
         where: filtersMainApplied,
@@ -516,6 +511,169 @@ const getResourceRequestActions = async (req, res) => {
   }
 }
 
+const managerGetAllResourceRequests = async (req, res) => {
+  try {
+    const page = req.body.Page
+    const limit = req.body.Limit
+    const filters = req.body.Filters
+    var filtersMainApplied = []
+    var filtersSecondaryApplied = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        if (key === 'category' || key === 'subcategory') {
+          filtersSecondaryApplied.push({
+            [key]: filters[key],
+          })
+        } else {
+          filtersMainApplied.push({
+            [key]: filters[key],
+          })
+        }
+      })
+    }
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    const manager = Manager.findOne({ where: { user_id: decoded.id } })
+    if (!manager) {
+      return res.json({
+        error: 'Manager profile does not exist',
+      })
+    }
+    filtersMainApplied.push({ manager_name: manager.name })
+    let result
+    if (filtersSecondaryApplied.length != 0) {
+      result = await ResourceRequest.findAll({
+        offset: page * limit,
+        limit,
+        where: filtersMainApplied,
+        order: [
+          ['updatedAt', 'DESC'],
+          ['reference_number', 'DESC'],
+        ],
+        include: [
+          {
+            model: ResourceRequestSkill,
+            where: filtersSecondaryApplied,
+            required: true,
+          },
+          { model: ResourceRequestAction },
+        ],
+      })
+    } else {
+      result = await ResourceRequest.findAll({
+        offset: page * limit,
+        limit,
+        where: filtersMainApplied,
+        order: [
+          ['updatedAt', 'DESC'],
+          ['reference_number', 'DESC'],
+        ],
+      })
+    }
+    const count = result.length
+
+    return res.json({
+      ResourceRequests: result,
+      count,
+    })
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
+const managerExportAllResourceRequests = async (req, res) => {
+  res.set('Content-Type', 'application/octet-stream')
+  try {
+    const filters = req.body.Filters
+    var filtersMainApplied = []
+    var filtersSecondaryApplied = []
+    if (filters) {
+      const values = Object.values(filters)
+      Object.keys(filters).forEach((key, index) => {
+        if (key === 'category' || key === 'subcategory') {
+          filtersSecondaryApplied.push({
+            [key]: filters[key],
+          })
+        } else {
+          filtersMainApplied.push({
+            [key]: filters[key],
+          })
+        }
+      })
+    }
+
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    const manager = Manager.findOne({ where: { user_id: decoded.id } })
+    if (!manager) {
+      return res.json({
+        error: 'Manager profile does not exist',
+      })
+    }
+    filtersMainApplied.push({ manager_name: manager.name })
+    let requests
+
+    if (filtersSecondaryApplied.length != 0) {
+      requests = await ResourceRequest.findAll({
+        where: filtersMainApplied,
+        order: [
+          ['updatedAt', 'DESC'],
+          ['reference_number', 'DESC'],
+        ],
+        include: [
+          {
+            model: ResourceRequestSkill,
+            where: filtersSecondaryApplied,
+            required: true,
+          },
+        ],
+      })
+    } else {
+      requests = await ResourceRequest.findAll({
+        where: filtersMainApplied,
+        order: [
+          ['updatedAt', 'DESC'],
+          ['reference_number', 'DESC'],
+        ],
+      })
+    }
+    const count = requests.length
+
+    const result = JSON.parse(JSON.stringify(requests))
+    var max_length = 0
+    var fields = []
+    var fieldNames = []
+    for (var i = 0; i < result.length; i++) {
+      if (Object.keys(flatten(result[i])).length > max_length) {
+        max_length = Object.keys(flatten(result[i])).length
+        fields = Object.keys(flatten(result[i]))
+        fieldNames = Object.keys(flatten(result[i]))
+      }
+    }
+    const parser = new Parser({
+      fields,
+      unwind: fieldNames,
+    })
+    const data = parser.parse(result)
+    res.attachment('allResourceRequests.csv')
+    res.status(200).send(data)
+    return
+  } catch (exception) {
+    console.log(exception)
+    return res.json({
+      error: 'Something went wrong',
+      // statusCode: unknown
+    })
+  }
+}
+
 module.exports = {
   getAllResourceRequests,
   addResourceRequest,
@@ -528,4 +686,6 @@ module.exports = {
   deleteResourceRequestSkill,
   exportAllResourceRequests,
   addResourceRequestSkill,
+  managerExportAllResourceRequests,
+  managerGetAllResourceRequests,
 }

@@ -37,7 +37,7 @@ const addAssignment = async (req, res) => {
   try {
     const assignment = req.body.Assignment;
     const result = await EmployeeProfile.findAll({
-      where: [{ user_id: assignment.employee_id }],
+      where: [{ id: assignment.employee_id }],
     });
     if (!result) {
       return res.json({
@@ -94,7 +94,7 @@ const getMyAssignments = async (req, res) => {
 const getEmployeeAssignmentsHistory = async (req, res) => {
   try {
     let result;
-    result = await EmployeeProfile.findAll({
+    result = await EmployeeProfile.findOne({
       where: [{ id: req.body.employee_id }],
       include: [
         {

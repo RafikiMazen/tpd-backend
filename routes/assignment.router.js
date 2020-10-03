@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const {
   getMyAssignmentsHistory,
@@ -7,12 +7,16 @@ const {
   getEmployeeAssignments,
   getEmployeeAssignmentsHistory,
   addAssignment,
-} = require("../services/assignments.service");
+  deleteAssignment,
+  editAssignment,
+} = require('../services/assignments.service')
 
 const {
   validateEmployeeAssignment,
   validateAddAssignment,
-} = require("../middlewares/validations/assignment.validations");
+  validateDeleteAssignment,
+  validateEditAssignment,
+} = require('../middlewares/validations/assignment.validations')
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -22,14 +26,16 @@ const {
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-router.get("/history", getMyAssignmentsHistory);
-router.post("/", validateAddAssignment, addAssignment);
+router.get('/history', getMyAssignmentsHistory)
+router.post('/', validateAddAssignment, addAssignment)
 router.post(
-  "/history/empoloyee",
+  '/history/empoloyee',
   validateEmployeeAssignment,
   getEmployeeAssignmentsHistory
-);
-router.post("/my", getMyAssignments);
-router.post("/employee", validateEmployeeAssignment, getEmployeeAssignments);
+)
+router.post('/my', getMyAssignments)
+router.post('/employee', validateEmployeeAssignment, getEmployeeAssignments)
+router.put('/', validateEditAssignment, editAssignment)
+router.delete('/', validateDeleteAssignment, deleteAssignment)
 
-module.exports = router;
+module.exports = router

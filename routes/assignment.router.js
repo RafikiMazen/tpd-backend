@@ -17,25 +17,35 @@ const {
   validateDeleteAssignment,
   validateEditAssignment,
 } = require('../middlewares/validations/assignment.validations')
-// const {
-//   verifyToken,
-//   verifyAdmin,
-//   verifySales,
-//   verifyTech,
-//   authorizeUser,
-//   authorizeEdit,
-// } = require('../auth/verifyToken')
+const {
+  verifyToken,
+  verifyEmployee,
+  verifyManager,
+  verifyTPD,
+  verifyTPDorManager,
+} = require('../auth/verifyToken')
 
 router.get('/history', getMyAssignmentsHistory)
-router.post('/', validateAddAssignment, addAssignment)
+router.post('/', verifyTPD,validateAddAssignment, addAssignment)
 router.post(
   '/history/empoloyee',
+  verifyTPD,
   validateEmployeeAssignment,
   getEmployeeAssignmentsHistory
 )
 router.post('/my', getMyAssignments)
-router.post('/employee', validateEmployeeAssignment, getEmployeeAssignments)
-router.put('/', validateEditAssignment, editAssignment)
-router.delete('/', validateDeleteAssignment, deleteAssignment)
+router.post(
+  '/employee',
+  verifyTPD,
+  validateEmployeeAssignment,
+  getEmployeeAssignments
+)
+router.put('/', verifyTPD, validateEditAssignment, editAssignment)
+router.delete(
+  '/',
+  verifyTPD,
+  validateDeleteAssignment,
+  deleteAssignment
+)
 
 module.exports = router

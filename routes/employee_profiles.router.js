@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const {
   getEmployee,
@@ -12,7 +12,7 @@ const {
   getEmployeeWorkgroups,
   getEmployeeAssignment,
   exportAll,
-} = require("../services/employee_profiles.service");
+} = require('../services/employee_profiles.service')
 
 const {
   validateGetEmployee,
@@ -20,33 +20,43 @@ const {
   validateGetEmployeeCertificates,
   validateGetAllEmployees,
   validateGetEmployeeAssignment,
-} = require("../middlewares/validations/employee_profile.validations");
-// const {
-//   verifyToken,
-//   verifyAdmin,
-//   verifySales,
-//   verifyTech,
-//   authorizeUser,
-//   authorizeEdit,
-// } = require('../auth/verifyToken')
+} = require('../middlewares/validations/employee_profile.validations')
+const { verifyTPDorManager } = require('../auth/verifyToken')
 
-router.post("/one", validateGetEmployee, getEmployee);
-router.post("/skills", validateGetEmployeeSkills, getEmployeeSkills);
+router.post('/one', verifyTPDorManager, validateGetEmployee, getEmployee)
 router.post(
-  "/certificates",
+  '/skills',
+  verifyTPDorManager,
+  validateGetEmployeeSkills,
+  getEmployeeSkills
+)
+router.post(
+  '/certificates',
+  verifyTPDorManager,
   validateGetEmployeeCertificates,
   getEmployeeCertificates
-);
+)
 router.post(
-  "/assignments",
+  '/assignments',
+  verifyTPDorManager,
   validateGetEmployeeAssignment,
   getEmployeeAssignment
-);
-router.post("/all", validateGetAllEmployees, getAllEmployees);
-router.post("/all/export", validateGetAllEmployees, exportAll);
+)
+router.post(
+  '/all',
+  verifyTPDorManager,
+  validateGetAllEmployees,
+  getAllEmployees
+)
+router.post(
+  '/all/export',
+  verifyTPDorManager,
+  validateGetAllEmployees,
+  exportAll
+)
 
-router.get("/titles", getEmployeeTitles);
-router.get("/names", getEmployeeNames);
-router.get("/functions", getEmployeeFunctions);
-router.get("/workgroups", getEmployeeWorkgroups);
-module.exports = router;
+router.get('/titles', verifyTPDorManager, getEmployeeTitles)
+router.get('/names', verifyTPDorManager, getEmployeeNames)
+router.get('/functions', verifyTPDorManager, getEmployeeFunctions)
+router.get('/workgroups', verifyTPDorManager, getEmployeeWorkgroups)
+module.exports = router

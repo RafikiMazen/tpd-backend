@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const {
   getMyCertificates,
@@ -20,7 +20,7 @@ const {
   getCertificateHistory,
   exportCertificateHistory,
   exportCertificates,
-} = require("../services/certificates.service");
+} = require('../services/certificates.service')
 
 const {
   validateAddEmployeeCertificate,
@@ -35,71 +35,65 @@ const {
   validateDeleteCertification,
   validateEditCertification,
   validateGetAllCertificatesHistory,
-} = require("../middlewares/validations/certificate.validations");
-// const {
-//   verifyToken,
-//   verifyAdmin,
-//   verifySales,
-//   verifyTech,
-//   authorizeUser,
-//   authorizeEdit,
-// } = require('../auth/verifyToken')
+} = require('../middlewares/validations/certificate.validations')
+const { verifyTPD, verifyTPDorManager } = require('../auth/verifyToken')
 
 router.post(
-  "/history",
+  '/history',
+  verifyTPD,
   validateGetAllCertificatesHistory,
   getCertificateHistory
-);
+)
 router.post(
-  "/history/export",
+  '/history/export',
+  verifyTPD,
   validateGetAllCertificatesHistory,
   exportCertificateHistory
-);
-router.post("/my", getMyCertificates);
-router.post("/employee/all", getEmployeeCertifcates);
+)
+router.post('/my', getMyCertificates)
+router.post('/employee/all', verifyTPD, getEmployeeCertifcates)
 
-router.post(
-  "/employee",
-  validateAddEmployeeCertificate,
-  addEmployeeCertificate
-);
+router.post('/employee', validateAddEmployeeCertificate, addEmployeeCertificate)
 router.put(
-  "/employee",
+  '/employee',
   validateEditEmployeeCertificate,
   editEmployeeCertificate
-);
+)
 router.delete(
-  "/employee",
+  '/employee',
   validateDeleteEmployeeCertificate,
   deleteEmployeeCertificate
-);
-router.post("/", validateAddCertification, addCertification);
+)
+router.post('/', verifyTPD, validateAddCertification, addCertification)
 router.post(
-  "/provider",
+  '/provider',
+  verifyTPD,
   validateAddCertificationProvider,
   addCertificationProvider
-);
+)
 router.put(
-  "/provider",
+  '/provider',
+  verifyTPD,
   validateEditCertificationProvider,
   editCertificationProvider
-);
+)
 router.delete(
-  "/provider",
+  '/provider',
+  verifyTPD,
   validateDeleteCertificationProvider,
   deleteCertificationProvider
-);
-router.get("/provider", getCertificateProviders);
-router.get("/provider/export", exportCertificateProviders);
-router.post("/export", validateGetAllCertificates, exportCertificates);
+)
+router.get('/provider', getCertificateProviders)
+router.get('/provider/export', verifyTPD, exportCertificateProviders)
+router.post('/export', verifyTPD,validateGetAllCertificates, exportCertificates)
 
 router.post(
-  "/allByProvider",
+  '/allByProvider',
   validateGetCertificationsByProvider,
   getCertificatesByProvider
-);
-router.post("/all", validateGetAllCertificates, getCertificates);
-router.put("/", validateEditCertification, editCertification);
-router.delete("/", validateDeleteCertification, deleteCertification);
+)
+router.post('/all', validateGetAllCertificates, getCertificates)
+router.put('/', verifyTPD, validateEditCertification, editCertification)
+router.delete('/', verifyTPD, validateDeleteCertification, deleteCertification)
 
-module.exports = router;
+module.exports = router

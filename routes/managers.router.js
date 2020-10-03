@@ -9,8 +9,14 @@ const {
   validateGetAllManagers,
   validateGetAllMyEmployees,
 } = require('../middlewares/validations/manager.validations')
+const { verifyTPDorManager, verifyManager } = require('../auth/verifyToken')
 
-router.post('/all', validateGetAllManagers, getAllManagers)
-router.post('/allEmployees', validateGetAllMyEmployees, getMyEmployees)
+router.post('/all', verifyTPDorManager, validateGetAllManagers, getAllManagers)
+router.post(
+  '/allEmployees',
+  verifyManager,
+  validateGetAllMyEmployees,
+  getMyEmployees
+)
 
 module.exports = router

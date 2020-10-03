@@ -1,6 +1,7 @@
-const Assignment = require("../models/assignment.model");
-const EmployeeProfile = require("../models/employee_profiles.model");
-const jwt = require("jsonwebtoken");
+const Assignment = require('../models/assignment.model')
+const EmployeeProfile = require('../models/employee_profiles.model')
+const jwt = require('jsonwebtoken')
+const { Op } = require('sequelize')
 
 const getMyAssignmentsHistory = async (req, res) => {
   try {
@@ -70,7 +71,13 @@ const getMyAssignments = async (req, res) => {
       include: [
         {
           model: Assignment,
-          // where:[{release_date: [Op.gte] moment().toDate()}]
+          where: [
+            {
+              release_date: {
+                [Op.gte]: new Date(),
+              },
+            },
+          ],
         },
       ],
     });
@@ -127,7 +134,13 @@ const getEmployeeAssignments = async (req, res) => {
       include: [
         {
           model: Assignment,
-          // where:[{release_date:[Op.gte]: moment().toDate()}]
+          where: [
+            {
+              release_date: {
+                [Op.gte]: new Date(),
+              },
+            },
+          ],
         },
       ],
     });

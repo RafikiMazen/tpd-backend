@@ -7,7 +7,8 @@ const {
   validateAssignRole,
   validateCreateRole,
 } = require('../middlewares/validations/role.validations')
+const { verifyTPD } = require('../auth/verifyToken')
 
-router.post('/', validateCreateRole, createRole)
-router.post('/assignRole', validateAssignRole, assignRole)
+router.post('/',verifyTPD, validateCreateRole, createRole)
+router.post('/assignRole',verifyTPD, validateAssignRole, assignRole)
 module.exports = router

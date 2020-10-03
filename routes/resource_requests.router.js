@@ -30,55 +30,91 @@ const {
   validateAddResourceRequestSkill,
   validateDeleteResourceRequestSkill,
 } = require('../middlewares/validations/resource_request.validations')
-// const {
-//   verifyToken,
-//   verifyAdmin,
-//   verifySales,
-//   verifyTech,
-//   authorizeUser,
-//   authorizeEdit,
-// } = require('../auth/verifyToken')
+const {
+  verifyToken,
+  verifyEmployee,
+  verifyManager,
+  verifyTPD,
+  verifyTPDorManager,
+} = require('../auth/verifyToken')
 
-router.post('/all', validateGetAllResourceRequests, getAllResourceRequests)
-router.post('/', validateAddResourceRequest, addResourceRequest)
+router.post(
+  '/all',
+  verifyTPDorManager,
+  validateGetAllResourceRequests,
+  getAllResourceRequests
+)
+router.post(
+  '/',
+  verifyTPDorManager,
+  validateAddResourceRequest,
+  addResourceRequest
+)
 router.post(
   '/exportAll',
+  verifyTPDorManager,
   validateExportAllResourceRequests,
   exportAllResourceRequests
 )
-router.post('/skill', validateAddResourceRequestSkill, addResourceRequestSkill)
+router.post(
+  '/skill',
+  verifyTPDorManager,
+  validateAddResourceRequestSkill,
+  addResourceRequestSkill
+)
 router.delete(
   '/skill',
+  verifyTPDorManager,
   validateDeleteResourceRequestSkill,
   deleteResourceRequestSkill
 )
 
-router.delete('/', validateDeleteResourceRequest, deleteResourceRequest)
-router.put('/', validateUpdateResourceRequest, updateResourceRequest)
-router.post('/one', validateGetResourceRequest, getResourceRequest)
+router.delete(
+  '/',
+  verifyTPDorManager,
+  validateDeleteResourceRequest,
+  deleteResourceRequest
+)
+router.put(
+  '/',
+  verifyTPDorManager,
+  validateUpdateResourceRequest,
+  updateResourceRequest
+)
+router.post(
+  '/one',
+  verifyTPDorManager,
+  validateGetResourceRequest,
+  getResourceRequest
+)
 router.post(
   '/action/all',
+  verifyTPDorManager,
   validateGetResourceRequestActions,
   getResourceRequestActions
 )
 router.post(
   '/action',
+  verifyTPDorManager,
   validateAddResourceRequestActions,
   addResourceRequestِAction
 )
 router.put(
   '/action',
+  verifyTPDorManager,
   validateUpdateResourceRequestActions,
   updateResourceRequestAction
 )
 
 router.post(
   '/manager/getAll',
+  verifyManager,
   validateGetAllResourceRequests,
   managerGetAllResourceRequests
 )
 router.post(
   '/manager/exportAll',
+  verifyManager,
   validateExportAllResourceRequests,
   managerExportAllResourceRequests
 )

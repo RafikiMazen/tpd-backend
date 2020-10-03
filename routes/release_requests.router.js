@@ -21,8 +21,6 @@ const {
   validateUpdateReleaseRequest,
   validateDeleteReleaseRequest,
   validateGetReleaseRequest,
-  validateGetReleaseRequestActions,
-  validateDeleteReleaseRequestActions,
   validateUpdateReleaseRequestActions,
   validateAddReleaseRequestActions,
   validateExportAllReleaseRequests,
@@ -35,45 +33,70 @@ const {
   verifyTPDorManager,
 } = require('../auth/verifyToken')
 
-router.post('/all', validateGetAllReleaseRequests, getAllReleaseRequests)
+router.post(
+  '/all',
+  verifyTPDorManager,
+  validateGetAllReleaseRequests,
+  getAllReleaseRequests
+)
 router.post(
   '/exportAll',
+  verifyTPDorManager,
   validateExportAllReleaseRequests,
   exportAllReleaseRequests
 )
-router.post('/one', validateGetReleaseRequest, getReleaseRequest)
-router.post('/', validateAddReleaseRequest, addReleaseRequest)
-router.delete('/', validateDeleteReleaseRequest, deleteReleaseRequest)
-router.put('/', validateUpdateReleaseRequest, updateReleaseRequest)
+router.post(
+  '/one',
+  verifyTPDorManager,
+  validateGetReleaseRequest,
+  getReleaseRequest
+)
+router.post(
+  '/',
+  verifyTPDorManager,
+  validateAddReleaseRequest,
+  addReleaseRequest
+)
+router.delete(
+  '/',
+  verifyTPDorManager,
+  validateDeleteReleaseRequest,
+  deleteReleaseRequest
+)
+router.put(
+  '/',
+  verifyTPDorManager,
+  validateUpdateReleaseRequest,
+  updateReleaseRequest
+)
 
 router.get(
   '/action/',
-  validateGetReleaseRequestActions,
+  verifyTPDorManager,
   getReleaseRequestActions
 )
-// router.delete(
-//   '/action',
-//   validateDeleteReleaseRequestActions,
-//   deleteReleaseRequestAction
-// )
 router.post(
   '/action',
+  verifyTPDorManager,
   validateAddReleaseRequestActions,
   addReleaseRequestِAction
 )
 router.put(
   '/action',
+  verifyTPDorManager,
   validateUpdateReleaseRequestActions,
   updateReleaseRequestAction
 )
 
 router.post(
   '/manager/getAll',
+  verifyTPDorManager,
   validateGetAllReleaseRequests,
   managerGetAllReleaseRequests
 )
 router.post(
   '/manager/exportAll',
+  verifyTPDorManager,
   validateExportAllReleaseRequests,
   managerExportAllReleaseRequests
 )

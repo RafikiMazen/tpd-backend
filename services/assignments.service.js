@@ -159,7 +159,7 @@ const editAssignment = async (req, res) => {
     const AssignmentBody = req.body.Assignment
     const assignment = await Assignment.findOne({
       where: {
-        assignment_id: AssignmentBody.id,
+        assignment_id: AssignmentBody.assignment_id,
       },
     })
     if (!assignment) {

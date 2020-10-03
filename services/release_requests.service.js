@@ -236,7 +236,6 @@ const addReleaseRequest = async (req, res) => {
       where: { role_name: 'TPD Team' },
       include: [{ model: UserRole, include: [{ model: User }] }],
     })
-    // console.log(sendList)
     for (const contact of sendList) {
       for (const userrole of contact.users_roles) {
         emails.push(userrole.user.email)
@@ -256,7 +255,7 @@ const addReleaseRequest = async (req, res) => {
       from: process.env.sender_email,
       to: emails,
       subject: 'New Release Request',
-      text: 'A Release Request is Added',
+      text: orderCreated,
     }
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
@@ -268,13 +267,11 @@ const addReleaseRequest = async (req, res) => {
 
     return res.json({
       msg: 'Request successfully added',
-      // statusCode: statusCodes.success,
     })
   } catch (exception) {
     console.log(exception)
     return res.json({
       error: 'Something went wrong',
-      // statusCode: statusCodes.unknown,
     })
   }
 }
@@ -288,7 +285,6 @@ const updateReleaseRequest = async (req, res) => {
     if (!checkCustomer) {
       return res.json({
         error: 'Request Does not exist',
-        // statusCode: statusCodes.entityNotFound,
       })
     }
 
@@ -302,7 +298,6 @@ const updateReleaseRequest = async (req, res) => {
       where: { role_name: 'TPD Team' },
       include: [{ model: UserRole, include: [{ model: User }] }],
     })
-    // console.log(sendList)
     for (const contact of sendList) {
       for (const userrole of contact.users_roles) {
         emails.push(userrole.user.email)

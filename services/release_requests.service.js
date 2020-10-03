@@ -11,6 +11,7 @@ const UserRole = require('../models/user_role.model')
 const jwt = require('jsonwebtoken')
 const Manager = require('../models/managers.model')
 const EmployeeProfile = require('../models/employee_profiles.model')
+const { json } = require('sequelize/types')
 
 //view release requests list with fiters
 const getAllReleaseRequests = async (req, res) => {
@@ -40,14 +41,11 @@ const getAllReleaseRequests = async (req, res) => {
       include: [
         {
           model: ReleaseRequestAction,
-          order: [
-            ['updatedAt', 'DESC'],
-            ['reference_number', 'DESC'],
-          ],
+          order: [['updatedAt', 'ASC']],
         },
       ],
     })
-  const count = result.length
+    const count = result.length
 
     return res.json({
       ReleaseRequests: result,
@@ -265,7 +263,9 @@ const addReleaseRequest = async (req, res) => {
       from: process.env.sender_email,
       to: emails,
       subject: 'New Release Request',
-      text: orderCreated,
+      text:
+        'A New Release Request have been added \n' +
+        JSON.stringify(orderCreated),
     }
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
@@ -327,7 +327,9 @@ const updateReleaseRequest = async (req, res) => {
         from: process.env.sender_email,
         to: emails,
         subject: 'Release Request is updated',
-        text: 'A Release Request status is updated',
+        text:
+          'A Release Request have been updated \n' +
+          JSON.stringify(requestEdited),
       }
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {

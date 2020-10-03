@@ -47,30 +47,30 @@ router.get("/categories", getCategories);
 router.post("/subcategories", validateGetSubcategories, getSubCategories);
 router.post(
   "/employee",
-  verifyToken,
   validateAddEmployeeSkill,
   addEmployeeSkill
 );
-router.post("/history", validateGetAllSkillHistory, getAllSkillHistory);
+router.post("/history", verifyTPD,validateGetAllSkillHistory, getAllSkillHistory);
 
-router.post("/tracking", validateGetAllSkillTracking, getAllSkillTracking);
+router.post("/tracking", verifyTPD,validateGetAllSkillTracking, getAllSkillTracking);
 
 router.post(
   "/tracking/export",
+  verifyTPD,
   validateGetAllSkillTracking,
   exportSkillTracking
 );
 
-router.post("/history/export", validateExportAllSkillHistory, exportSkillHistory);
+router.post("/history/export", verifyTPD,validateExportAllSkillHistory, exportSkillHistory);
 router.put("/employee", validateEditEmployeeSkill, editEmployeeSkill);
 router.delete("/employee", validateDeleteEmployeeSkill, deleteEmployeeSkill);
 router.post("/employee/all", validateGetEmployeeSkills, getEmployeeSkills);
 
-router.delete("/", validateDeleteSkill, deleteSkill);
+router.delete("/", verifyTPD,validateDeleteSkill, deleteSkill);
 
-router.post("/", validateAddSkill, addSkill);
-router.put("/", validateEditSkill, editSkill);
+router.post("/", verifyTPD,validateAddSkill, addSkill);
+router.put("/", verifyTPD,validateEditSkill, editSkill);
 router.get("/", getSkills);
-router.post("/all/export", exportSkills);
+router.post("/all/export", verifyTPD,exportSkills);
 
 module.exports = router;

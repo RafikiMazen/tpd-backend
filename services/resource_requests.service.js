@@ -200,7 +200,9 @@ const addResourceRequest = async (req, res) => {
       from: process.env.sender_email,
       to: emails,
       subject: 'New Resource Request',
-      text: 'A Resource Request is Added',
+      text:
+        'A New Resource Request have been added \n' +
+        JSON.stringify(requestCreated),
     }
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
@@ -279,7 +281,9 @@ const updateResourceRequest = async (req, res) => {
         from: process.env.sender_email,
         to: emails,
         subject: 'Resource Request is updated',
-        text: 'A Resource Request status is updated',
+        text:
+          'A Resource Request have been updated \n' +
+          JSON.stringify(requestEdited),
       }
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {

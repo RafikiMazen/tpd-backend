@@ -32,8 +32,6 @@ const validateGetAllSkillHistory = (req, res, next) => {
 
 const validateExportAllSkillHistory = (req, res, next) => {
   const schema = Joi.object({
-    Page: Joi.number().integer().required().min(0),
-    Limit: Joi.number().integer().required().min(0),
     Filters: Joi.object({
       employee_id: Joi.string(),
       skill_id: Joi.string(),

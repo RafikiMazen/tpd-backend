@@ -108,8 +108,7 @@ const getAllSkillHistory = async (req, res) => {
 
 const exportSkillHistory = async (req, res) => {
   try {
-    const page = req.body.Page
-    const limit = req.body.Limit
+
     const filters = req.body.Filters
     const usertoken = req.headers.authorization
     const token = usertoken.split(' ')
@@ -139,8 +138,6 @@ const exportSkillHistory = async (req, res) => {
     let skillHistories
 
     skillHistories = await EmployeeSkillHistory.findAll({
-      offset: page * limit,
-      limit,
       // where: filtersSkill,
       order: [
         ['updatedAt', 'DESC'],

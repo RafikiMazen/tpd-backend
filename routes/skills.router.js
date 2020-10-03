@@ -45,7 +45,7 @@ router.post(
   addEmployeeSkill
 )
 router.post('/history', validateGetAllSkillHistory, getAllSkillHistory)
-router.post('/history/export', validateGetAllSkillHistory, exportSkillHistory)
+router.post('/history/export', validateExportAllSkillHistory, exportSkillHistory)
 router.put('/employee', validateEditEmployeeSkill, editEmployeeSkill)
 router.delete('/employee', validateDeleteEmployeeSkill, deleteEmployeeSkill)
 router.post('/', validateAddSkill, addSkill)

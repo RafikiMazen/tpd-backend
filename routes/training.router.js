@@ -1,14 +1,17 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 const {
   getEmployeeTrainings,
   getMyTrainings,
-} = require('../services/trainings.service')
+  exportEmployeeTrainings,
+  getEmployeesTrainings,
+} = require("../services/trainings.service");
 
 const {
   validateGetEmployeeTrainings,
-} = require('../middlewares/validations/training.validations')
+  validateGetEmployeesTrainings,
+} = require("../middlewares/validations/training.validations");
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -19,10 +22,22 @@ const {
 // } = require('../auth/verifyToken')
 
 router.post(
-  '/employeeTrainings',
+  "/employeesTrainings",
+  validateGetEmployeesTrainings,
+  getEmployeesTrainings
+);
+
+router.post(
+  "/employeeTrainings",
   validateGetEmployeeTrainings,
   getEmployeeTrainings
-)
-router.get('/my', getMyTrainings)
+);
 
-module.exports = router
+router.post(
+  "/employeesTrainings/export",
+  validateGetEmployeeTrainings,
+  exportEmployeeTrainings
+);
+router.post("/my", getMyTrainings);
+
+module.exports = router;

@@ -1,5 +1,5 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 const {
   getEmployee,
@@ -11,7 +11,8 @@ const {
   getAllEmployees,
   getEmployeeWorkgroups,
   getEmployeeAssignment,
-} = require('../services/employee_profiles.service')
+  exportAll,
+} = require("../services/employee_profiles.service");
 
 const {
   validateGetEmployee,
@@ -19,7 +20,7 @@ const {
   validateGetEmployeeCertificates,
   validateGetAllEmployees,
   validateGetEmployeeAssignment,
-} = require('../middlewares/validations/employee_profile.validations')
+} = require("../middlewares/validations/employee_profile.validations");
 // const {
 //   verifyToken,
 //   verifyAdmin,
@@ -29,21 +30,23 @@ const {
 //   authorizeEdit,
 // } = require('../auth/verifyToken')
 
-router.post('/one', validateGetEmployee, getEmployee)
-router.post('/skills', validateGetEmployeeSkills, getEmployeeSkills)
+router.post("/one", validateGetEmployee, getEmployee);
+router.post("/skills", validateGetEmployeeSkills, getEmployeeSkills);
 router.post(
-  '/certificates',
+  "/certificates",
   validateGetEmployeeCertificates,
   getEmployeeCertificates
-)
+);
 router.post(
-  '/assignments',
+  "/assignments",
   validateGetEmployeeAssignment,
   getEmployeeAssignment
-)
-router.post('/all', validateGetAllEmployees, getAllEmployees)
-router.get('/titles', getEmployeeTitles)
-router.get('/names', getEmployeeNames)
-router.get('/functions', getEmployeeFunctions)
-router.get('/workgroups', getEmployeeWorkgroups)
-module.exports = router
+);
+router.post("/all", validateGetAllEmployees, getAllEmployees);
+router.post("/all/export", validateGetAllEmployees, exportAll);
+
+router.get("/titles", getEmployeeTitles);
+router.get("/names", getEmployeeNames);
+router.get("/functions", getEmployeeFunctions);
+router.get("/workgroups", getEmployeeWorkgroups);
+module.exports = router;

@@ -3712,3 +3712,31 @@
 {"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-09-30T20:12:32.270Z"}
 {"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-09-30T20:12:32.270Z"}
 {"message":"{\"expose\":true,\"statusCode\":400,\"status\":400,\"body\":\"{\\r\\n   \\\"CertificationProvider\\\":{\\r\\n       \\\"certification_provider_id\\\":\\\"1\\\",\\r\\n   }\\r\\n}\",\"type\":\"entity.parse.failed\"}","level":"error","service":"smoke-signal-service","time":"2020-09-30T20:12:32.270Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:08:49.631Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:09:38.643Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:09:42.667Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:09:47.581Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:09:50.478Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:09:53.550Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:09:55.430Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:10:03.161Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:10:32.001Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:10:35.355Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:10:39.194Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:12:14.782Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:12:19.045Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:12:19.045Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:12:24.683Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:13:04.537Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:13:18.077Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:13:22.636Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:13:25.360Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:13:36.105Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:13:38.876Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:14:00.732Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:14:10.612Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:14:10.612Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:14:17.194Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:14:17.194Z"}
+{"message":"Database connection successful","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:14:28.860Z"}
+{"message":"Express running, now listening on port 3000","level":"info","service":"smoke-signal-service","time":"2020-10-03T19:14:28.860Z"}

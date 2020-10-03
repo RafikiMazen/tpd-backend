@@ -70,7 +70,13 @@ const getMyAssignments = async (req, res) => {
       include: [
         {
           model: Assignment,
-          // where:[{release_date: [Op.gte] moment().toDate()}]
+          where: [
+            {
+              realease_date: {
+                [Op.gte]: moment().toDate(),
+              },
+            },
+          ],
         },
       ],
     })

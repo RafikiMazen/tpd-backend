@@ -14,12 +14,12 @@ var ResourceRequestAction = sequelize.define("resource_requests_actions", {
   action_note: {
     type: Sequelize.STRING(256),
   },
-  request_reference_number: {
+  resource_request_reference_numbe: {
     type: Sequelize.INTEGER,
   },
 });
 
 ResourceRequestAction.belongsTo(resourceRequest, {
-  foreignKey: "request_reference_number",
+  foreignKey: "resource_request_reference_numbe",
 });
 module.exports = ResourceRequestAction;

@@ -88,6 +88,7 @@ const validateUpdateResourceRequest = (req, res, next) => {
       end_date: Joi.date(),
       related_Opportunity: Joi.string(),
       comments: Joi.string(),
+      request_status: Joi.string(),
     }).required(),
   });
   const isValid = Joi.validate(req.body, schema);

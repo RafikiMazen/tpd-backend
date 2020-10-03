@@ -11,6 +11,7 @@ const Role = require("../models/role.model");
 const UserRole = require("../models/user_role.model");
 const User = require("../models/users.model");
 const Manager = require("../models/managers.model");
+const EmployeeProfile = require("../models/employee_profiles.model");
 
 //view resource requests list with fiters
 const getAllResourceRequests = async (req, res) => {
@@ -434,6 +435,11 @@ const addResourceRequestِAction = async (req, res) => {
         // statusCode: statusCodes.entityNotFound,
       });
     }
+    const usertoken = req.headers.authorization
+    const token = usertoken.split(' ')
+    const decoded = jwt.verify(token[0], process.env.JWT_KEY)
+    const owner = await EmployeeProfile.findOne({ where: { user_id: decoded.id } })
+    resourceRequestAction.action_owner_name = owner.name
     const orderCreated = await ResourceRequestAction.create(
       resourceRequestAction
     );

@@ -43,6 +43,9 @@ var ReleaseRequest = sequelize.define('release_requests', {
     type: Sequelize.STRING(32),
     default: releaseRequestStatus.OPEN,
   },
+  action_owner_name: {
+    type: Sequelize.STRING,
+  },
 })
 ReleaseRequest.belongsTo(EmployeeProfile, { foreignKey: 'employee_id' })
 module.exports = ReleaseRequest

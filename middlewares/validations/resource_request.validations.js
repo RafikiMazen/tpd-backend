@@ -53,7 +53,7 @@ const validateAddResourceRequest = (req, res, next) => {
       percentage: Joi.number().integer().required(),
       start_date: Joi.date().required(),
       end_date: Joi.date().required(),
-      related_Opportunity: Joi.string().required(),
+      related_opportunity: Joi.string().required(),
       comments: Joi.string(),
       status: Joi.string(),
     }).required(),

@@ -263,42 +263,41 @@ const updateResourceRequest = async (req, res) => {
       },
     });
 
-    if (req.body.ReleaseRequest.status === undefined) {
-      var emails = [];
-      const sendList = await Role.findAll({
-        where: { role_name: "TPD Team" },
-        include: [{ model: UserRole, include: [{ model: User }] }],
-      });
-      // console.log(sendList)
-      for (const contact of sendList) {
-        for (const userrole of contact.users_roles) {
-          emails.push(userrole.user.email);
-        }
+    var emails = [];
+    const sendList = await Role.findAll({
+      where: { role_name: "TPD Team" },
+      include: [{ model: UserRole, include: [{ model: User }] }],
+    });
+    // console.log(sendList)
+    for (const contact of sendList) {
+      for (const userrole of contact.users_roles) {
+        emails.push(userrole.user.email);
       }
-      var transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.sender_email,
-          pass: process.env.sender_password,
-          authentication: "plain",
-        },
-      });
-      var mailOptions = {
-        from: process.env.sender_email,
-        to: emails,
-        subject: "Resource Request is updated",
-        text:
-          "A Resource Request have been updated \n" +
-          JSON.stringify(requestEdited),
-      };
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email sent: " + info.response);
-        }
-      });
     }
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.sender_email,
+        pass: process.env.sender_password,
+        authentication: "plain",
+      },
+    });
+    var mailOptions = {
+      from: process.env.sender_email,
+      to: emails,
+      subject: "Resource Request is updated",
+      text:
+        "A Resource Request have been updated \n" +
+        JSON.stringify(requestEdited),
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
     return res.json({
       msg: "Request successfully updated",
       // statusCode: statusCodes.success,
@@ -461,9 +460,11 @@ const addResourceRequestِAction = async (req, res) => {
     const token = usertoken.split(" ");
     const decoded = jwt.verify(token[0], process.env.JWT_KEY);
     const owner = await EmployeeProfile.findOne({
-      where: { user_id: decoded.id },
+      where: { id: decoded.id },
     });
     resourceRequestAction.action_owner_name = owner.name;
+    resourceRequestAction.resource_request_reference_numbe =
+      resourceRequestAction.request_reference_number;
     const orderCreated = await ResourceRequestAction.create(
       resourceRequestAction
     );
@@ -600,6 +601,7 @@ const managerGetAllResourceRequests = async (req, res) => {
           ["updatedAt", "DESC"],
           ["reference_number", "DESC"],
         ],
+        include: [{ model: ResourceRequestAction }],
       });
     }
     const count = result.length;

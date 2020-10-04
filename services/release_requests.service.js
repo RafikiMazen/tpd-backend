@@ -426,7 +426,7 @@ const addReleaseRequestِAction = async (req, res) => {
     const token = usertoken.split(" ");
     const decoded = jwt.verify(token[0], process.env.JWT_KEY);
     const owner = await EmployeeProfile.findOne({
-      where: { user_id: decoded.id },
+      where: { id: decoded.id },
     });
     releaseRequestAction.action_owner_name = owner.name;
     const orderCreated = await ReleaseRequestAction.create(

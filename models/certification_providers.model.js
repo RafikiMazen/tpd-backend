@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
-const certification = require('./certifications.model')
+const { sequelize } = require('../config/dbConfig')
 
-var certificationProvider = this.sequelize.define('certification_providers', {
-  certificatoin_provider_id: {
+var CertificationProvider = sequelize.define('certification_providers', {
+  certification_provider_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
   },
@@ -11,8 +11,4 @@ var certificationProvider = this.sequelize.define('certification_providers', {
   },
 })
 
-certificationProvider.hasMany(certification, {
-  foreignKey: 'certification_provider_id',
-  sourceKey: 'certificatoin_provider_id',
-})
-module.exports = certification
+module.exports = CertificationProvider

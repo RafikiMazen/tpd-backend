@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize')
-const resourceRequestSkills = require('./resource_request_skills.model')
-const resourceRequestAction = require('./resource_requests_actions.model')
-
-var resourceRequest = this.sequelize.define('resource_requests', {
+const { sequelize } = require('../config/dbConfig')
+const { releaseRequestStatus } = require('../constants/enums')
+var ResourceRequest = sequelize.define('resource_requests', {
   reference_number: {
     type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   manager_name: {
     type: Sequelize.STRING(256),
@@ -30,6 +30,7 @@ var resourceRequest = this.sequelize.define('resource_requests', {
   },
   status: {
     type: Sequelize.STRING(32),
+    default: releaseRequestStatus.OPEN,
   },
   core_team_member: {
     type: Sequelize.STRING(1),
@@ -42,6 +43,7 @@ var resourceRequest = this.sequelize.define('resource_requests', {
   },
   requests_count: {
     type: Sequelize.INTEGER,
+    default: 1,
   },
   related_opportunity: {
     type: Sequelize.STRING(128),
@@ -57,13 +59,4 @@ var resourceRequest = this.sequelize.define('resource_requests', {
   },
 })
 
-resourceRequest.hasMany(resourceRequestSkills, {
-  foreignKey: 'request_reference_number',
-  sourceKey: 'reference_number',
-})
-resourceRequest.hasMany(resourceRequestAction, {
-  foreignKey: 'resource_request_reference_number',
-  sourceKey: 'reference_number',
-})
-
-module.exports = resourceRequest
+module.exports = ResourceRequest

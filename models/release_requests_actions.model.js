@@ -1,10 +1,12 @@
-const Sequelize = require('sequelize')
-const releaseRequest = require('./release_requests.model')
+const Sequelize = require("sequelize");
+const ReleaseRequest = require("./release_requests.model");
+const { sequelize } = require("../config/dbConfig");
 
-var releaseRequestAction = this.sequelize.define('release_requests_actions', {
+var ReleaseRequestAction = sequelize.define("release_requests_actions", {
   action_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   action: {
     type: Sequelize.STRING(32),
@@ -12,13 +14,15 @@ var releaseRequestAction = this.sequelize.define('release_requests_actions', {
   action_note: {
     type: Sequelize.STRING(256),
   },
-})
+  request_reference_number: {
+    type: Sequelize.INTEGER,
+  },
+});
 
-releaseRequestAction.belongsTo(releaseRequest, {
-  foreignKey: 'release_request_reference_numbe',
-})
-releaseRequest.hasMany(releaseRequestAction, {
-  foreignKey: 'releasew_request_reference_number',
-  sourceKey: 'reference_number',
-})
-module.exports = releaseRequestAction
+ReleaseRequestAction.belongsTo(ReleaseRequest, {
+  foreignKey: "request_reference_number",
+});
+ReleaseRequest.hasMany(ReleaseRequestAction, {
+  foreignKey: "request_reference_number",
+});
+module.exports = ReleaseRequestAction;

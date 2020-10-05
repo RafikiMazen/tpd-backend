@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize')
-const skill = require('./skills.model')
-const resourceRequest = require('./resource_requests.model')
+const Skill = require('./skills.model')
+const ResourceRequest = require('./resource_requests.model')
+const { sequelize } = require('../config/dbConfig')
 
-var resourceRequestSkills = this.sequelize.define('resource_request_skills', {
+var ResourceRequestSkill = sequelize.define('resource_request_skills', {
   category: {
     type: Sequelize.STRING(64),
   },
@@ -10,8 +11,11 @@ var resourceRequestSkills = this.sequelize.define('resource_request_skills', {
     type: Sequelize.STRING(64),
   },
 })
-resourceRequestSkills.belongsTo(skill, { foreignKey: 'skill_id' })
-resourceRequestSkills.belongsTo(resourceRequest, {
+// ResourceRequestSkill.belongsTo(Skill, { foreignKey: 'skill_id' })
+ResourceRequestSkill.belongsTo(ResourceRequest, {
   foreignKey: 'request_reference_number',
 })
-module.exports = resourceRequestSkills
+ResourceRequest.hasMany(ResourceRequestSkill, {
+  foreignKey: 'request_reference_number',
+})
+module.exports = ResourceRequestSkill

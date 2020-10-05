@@ -1,8 +1,10 @@
 const Sequelize = require('sequelize')
-const role = require('./role.model')
-const user = require('./users')
+const Role = require('./role.model')
+const User = require('./users.model')
+const { sequelize } = require('../config/dbConfig')
 
-var userRole = this.sequelize.define('users_role', {})
-userRole.belongsTo(user, { foreignKey: 'user_id' })
-userRole.belongsTo(role, { foreignKey: 'role_id' })
-module.exports = userRole
+var UserRole = sequelize.define('users_role', {})
+UserRole.belongsTo(User, { foreignKey: 'user_id' })
+UserRole.belongsTo(Role, { foreignKey: 'role_id' })
+Role.hasMany(UserRole,{foreignKey:'role_id'})
+module.exports = UserRole

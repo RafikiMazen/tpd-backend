@@ -1,22 +1,19 @@
 const Sequelize = require('sequelize')
-const certificationProvider = require('./certification_providers.model')
-const employeeCertification = require('./employee_certifications.model')
+const CertificationProvider = require('./certification_providers.model')
+const { sequelize } = require('../config/dbConfig')
 
-var certification = this.sequelize.define('certifications', {
+var Certification = sequelize.define('certifications', {
   certification_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   certification_name: {
     type: Sequelize.STRING(128),
   },
 })
 
-certification.belongsTo(certificationProvider, {
+Certification.belongsTo(CertificationProvider, {
   foreignKey: 'certification_provider_id',
 })
-certification.hasMany(employeeCertification, {
-  foreignKey: 'certification_id',
-  sourceKey: 'certification_id',
-})
-module.exports = certification
+module.exports = Certification
